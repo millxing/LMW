@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Longwood Mall | Brookline</title>
+  <meta name="description" content="Explore Longwood Mall through current updates, photo collections, Beech Leaf Disease information, and ways to support the park.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1777726977">
+  <script src="script.js?v=1777724123" defer></script>
+</head>
+<body class="page-home">
+  <div class="page-shell">
+<header class="site-header">
+  <div class="container header-inner">
+    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    </button>
+    <nav class="site-nav" aria-label="Main navigation" data-nav>
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="latest-news.html" class="nav-link">Latest News</a>
+          <a href="photos.html" class="nav-link">Photos</a>
+          <a href="history.html" class="nav-link">History</a>
+          <a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a>
+          <a href="support.html" class="nav-link">Support</a>
+    </nav>
+  </div>
+</header>
+    <main>
+
+      <section class="home-hero" style="--hero-image: url(&quot;./assets/hero.jpg&quot;);">
+        <div class="home-hero-overlay"></div>
+        <div class="container home-hero-grid home-hero-grid-single">
+          <div class="home-hero-copy">
+
+            <h1>Longwood Mall</h1>
+
+            <p class="hero-copy">Welcome to the Longwood Mall website. This site contains information about Longwood Mall, a historic linear park in Brookline, Massachusetts. The park is known for its European Beech trees, many of which were planted by David Sears in the late 1840s. It is generally considered to be the oldest grove of European Beech trees in North America.</p>
+
+            <a href="#choose-a-branch" class="home-scroll-cue">Scoll Down for Main Menu <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </div>
+
+        <aside class="home-event-callout" aria-label="Longwood Mall event">
+          <p class="home-event-title">Please Join Us for the 2026 Longwood Mall Event on June 8th at 6pm.</p>
+          <p class="home-event-countdown">
+            <span>Countdown to event:</span>
+            <strong data-event-countdown data-event-datetime="2026-06-08T18:00:00-04:00">Calculating...</strong>
+          </p>
+          <button class="home-event-link" type="button" data-event-info>
+            Click here for more information
+          </button>
+        </aside>
+        <div class="event-overlay" role="dialog" aria-modal="true" aria-labelledby="event-overlay-title" hidden data-event-overlay>
+          <div class="event-overlay-backdrop" data-event-close></div>
+          <div class="event-overlay-panel">
+            <div class="event-overlay-header">
+              <h2 id="event-overlay-title">2026 Longwood Mall Event</h2>
+              <button class="event-overlay-close" type="button" aria-label="Close event flyer" data-event-close>&times;</button>
+            </div>
+            <iframe class="event-pdf-frame" src="./assets/Flyer_LM2026.pdf#toolbar=0&amp;navpanes=0&amp;scrollbar=0&amp;view=Fit&amp;zoom=page-fit" title="2026 Longwood Mall Event flyer"></iframe>
+          </div>
+        </div>
+
+      </section>
+
+<section class="section home-tree-nav" id="choose-a-branch">
+  <div class="container section-heading-block tree-nav-heading">
+    <h2 class="section-title">Choose A Branch</h2>
+  </div>
+  <div class="container tree-nav-container">
+    <div class="tree-nav-stage">
+      <img class="tree-nav-image" src="./assets/BetterEB.png" alt="Illustrated Longwood Mall tree with wooden sign links to the main site sections" loading="eager">
+      <div class="tree-nav-links">
+          <a href="latest-news.html" class="tree-link tree-link-news" aria-label="Latest News"><img src="./assets/menu-sign-latest-news.png" alt="" loading="lazy"></a>
+          <a href="beech-leaf-disease.html" class="tree-link tree-link-bld" aria-label="Beech Leaf Disease"><img src="./assets/menu-sign-bld-clean.png" alt="" loading="lazy"></a>
+          <a href="photos.html" class="tree-link tree-link-photos" aria-label="Photos"><img src="./assets/menu-sign-photos.png" alt="" loading="lazy"></a>
+          <a href="history.html" class="tree-link tree-link-history" aria-label="History"><img src="./assets/menu-sign-history.png" alt="" loading="lazy"></a>
+          <a href="support.html" class="tree-link tree-link-support" aria-label="Support"><img src="./assets/menu-sign-support.png" alt="" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </main>
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><span>Longwood Mall</span></div>
+    <div class="footer-links">
+          <a href="latest-news.html">Latest News</a>
+          <a href="photos.html">Photos</a>
+          <a href="history.html">History</a>
+          <a href="beech-leaf-disease.html">Beech Leaf Disease</a>
+          <a href="support.html">Support</a>
+    </div>
+    <div class="footer-utility-links">
+          <a href="https://maps.google.com/?q=Longwood+Mall+Brookline+MA" target="_blank" rel="noopener">Get Directions</a>
+          <a href="mailto:longwoodmall02446@gmail.com">Contact Friends of Longwood Mall</a>
+    </div>
+  </div>
+</footer>
+  </div>
+</body>
+</html>

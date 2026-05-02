@@ -1,0 +1,20 @@
+.DS_Store
+**/.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local/editor state
+.claude/
+screenshot.png
+--psm.txt
+*.webloc
+
+# Reference material, not the active generated site
+older stuff/
+
+# Raw media clips are too large for normal GitHub Pages hosting
+*.MOV
+*.mov
+
+# Unused large source asset
+assets/logo_nb2_4k.png
