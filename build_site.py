@@ -229,6 +229,7 @@ def render_header(site: dict, active_nav: str) -> str:
         f"      {SVG_ICONS['menu']}\n"
         "    </button>\n"
         "    <nav class=\"site-nav\" aria-label=\"Main navigation\" data-nav>\n"
+        f"      <p class=\"site-nav-mobile-brand\">{escape(site['brand'])}</p>\n"
         f"{rendered_links}\n"
         "    </nav>\n"
         "  </div>\n"
@@ -521,13 +522,19 @@ def render_home_support(section: dict, support: dict) -> str:
 
 def render_home_tree_nav(tree_nav: dict) -> str:
     links = []
+    mobile_links = []
     for item in tree_nav["items"]:
         class_name = f'tree-link {escape(item["class_name"])}'
         links.append(
             f'          <a href="{attr_url(item["href"])}" class="{class_name}" aria-label="{escape(item["label"])}">'
             f'<img src="{attr_url(item["image"])}" alt="" loading="lazy"></a>'
         )
+        mobile_links.append(
+            f'        <a href="{attr_url(item["href"])}" class="mobile-branch-link">'
+            f'<span>{escape(item["label"])}</span>{SVG_ICONS["arrow"]}</a>'
+        )
     links_markup = "\n".join(links)
+    mobile_links_markup = "\n".join(mobile_links)
     eyebrow = ""
     if tree_nav.get("eyebrow"):
         eyebrow = f'    <p class="section-eyebrow">{escape(tree_nav["eyebrow"])}</p>\n'
@@ -541,6 +548,9 @@ def render_home_tree_nav(tree_nav: dict) -> str:
         f'    <h2 class="section-title">{br_join(tree_nav["title_lines"])}</h2>\n'
         f"{description}"
         "  </div>\n"
+        "  <nav class=\"container mobile-branch-list\" aria-label=\"Longwood Mall sections\">\n"
+        f"{mobile_links_markup}\n"
+        "  </nav>\n"
         "  <div class=\"container tree-nav-container\">\n"
         "    <div class=\"tree-nav-stage\">\n"
         f'      <img class="tree-nav-image" src="{attr_url(tree_nav["image"])}" alt="Illustrated Longwood Mall tree with wooden sign links to the main site sections" loading="eager">\n'
@@ -876,6 +886,7 @@ def render_news_page(data: dict) -> str:
         "      <section class=\"support-page news-page\">\n"
         "        <div class=\"container support-page-shell news-page-shell\">\n"
         f"{render_title_band(escape(news['title']))}"
+        f"{render_mobile_jump_links(news['items'], limit=8)}"
         f"{chr(10).join(list_markup)}\n"
         "          <dialog class=\"history-document-overlay\" data-document-overlay aria-label=\"Enlarged news image\">\n"
         "            <button class=\"history-document-close\" type=\"button\" data-document-close aria-label=\"Close image view\">&times;</button>\n"
@@ -993,6 +1004,27 @@ def render_gallery_page_header(section: dict) -> str:
     )
 
 
+def render_mobile_jump_links(items: list[dict], label_key: str = "title", limit: int | None = None) -> str:
+    visible_items = items[:limit] if limit else items
+    links = []
+    for item in visible_items:
+        if not item.get("id"):
+            continue
+        label = item.get(label_key, "")
+        if not label:
+            continue
+        links.append(
+            f'            <a href="#{attr_url(item["id"])}">{escape(label)}</a>'
+        )
+    if not links:
+        return ""
+    return (
+        "          <nav class=\"mobile-page-jump-list\" aria-label=\"Page sections\">\n"
+        f"{chr(10).join(links)}\n"
+        "          </nav>\n"
+    )
+
+
 def render_gallery_page(site: dict, collection: dict, items: list[dict] | None = None, page_title: str | None = None, page_description: str | None = None, title_lines: list[str] | None = None, buttons: list[dict] | None = None) -> str:
     gallery_items = items if items is not None else resolve_collection_items(collection)
     section = dict(collection)
@@ -1056,6 +1088,7 @@ def render_bld_page(data: dict) -> str:
         "      <section class=\"support-page bld-page\">\n"
         "        <div class=\"container support-page-shell bld-page-shell\">\n"
         f"{render_title_band(escape(bld['title']))}"
+        f"{render_mobile_jump_links(bld['page_sections'])}"
         f"{chr(10).join(sections)}\n"
         "        </div>\n"
         "      </section>\n"
