@@ -234,6 +234,7 @@ button {
 }
 
 .site-nav-mobile-brand,
+.mobile-branch-intro,
 .mobile-branch-list,
 .mobile-page-jump-list {
   display: none;
@@ -2813,18 +2814,20 @@ body.motion-ready .animate-in.is-visible {
   .site-nav {
     position: fixed;
     top: 72px;
-    left: 16px;
-    right: 16px;
+    left: 12px;
+    right: 12px;
     z-index: 60;
     width: auto;
     max-width: none;
     max-height: calc(100svh - 96px);
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
     justify-items: stretch;
-    gap: 6px;
-    padding: 18px;
+    gap: 4px;
+    padding: 14px;
     overflow-y: auto;
-    border-radius: 18px;
+    border-radius: 16px;
     border: 1px solid var(--lw-border-light);
     background: rgba(250, 248, 244, 0.98);
     backdrop-filter: blur(20px) saturate(1.2);
@@ -2852,23 +2855,27 @@ body.motion-ready .animate-in.is-visible {
 
   .site-nav-mobile-brand {
     display: block;
-    margin: 0 0 6px;
-    padding: 0 2px 10px;
+    width: 100%;
+    margin: 0 0 8px;
+    padding: 2px 12px 12px;
     border-bottom: 1px solid rgba(26, 43, 26, 0.1);
     font-family: var(--lw-font-display);
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 600;
     line-height: 1.05;
+    text-align: left;
     color: var(--lw-text-dark);
   }
 
   .nav-link {
     display: flex;
+    justify-self: stretch;
     width: 100%;
     max-width: 100%;
-    min-height: 48px;
+    min-height: 46px;
     align-items: center;
-    padding: 12px 14px;
+    justify-content: flex-start;
+    padding: 11px 12px;
     border-radius: 8px;
     font-size: 15px;
     line-height: 1.2;
@@ -2914,14 +2921,23 @@ body.motion-ready .animate-in.is-visible {
   }
 
   .home-hero {
-    min-height: auto;
-    padding: 96px 0 44px;
-    display: block;
+    min-height: 100svh;
+    padding: 88px 0 max(54px, env(safe-area-inset-bottom));
+    display: flex;
+    align-items: flex-end;
   }
 
   .home-hero-copy {
     max-width: 34rem;
     padding-left: 0;
+  }
+
+  .page-home .home-hero-copy {
+    margin-top: auto;
+  }
+
+  .page-home .home-hero .hero-copy {
+    display: none;
   }
 
   .page-home .hero-copy {
@@ -2930,49 +2946,44 @@ body.motion-ready .animate-in.is-visible {
     line-height: 1.58;
   }
 
-  .home-event-callout {
-    position: static;
-    width: calc(100% - 32px);
-    margin: 22px auto 0;
-    padding: 14px 16px;
-    border-color: rgba(255, 255, 255, 0.18);
-    background: rgba(35, 65, 38, 0.94);
-  }
-
-  .home-event-title {
-    white-space: normal;
-    font-size: 17px;
-  }
-
-  .home-event-countdown {
-    margin-top: 6px;
-  }
-
-  .home-event-link {
-    display: inline-flex;
-    min-height: 42px;
-    align-items: center;
-    margin-top: 10px;
+  .page-home .home-event-callout {
+    display: none;
   }
 
   .page-home .home-tree-nav,
   .home-tree-nav {
-    padding: 62px 0 48px;
+    padding: 46px 0 44px;
+  }
+
+  .mobile-branch-intro {
+    display: block;
+    max-width: 34rem;
+    margin: 0 auto 24px;
+    color: var(--lw-text-dark);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.52;
+  }
+
+  .page-home .tree-nav-heading {
+    margin-bottom: 12px;
+    padding-bottom: 0;
+    transform: none;
   }
 
   .mobile-branch-list {
     display: grid;
-    gap: 10px;
-    margin-bottom: 28px;
+    gap: 7px;
+    margin-bottom: 18px;
   }
 
   .mobile-branch-link {
     display: flex;
-    min-height: 52px;
+    min-height: 44px;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 14px 16px;
+    gap: 12px;
+    padding: 9px 14px;
     border: 1px solid rgba(26, 43, 26, 0.1);
     border-radius: 10px;
     background: rgba(255, 252, 244, 0.82);
@@ -2991,16 +3002,50 @@ body.motion-ready .animate-in.is-visible {
   }
 
   .home-hero-copy::before {
-    inset: -28px -40px -32px -18px;
+    inset: -30px -40px -24px -18px;
     border-radius: 28px;
   }
 
   .page-home .home-scroll-cue {
-    margin-top: 18px;
+    margin-top: 16px;
   }
 
   .page-hero {
     padding: 120px 0 36px;
+  }
+
+  .page-inventory-index .page-hero {
+    padding: 108px 0 18px;
+  }
+
+  .page-inventory-index .page-hero-grid {
+    margin-top: 18px;
+  }
+
+  .page-inventory-index .page-hero-copy {
+    gap: 18px;
+  }
+
+  .page-inventory-index .page-hero-copy .hero-copy {
+    max-width: 28rem;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .page-inventory-index .page-hero-copy .button-row {
+    gap: 8px;
+  }
+
+  .page-inventory-index .inventory-index-section {
+    margin-top: 0;
+    padding: 8px 0 64px;
+  }
+
+  body.motion-ready.page-inventory-index .inventory-index-section,
+  body.motion-ready.page-inventory-index .inventory-group-card {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
   }
 
   .gallery-page-header {
@@ -3078,6 +3123,17 @@ body.motion-ready .animate-in.is-visible {
 
   .inventory-group-grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .inventory-group-card {
+    border-radius: 14px;
+  }
+
+  .inventory-group-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
   }
 
   .section,
@@ -3207,12 +3263,12 @@ body.motion-ready .animate-in.is-visible {
   }
 
   .home-hero-copy::before {
-    inset: -18px -14px -20px -14px;
+    inset: -24px -14px -18px -14px;
     border-radius: 20px;
   }
 
   .home-hero-copy h1 {
-    font-size: 40px;
+    font-size: clamp(44px, 15vw, 62px);
   }
 
   .page-hero-copy h1,
@@ -3290,6 +3346,23 @@ body.motion-ready .animate-in.is-visible {
     padding: 102px 0 14px;
   }
 
+  .page-inventory-index .page-hero {
+    padding: 96px 0 10px;
+  }
+
+  .page-inventory-index .page-hero-grid {
+    margin-top: 14px;
+  }
+
+  .page-inventory-index .page-hero-copy {
+    gap: 14px;
+  }
+
+  .page-inventory-index .inventory-index-section {
+    margin-top: 0;
+    padding-top: 6px;
+  }
+
   .photos-hub {
     padding-top: 0;
   }
@@ -3365,18 +3438,28 @@ body.motion-ready .animate-in.is-visible {
   .page-home .home-tree-nav {
     height: auto;
     min-height: 0;
-    padding: 52px 0 32px;
+    padding: 42px 0 28px;
     grid-template-rows: auto auto;
   }
 
+  .mobile-branch-intro {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.48;
+  }
+
+  .page-home .tree-nav-heading {
+    margin-bottom: 10px;
+  }
+
   .mobile-branch-list {
-    gap: 9px;
-    margin-bottom: 22px;
+    gap: 6px;
+    margin-bottom: 16px;
   }
 
   .mobile-branch-link {
-    min-height: 50px;
-    padding: 13px 14px;
+    min-height: 44px;
+    padding: 8px 12px;
   }
 
   .tree-nav-stage {

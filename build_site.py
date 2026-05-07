@@ -520,7 +520,7 @@ def render_home_support(section: dict, support: dict) -> str:
     )
 
 
-def render_home_tree_nav(tree_nav: dict) -> str:
+def render_home_tree_nav(tree_nav: dict, mobile_intro: str = "") -> str:
     links = []
     mobile_links = []
     for item in tree_nav["items"]:
@@ -541,8 +541,12 @@ def render_home_tree_nav(tree_nav: dict) -> str:
     description = ""
     if tree_nav.get("description"):
         description = f'    <p class="section-copy">{escape(tree_nav["description"])}</p>\n'
+    mobile_intro_markup = ""
+    if mobile_intro:
+        mobile_intro_markup = f'  <p class="container mobile-branch-intro">{escape(mobile_intro)}</p>\n'
     return (
         "<section class=\"section home-tree-nav\" id=\"choose-a-branch\">\n"
+        f"{mobile_intro_markup}"
         "  <div class=\"container section-heading-block tree-nav-heading\">\n"
         f"{eyebrow}"
         f'    <h2 class="section-title">{br_join(tree_nav["title_lines"])}</h2>\n'
@@ -674,7 +678,7 @@ def render_home(data: dict) -> str:
 {render_home_event(home["event"])}
       </section>
 
-{render_home_tree_nav(home["tree_nav"])}
+{render_home_tree_nav(home["tree_nav"], home["hero"].get("subtitle", ""))}
 """
     return wrap_page(site, "home", home["meta_title"], home["meta_description"], "page-home", content)
 
