@@ -818,6 +818,14 @@ def render_news_page(data: dict) -> str:
     news = data["news"]
     list_markup = []
     for post in news["items"]:
+        post_href = f'#{post["id"]}'
+        post_title = escape(post["title"])
+        post_title_link = (
+            f'            <h2><a class="news-page-title-link" href="{attr_url(post_href)}" '
+            f'aria-label="Link directly to: {post_title}">'
+            '<span class="news-page-anchor-marker" aria-hidden="true">#</span>'
+            f"<span>{post_title}</span></a></h2>\n"
+        )
         image_blocks = []
         for item in post.get("images", []):
             caption = ""
@@ -878,7 +886,7 @@ def render_news_page(data: dict) -> str:
             "          <article class=\"news-page-entry\""
             f' id="{escape(post["id"])}">\n'
             f"          <p class=\"card-date\">{escape(post['date'])}</p>\n"
-            f"            <h2>{escape(post['title'])}</h2>\n"
+            f"{post_title_link}"
             f"{before_paragraphs}"
             f"{render_paragraphs(post['paragraphs'], 'support-page-copy')}\n"
             f"{after_paragraphs}"
