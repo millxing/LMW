@@ -392,38 +392,6 @@
         "image_position": "after_paragraphs"
       },
       {
-        "id": "brookline-ma-biodiversity-grant-application-2025",
-        "date": "March 2026",
-        "title": "Brookline applies for a MA Biodiversity Grant",
-        "summary": "Brookline applied for a Massachusetts Community Biodiversity Grant to support Longwood Mall's long-term tree health and biodiversity plan.",
-        "paragraphs": [
-          {
-            "html": "Brookline submitted an application in December of 2025 for a $91,000 <a href=\"https://www.mass.gov/how-to/massachusetts-community-biodiversity-grants\" target=\"_blank\" rel=\"noopener\">Massachusetts Community Biodiversity Grant</a> to support Longwood Mall's long-term tree health and biodiversity plan."
-          },
-          "The proposal connected Longwood Mall to the state's biodiversity goals in four ways:",
-          {
-            "items": [
-              {
-                "html": "<strong>Protect:</strong> The project would protect a rare genetic resource in European Beech trees imported from Europe between 1830 and 1850. Charles Sprague Sargent, founder of the Arnold Arboretum, called them \"the finest exotic trees which have been planted in greater Boston and probably the finest grove of European Beech in the United States.\" These trees are threatened by Beech Leaf Disease, which is caused by an invasive nematode and has been devastating beech tree populations across the Northeast."
-              },
-              {
-                "html": "<strong>Restore:</strong> Through evidence-based Beech Leaf Disease treatments and targeted arboricultural care, the project would restore tree health by addressing both the disease and the underlying conditions that make trees vulnerable to it. According to the Bartlett report, less than 70% of the trees are currently in good condition and the trend is negative due to the increasing age of the trees. With new plantings, BLD treatments, root-collar excavations, phosphite treatments, and other essential maintenance, we believe the park can be restored to good health for future generations."
-              },
-              {
-                "html": "<strong>Sustain:</strong> The project would sustain an ecosystem that has existed for nearly 200 years. The mature beech trees provide important ecosystem services, including carbon sequestration, stormwater management, air quality improvement, urban heat island mitigation, and habitat for native species. Brookline's challenging 2026 budget will put real constraints on the Town's ability to protect the park, so alternative funding sources could help ensure that Longwood Mall is protected during a difficult fiscal period."
-              },
-              {
-                "html": "<strong>Connect:</strong> Longwood Mall exemplifies the \"Nature in Neighborhoods\" theme. It is a publicly accessible green space where Brookline residents, workers from the nearby Longwood Medical Area, and residents of nearby Environmental Justice neighborhoods can experience remarkable nature without leaving the urban core. It connects people to nature in their neighborhood and to the natural and cultural history of Brookline."
-              }
-            ]
-          },
-          {
-            "html": "Unfortunately, Longwood Mall did not receive a Massachusetts Biodiversity Grant. The email Jack received said there were more than 200 applications, so our chances of being selected were a lot lower than we expected when we applied. This <a href=\"https://www.mass.gov/news/healey-driscoll-administration-awards-1-million-to-protect-wildlife-restore-habitats-and-connect-communities-with-nature\" target=\"_blank\" rel=\"noopener\">press release</a> indicated that 12 projects were funded for a total of $1.1 million dollars."
-          },
-          "We will continue to submit grant applications to help fund maintenance and treatment of Longwood Mall."
-        ]
-      },
-      {
         "id": "bld-update-april-2026",
         "anchor_aliases": [
           "bld-update-april-2025"
@@ -470,6 +438,38 @@
             "src": "./assets/newtrees.jpg",
             "alt": "Young trees ready for planting at Longwood Mall"
           }
+        ]
+      },
+      {
+        "id": "brookline-ma-biodiversity-grant-application-2025",
+        "date": "March 2026",
+        "title": "Brookline applies for a MA Biodiversity Grant",
+        "summary": "Brookline applied for a Massachusetts Community Biodiversity Grant to support Longwood Mall's long-term tree health and biodiversity plan.",
+        "paragraphs": [
+          {
+            "html": "Brookline submitted an application in December of 2025 for a $91,000 <a href=\"https://www.mass.gov/how-to/massachusetts-community-biodiversity-grants\" target=\"_blank\" rel=\"noopener\">Massachusetts Community Biodiversity Grant</a> to support Longwood Mall's long-term tree health and biodiversity plan."
+          },
+          "The proposal connected Longwood Mall to the state's biodiversity goals in four ways:",
+          {
+            "items": [
+              {
+                "html": "<strong>Protect:</strong> The project would protect a rare genetic resource in European Beech trees imported from Europe between 1830 and 1850. Charles Sprague Sargent, founder of the Arnold Arboretum, called them \"the finest exotic trees which have been planted in greater Boston and probably the finest grove of European Beech in the United States.\" These trees are threatened by Beech Leaf Disease, which is caused by an invasive nematode and has been devastating beech tree populations across the Northeast."
+              },
+              {
+                "html": "<strong>Restore:</strong> Through evidence-based Beech Leaf Disease treatments and targeted arboricultural care, the project would restore tree health by addressing both the disease and the underlying conditions that make trees vulnerable to it. According to the Bartlett report, less than 70% of the trees are currently in good condition and the trend is negative due to the increasing age of the trees. With new plantings, BLD treatments, root-collar excavations, phosphite treatments, and other essential maintenance, we believe the park can be restored to good health for future generations."
+              },
+              {
+                "html": "<strong>Sustain:</strong> The project would sustain an ecosystem that has existed for nearly 200 years. The mature beech trees provide important ecosystem services, including carbon sequestration, stormwater management, air quality improvement, urban heat island mitigation, and habitat for native species. Brookline's challenging 2026 budget will put real constraints on the Town's ability to protect the park, so alternative funding sources could help ensure that Longwood Mall is protected during a difficult fiscal period."
+              },
+              {
+                "html": "<strong>Connect:</strong> Longwood Mall exemplifies the \"Nature in Neighborhoods\" theme. It is a publicly accessible green space where Brookline residents, workers from the nearby Longwood Medical Area, and residents of nearby Environmental Justice neighborhoods can experience remarkable nature without leaving the urban core. It connects people to nature in their neighborhood and to the natural and cultural history of Brookline."
+              }
+            ]
+          },
+          {
+            "html": "Unfortunately, Longwood Mall did not receive a Massachusetts Biodiversity Grant. The email Jack received said there were more than 200 applications, so our chances of being selected were a lot lower than we expected when we applied. This <a href=\"https://www.mass.gov/news/healey-driscoll-administration-awards-1-million-to-protect-wildlife-restore-habitats-and-connect-communities-with-nature\" target=\"_blank\" rel=\"noopener\">press release</a> indicated that 12 projects were funded for a total of $1.1 million dollars."
+          },
+          "We will continue to submit grant applications to help fund maintenance and treatment of Longwood Mall."
         ]
       },
       {
