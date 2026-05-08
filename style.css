@@ -1996,6 +1996,12 @@ body.motion-ready .news-page.animate-in {
   scroll-margin-top: 104px;
 }
 
+.news-page-anchor-alias {
+  display: block;
+  height: 0;
+  scroll-margin-top: 104px;
+}
+
 .news-page-entry:first-of-type {
   padding-top: 0;
   border-top: 0;

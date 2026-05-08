@@ -882,7 +882,14 @@ def render_news_page(data: dict) -> str:
             )
         before_paragraphs = "" if post.get("image_position") == "after_paragraphs" else images_markup
         after_paragraphs = images_markup if post.get("image_position") == "after_paragraphs" else ""
+        anchor_aliases = "\n".join(
+            f'          <span class="news-page-anchor-alias" id="{attr_url(alias)}" aria-hidden="true"></span>'
+            for alias in post.get("anchor_aliases", [])
+        )
+        if anchor_aliases:
+            anchor_aliases += "\n"
         list_markup.append(
+            f"{anchor_aliases}"
             "          <article class=\"news-page-entry\""
             f' id="{escape(post["id"])}">\n'
             f"          <p class=\"card-date\">{escape(post['date'])}</p>\n"
