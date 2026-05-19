@@ -240,6 +240,17 @@ button {
   display: none;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .nav-link {
   position: relative;
   padding: 9px 4px 12px;
@@ -278,6 +289,41 @@ button {
 .nav-link:hover::after,
 .nav-link.active::after {
   transform: scaleX(1);
+}
+
+.nav-icon-link {
+  display: inline-flex;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+}
+
+.nav-icon-link::after {
+  content: none;
+}
+
+.nav-icon-link svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.nav-icon-label {
+  display: none;
+}
+
+.nav-icon-link:hover,
+.nav-icon-link:focus-visible {
+  background: rgba(26, 43, 26, 0.08);
+  outline: none;
+}
+
+.page-home .site-header:not(.is-scrolled) .nav-icon-link:hover,
+.page-home .site-header:not(.is-scrolled) .nav-icon-link:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .nav-toggle {
@@ -2622,6 +2668,7 @@ body.gallery-expanded::before {
 .footer-links,
 .footer-utility-links {
   display: flex;
+  align-items: center;
   margin-top: 0;
   gap: 8px 16px;
   flex-wrap: nowrap;
@@ -2639,6 +2686,9 @@ body.gallery-expanded::before {
 .footer-links a,
 .footer-utility-links a {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
   font-size: 13px;
   font-weight: 600;
   color: var(--lw-text-dark);
@@ -2667,6 +2717,30 @@ body.gallery-expanded::before {
 .footer-links a:hover::after,
 .footer-utility-links a:hover::after {
   transform: scaleX(1);
+}
+
+.footer-icon-link {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.footer-icon-link svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+
+.footer-utility-links .footer-icon-link::after {
+  content: none;
+}
+
+.footer-icon-link:hover,
+.footer-icon-link:focus-visible {
+  background: rgba(176, 140, 62, 0.12);
+  outline: none;
 }
 
 /* ─── Hover & Transitions ───────────────────────────── */
@@ -2943,6 +3017,17 @@ body.motion-ready .animate-in.is-visible {
   .nav-link:focus-visible {
     background: rgba(26, 43, 26, 0.07);
     outline: none;
+  }
+
+  .nav-icon-link {
+    width: 100%;
+    height: auto;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .nav-icon-label {
+    display: inline;
   }
 
   .page-home.nav-open .site-header:not(.is-scrolled) .site-nav {

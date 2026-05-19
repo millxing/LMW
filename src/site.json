@@ -34,6 +34,13 @@
         "id": "support",
         "label": "Support",
         "href": "support.html"
+      },
+      {
+        "id": "instagram",
+        "label": "Instagram",
+        "href": "https://www.instagram.com/longwoodmall02446/",
+        "external": true,
+        "icon": "instagram"
       }
     ],
     "footer": {
@@ -66,8 +73,14 @@
           "external": true
         },
         {
-          "label": "Contact Friends of Longwood Mall",
+          "label": "Contact",
           "href": "mailto:longwoodmall02446@gmail.com"
+        },
+        {
+          "label": "Instagram",
+          "href": "https://www.instagram.com/longwoodmall02446/",
+          "external": true,
+          "icon": "instagram"
         }
       ]
     }

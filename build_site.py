@@ -21,6 +21,7 @@ SVG_ICONS = {
     "tree": '<svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"/><path d="M7 7H6a2 2 0 0 0-2 2v.5a2 2 0 0 0 2 2h.5"/><path d="M12 2C8 2 6 5 6 7c0 3.6 3.4 5 6 5s6-1.4 6-5c0-2-2-5-6-5Z"/><path d="m12 22 1-7.5"/><path d="M12 22 7 20"/><path d="M12 22l5-2"/></svg>',
     "menu": '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>',
     "arrow": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+    "instagram": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>',
 }
 
 IMAGE_EXTENSIONS = {".avif", ".jpg", ".jpeg", ".png", ".webp"}
@@ -220,7 +221,19 @@ def render_header(site: dict, active_nav: str) -> str:
     links = []
     for item in site["navigation"]:
         class_name = "nav-link active" if item["id"] == active_nav else "nav-link"
-        links.append(f'          <a href="{attr_url(item["href"])}" class="{class_name}">{escape(item["label"])}</a>')
+        rel = ' rel="noopener"' if item.get("external") else ""
+        target = ' target="_blank"' if item.get("external") else ""
+        if item.get("icon"):
+            class_name = f"{class_name} nav-icon-link"
+            icon = SVG_ICONS[item["icon"]]
+            links.append(
+                f'          <a href="{attr_url(item["href"])}" class="{class_name}" aria-label="{escape(item["label"])}"{target}{rel}>'
+                f'{icon}<span class="nav-icon-label">{escape(item["label"])}</span></a>'
+            )
+        else:
+            links.append(
+                f'          <a href="{attr_url(item["href"])}" class="{class_name}"{target}{rel}>{escape(item["label"])}</a>'
+            )
     rendered_links = "\n".join(links)
     return (
         "<header class=\"site-header\">\n"
@@ -246,9 +259,16 @@ def render_footer(site: dict) -> str:
     for link in footer["utility_links"]:
         rel = ' rel="noopener"' if link.get("external") else ""
         target = ' target="_blank"' if link.get("external") else ""
-        utility_links.append(
-            f'          <a href="{attr_url(link["href"])}"{target}{rel}>{escape(link["label"])}</a>'
-        )
+        if link.get("icon"):
+            icon = SVG_ICONS[link["icon"]]
+            utility_links.append(
+                f'          <a class="footer-icon-link" href="{attr_url(link["href"])}" aria-label="{escape(link["label"])}"{target}{rel}>'
+                f'{icon}<span class="visually-hidden">{escape(link["label"])}</span></a>'
+            )
+        else:
+            utility_links.append(
+                f'          <a href="{attr_url(link["href"])}"{target}{rel}>{escape(link["label"])}</a>'
+            )
     utility_markup = "\n".join(utility_links)
     return (
         "<footer class=\"site-footer\">\n"
