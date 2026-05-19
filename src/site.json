@@ -983,6 +983,11 @@
         "folder": "./assets/Photos/drone",
         "buttons": [
           {
+            "label": "Drone Video",
+            "href": "drone-video.html",
+            "variant": "outline"
+          },
+          {
             "label": "Photos Menu",
             "href": "photos.html",
             "variant": "outline"
@@ -1022,7 +1027,42 @@
           }
         ]
       }
-    ]
+    ],
+    "drone_video": {
+      "slug": "drone-video.html",
+      "page_title": "Drone Video | Longwood Mall",
+      "page_description": "Longwood Mall from above.",
+      "eyebrow": "Drone Video",
+      "title_lines": [
+        "Drone",
+        "Video"
+      ],
+      "description": "Longwood Mall from above.",
+      "show_scroll_cue": false,
+      "buttons": [
+        {
+          "label": "Aerial Photos",
+          "href": "aerial-photos.html",
+          "variant": "outline"
+        },
+        {
+          "label": "Photos Menu",
+          "href": "photos.html",
+          "variant": "outline"
+        }
+      ],
+      "reels": [
+        {
+          "permalink": "https://www.instagram.com/reel/DYhlbhaqYVg/"
+        },
+        {
+          "permalink": "https://www.instagram.com/reel/DYhk3Usqg3f/"
+        },
+        {
+          "permalink": "https://www.instagram.com/reel/DYhkVd5qPyy/"
+        }
+      ]
+    }
   },
   "bld": {
     "meta_title": "Beech Leaf Disease | Longwood Mall",

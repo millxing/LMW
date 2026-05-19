@@ -1026,6 +1026,15 @@ def render_inventory_index(site: dict, collection: dict, groups: list[dict]) -> 
 def render_gallery_page_header(section: dict) -> str:
     buttons = render_buttons(section.get("buttons", []), include_icon=False) if section.get("buttons") else ""
     button_row = f'\n          <div class="button-row">\n{buttons}\n          </div>' if buttons else ""
+    scroll_label = section.get("scroll_label", "Scroll for more photos")
+    scroll_cue = ""
+    if section.get("show_scroll_cue", True):
+        scroll_cue = (
+            f'            <a class="gallery-scroll-cue" href="#gallery-start" aria-label="{escape(scroll_label)}">\n'
+            f"              <span>{escape(scroll_label)}</span>\n"
+            f"              {SVG_ICONS['arrow']}\n"
+            "            </a>\n"
+        )
     return (
         "      <section class=\"gallery-page-header\">\n"
         f"{render_title_band(plain_join(section['title_lines']))}"
@@ -1033,10 +1042,7 @@ def render_gallery_page_header(section: dict) -> str:
         "          <div class=\"gallery-page-copy\">\n"
         f"{button_row}\n"
         f'            <p class="hero-copy">{escape(section["description"])}</p>\n'
-        "            <a class=\"gallery-scroll-cue\" href=\"#gallery-start\" aria-label=\"Scroll down to view more photos\">\n"
-        "              <span>Scroll for more photos</span>\n"
-        f"              {SVG_ICONS['arrow']}\n"
-        "            </a>\n"
+        f"{scroll_cue}"
         "          </div>\n"
         "        </div>\n"
         "      </section>\n"
@@ -1078,6 +1084,34 @@ def render_gallery_page(site: dict, collection: dict, items: list[dict] | None =
     content = f"{render_gallery_page_header(section)}\n{render_scroll_gallery(gallery_items)}"
     active_nav = "history" if collection.get("id") == "historical" else "photos"
     return wrap_page(site, active_nav, section["page_title"], section["page_description"], "page-interior page-photo-gallery", content)
+
+
+def render_drone_video_page(data: dict) -> str:
+    site = data["site"]
+    section = data["photos"]["drone_video"]
+    reels = []
+    for index, reel in enumerate(section["reels"], start=1):
+        permalink = reel["permalink"]
+        embed_url = f"{permalink}?utm_source=ig_embed&utm_campaign=loading"
+        reels.append(
+            "          <article class=\"drone-reel-card\">\n"
+            f'            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{attr_url(embed_url)}" data-instgrm-version="14">\n'
+            "              <div>\n"
+            f'                <a href="{attr_url(embed_url)}" target="_blank" rel="noopener">View drone video {index} on Instagram</a>\n'
+            "              </div>\n"
+            "            </blockquote>\n"
+            "          </article>"
+        )
+    content = (
+        f"{render_gallery_page_header(section)}\n"
+        "      <section class=\"drone-video-section\" id=\"gallery-start\">\n"
+        "        <div class=\"container drone-reel-grid\">\n"
+        f"{chr(10).join(reels)}\n"
+        "        </div>\n"
+        "      </section>\n"
+        "      <script async src=\"https://www.instagram.com/embed.js\"></script>\n"
+    )
+    return wrap_page(site, "photos", section["page_title"], section["page_description"], "page-interior page-photo-gallery page-drone-video", content)
 
 
 def render_bld_page(data: dict) -> str:
@@ -1230,6 +1264,7 @@ def build() -> None:
         "history.html": render_history_page(data),
         "latest-news.html": render_news_page(data),
         "photos.html": render_photos_overview(data),
+        data["photos"]["drone_video"]["slug"]: render_drone_video_page(data),
         "beech-leaf-disease.html": render_bld_page(data),
         "support.html": render_support_page(data),
         "donations.html": render_donations_page(data),
