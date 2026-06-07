@@ -381,6 +381,34 @@
     ],
     "items": [
       {
+        "id": "new-european-beeches-chatham-street-2026",
+        "date": "June 2026",
+        "title": "Two new European Beeches planted along Chatham Street",
+        "summary": "Two young Fagus sylvatica trees were planted along Chatham Street in the first week of June as part of Longwood Mall's long-term diversification plan.",
+        "paragraphs": [
+          {
+            "html": "In the first week of June, two young <em>Fagus sylvatica</em> (European Beeches) were planted along Chatham Street between Hawes Street and Borland Street."
+          },
+          "Planting some young European Beech trees is part of the diversification plan for Longwood Mall. Most of the existing European Beeches are already mature, and many are very old. Adding a younger generation now gives the park a better chance of still having large, mature European Beeches in the future.",
+          "The broader plan also includes planting other species, so Longwood Mall is not dependent on a single kind of tree. These two new European Beeches help preserve the historic character of the park while the overall tree canopy becomes more age-diverse and species-diverse."
+        ],
+        "image_position": "after_paragraphs",
+        "images": [
+          {
+            "src": "./assets/newtree01.png",
+            "alt": "Young European Beech tree newly planted along Chatham Street"
+          },
+          {
+            "src": "./assets/newtree02.png",
+            "alt": "New European Beech planting between Hawes Street and Borland Street"
+          },
+          {
+            "src": "./assets/newtree03.png",
+            "alt": "Young Fagus sylvatica tree planted near Longwood Mall"
+          }
+        ]
+      },
+      {
         "id": "bgsa-event-longwood-mall-2026",
         "date": "May 2026",
         "title": "2026 BGSA Event at Longwood Mall",

@@ -2063,43 +2063,13 @@ body.motion-ready .news-page.animate-in {
 }
 
 .news-page-title-link {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
   color: inherit;
   text-decoration: none;
-}
-
-.news-page-title-link span:last-child {
-  min-width: 0;
-}
-
-.news-page-anchor-marker {
-  flex: 0 0 auto;
-  color: var(--lw-accent-green);
-  font-family: var(--lw-font-sans);
-  font-size: 0.58em;
-  font-weight: 800;
-  line-height: 1;
-  transform: translateY(-0.08em);
-  transition:
-    color 200ms ease,
-    transform 200ms ease;
-}
-
-.news-page-title-link:hover .news-page-anchor-marker,
-.news-page-title-link:focus-visible .news-page-anchor-marker {
-  color: var(--lw-accent-gold);
-  transform: translateY(-0.08em) scale(1.12);
 }
 
 .news-page-title-link:focus-visible {
   outline: 2px solid rgba(106, 131, 71, 0.45);
   outline-offset: 5px;
-}
-
-.news-page-entry:target .news-page-anchor-marker {
-  color: var(--lw-accent-gold);
 }
 
 .news-page-entry .card-date {

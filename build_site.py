@@ -843,8 +843,7 @@ def render_news_page(data: dict) -> str:
         post_title_link = (
             f'            <h2><a class="news-page-title-link" href="{attr_url(post_href)}" '
             f'aria-label="Link directly to: {post_title}">'
-            '<span class="news-page-anchor-marker" aria-hidden="true">#</span>'
-            f"<span>{post_title}</span></a></h2>\n"
+            f"{post_title}</a></h2>\n"
         )
         image_blocks = []
         for item in post.get("images", []):
