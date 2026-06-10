@@ -695,7 +695,6 @@ def render_home(data: dict) -> str:
             <a href="#choose-a-branch" class="home-scroll-cue">{hero_scroll_label} {SVG_ICONS["arrow"]}</a>
           </div>
         </div>
-{render_home_event(home["event"])}
       </section>
 
 {render_home_tree_nav(home["tree_nav"], home["hero"].get("subtitle", ""))}
@@ -882,6 +881,8 @@ def render_news_page(data: dict) -> str:
             image_grid_class = "news-page-image-grid"
             if post.get("image_size") == "small":
                 image_grid_class += " news-page-image-grid-small"
+            if post.get("image_layout"):
+                image_grid_class += f' news-page-image-grid-{slugify(post["image_layout"])}'
             images_markup = f"            <div class=\"{image_grid_class}\">\n{images}\n            </div>\n"
         links = ""
         if post.get("links"):

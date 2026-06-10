@@ -126,13 +126,13 @@
       ],
       "description": "The homepage highlights the newest items. The full news page gathers additional detail from older posts without burying current developments.",
       "featured_ids": [
-        "community-meeting-december-2024",
-        "bld-treatments-2024"
+        "bgsa-event-longwood-mall-2026",
+        "new-european-beeches-chatham-street-2026"
       ],
       "list_ids": [
+        "bld-update-april-2026",
         "tom-brady-leaving",
-        "community-meeting-november-2024",
-        "brookline-times-article"
+        "community-meeting-november-2024"
       ],
       "button": {
         "label": "See All Updates",
@@ -376,10 +376,52 @@
       "image": "./assets/hero-grove-2.jpg"
     },
     "featured_ids": [
-      "community-meeting-december-2024",
-      "tom-brady-leaving"
+      "bgsa-event-longwood-mall-2026",
+      "new-european-beeches-chatham-street-2026"
     ],
     "items": [
+      {
+        "id": "bgsa-event-longwood-mall-2026",
+        "date": "June 2026",
+        "title": "June 8 event celebrates Longwood Mall's European Beech trees",
+        "summary": "More than 110 people gathered at Longwood Mall on June 8 for a Brookline GreenSpace Alliance and Friends of Longwood Mall evening celebrating the park's European Beech trees.",
+        "paragraphs": [
+          "The June 8, 2026 event at Longwood Mall was a great success. More than 110 people from all over Brookline came out at 6 p.m. on a beautiful evening to celebrate the park's European Beech trees.",
+          "The event was sponsored by the Brookline GreenSpace Alliance (BGSA) and Friends of Longwood Mall. Sean Lynn Jones, president of BGSA, opened the evening with an introduction to the alliance and its work across Brookline.",
+          "Rob Schoen from Friends of Longwood Mall then laid out the agenda and spoke about the history of the park, which has been part of Brookline since the mid-1840s. Ellen Golde, one of the founders of Friends of Longwood Mall, followed with the story of the group's origins in the early 1980s and its decades of work to preserve the park.",
+          "The featured speaker was Brookline's Tree Warden and Urban Forestry Manager, Jack Schleifer. Jack spoke about his responsibilities in protecting Brookline's tree canopy, the biology of European Beech trees, Beech Leaf Disease, maintenance and care for existing trees, new plantings in the park, the approach to diversifying Longwood Mall, and many other topics.",
+          "After a question and answer session, Jack led a guided tour through the park. The evening continued with cookies, refreshments, and conversation, and ended with Jack planting two tiny Japanese Beech saplings.",
+          "Thank you to everyone that came out to show their support for Longwood Mall and made the evening such a success. Having so many people come out sends a powerful message to the Town about how important this park is to the community!"
+        ],
+        "image_position": "after_paragraphs",
+        "image_layout": "event-grid",
+        "images": [
+          {
+            "src": "./assets/news/june-2026-event/IMG_0443.jpeg",
+            "alt": "A large crowd gathered under the trees at the June 2026 Longwood Mall event"
+          },
+          {
+            "src": "./assets/news/june-2026-event/IMG_0445.jpeg",
+            "alt": "Brookline residents standing in the shade during the June 2026 Longwood Mall event"
+          },
+          {
+            "src": "./assets/news/june-2026-event/IMG_0454.jpeg",
+            "alt": "Jack Schleifer speaking to attendees at the Longwood Mall event"
+          },
+          {
+            "src": "./assets/news/june-2026-event/IMG_0461.jpeg",
+            "alt": "Attendees walking through Longwood Mall during the guided tour"
+          },
+          {
+            "src": "./assets/news/june-2026-event/IMG_0469.jpeg",
+            "alt": "Jack Schleifer leading a discussion with attendees during the park tour"
+          },
+          {
+            "src": "./assets/news/june-2026-event/IMG_0472.jpeg",
+            "alt": "Jack Schleifer speaking with a circle of attendees at Longwood Mall"
+          }
+        ]
+      },
       {
         "id": "new-european-beeches-chatham-street-2026",
         "date": "June 2026",
@@ -407,30 +449,6 @@
             "alt": "Young Fagus sylvatica tree planted near Longwood Mall"
           }
         ]
-      },
-      {
-        "id": "bgsa-event-longwood-mall-2026",
-        "date": "May 2026",
-        "title": "2026 BGSA Event at Longwood Mall",
-        "summary": "Friends of Longwood Mall and the Brookline GreenSpace Alliance will host a guided walk through Longwood Mall on June 8.",
-        "paragraphs": [
-          "Friends of Longwood Mall and the Brookline GreenSpace Alliance will host a guided walk through Longwood Mall on Monday, June 8, from 6:00 to 7:30 p.m. The rain date is Tuesday, June 9.",
-          "We will meet at the corner of Hawes and Chatham, then walk through the park to discuss its history, the current challenges facing the trees, and the strategic plan to preserve Longwood Mall for future generations.",
-          "Jack Schleifer, Brookline's Urban Forestry Manager and Tree Warden, will join us as a special guest. This will be a good opportunity to hear directly about the work ahead and to ask questions about the park's future."
-        ],
-        "links": [
-          {
-            "label": "Open the 2026 event flyer",
-            "href": "./assets/Flyer_LM2026.pdf"
-          }
-        ],
-        "images": [
-          {
-            "src": "./assets/Flyer_LM2026_preview.jpg",
-            "alt": "2026 Longwood Mall event flyer"
-          }
-        ],
-        "image_position": "after_paragraphs"
       },
       {
         "id": "bld-update-april-2026",
@@ -865,7 +883,7 @@
         "Photos"
       ],
       "description": "",
-      "image": "./assets/Photos/contemporary/IMG_3911.jpeg"
+      "image": "./assets/Photos/contemporary-srgb/IMG_3911.jpg"
     },
     "collections": [
       {
@@ -880,8 +898,8 @@
         ],
         "description": "Recent pictures of Longwood Mall",
         "summary": "The present-day park: canopy, trunks, seasonal light, and the lived texture of the mall now.",
-        "image": "./assets/Photos/contemporary/IMG_3911.jpeg",
-        "folder": "./assets/Photos/contemporary",
+        "image": "./assets/Photos/contemporary-srgb/IMG_3911.jpg",
+        "folder": "./assets/Photos/contemporary-srgb",
         "buttons": [
           {
             "label": "Photos Menu",

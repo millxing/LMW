@@ -2092,6 +2092,11 @@ body.motion-ready .news-page.animate-in {
   width: min(450px, 100%);
 }
 
+.news-page-image-grid-event-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 1.8vw, 18px);
+}
+
 .news-page-image {
   margin: 0;
   padding: clamp(8px, 1.2vw, 12px);
@@ -2114,6 +2119,21 @@ body.motion-ready .news-page.animate-in {
   width: 100%;
   height: auto;
   box-shadow: 0 2px 12px rgba(62, 42, 17, 0.08);
+  transition: transform 240ms ease;
+}
+
+.news-page-image-grid-event-grid .news-page-image {
+  padding: clamp(5px, 0.9vw, 9px);
+}
+
+.news-page-image-grid-event-grid img {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.news-page-image-grid-event-grid .history-document-open:hover img,
+.news-page-image-grid-event-grid .history-document-open:focus-visible img {
+  transform: scale(1.015);
 }
 
 .news-page-image figcaption {
