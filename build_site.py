@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
-"""Build the Longwood Mall static site from structured content."""
+"""Build the Longwood Mall static site from structured content in src/site.json."""
 
 from __future__ import annotations
 
 import html
 import json
+import math
 import re
-from urllib.parse import quote
+import subprocess
+import sys
+from functools import lru_cache
 from pathlib import Path
+from urllib.parse import quote
 
 
 ROOT = Path(__file__).resolve().parent
@@ -16,27 +20,65 @@ CONFIG_PATH = SRC / "site.json"
 STYLE_PATH = ROOT / "style.css"
 SCRIPT_PATH = ROOT / "script.js"
 
+IMAGE_EXTENSIONS = {".avif", ".jpg", ".jpeg", ".png", ".webp"}
+THUMB_DIR = ROOT / "assets" / "thumbs"
 
-SVG_ICONS = {
-    "tree": '<svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 14h.01"/><path d="M7 7H6a2 2 0 0 0-2 2v.5a2 2 0 0 0 2 2h.5"/><path d="M12 2C8 2 6 5 6 7c0 3.6 3.4 5 6 5s6-1.4 6-5c0-2-2-5-6-5Z"/><path d="m12 22 1-7.5"/><path d="M12 22 7 20"/><path d="M12 22l5-2"/></svg>',
-    "menu": '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>',
-    "arrow": '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
-    "instagram": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>',
+try:
+    from PIL import Image, ImageOps
+except ImportError:  # thumbnails and dimensions are optional niceties
+    Image = None
+
+
+def _svg(body: str, size: int = 20, cls: str = "icon") -> str:
+    return (
+        f'<svg class="{cls}" xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 24 24" '
+        'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" '
+        f'aria-hidden="true" focusable="false">{body}</svg>'
+    )
+
+
+ICONS = {
+    "arrow": _svg('<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>', 18),
+    "external": _svg('<path d="M7 17 17 7"/><path d="M8 7h9v9"/>', 14, "icon icon-ext"),
+    "menu": _svg('<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>', 22),
+    "close": _svg('<path d="M6 6l12 12"/><path d="M18 6 6 18"/>', 22),
+    "prev": _svg('<path d="m15 6-6 6 6 6"/>', 26),
+    "next": _svg('<path d="m9 6 6 6-6 6"/>', 26),
+    "pin": _svg('<path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/>'),
+    "clock": _svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'),
+    "mail": _svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>'),
+    "copy": _svg('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>', 16),
+    "instagram": _svg('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>'),
+    "expand": _svg('<path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/>', 16),
+    "up": _svg('<path d="M12 19V5"/><path d="m6 11 6-6 6 6"/>', 18),
+    "doc": _svg('<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/>'),
+    "train": _svg('<rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14"/><path d="M9 20l-2 2M15 20l2 2"/><circle cx="9" cy="13" r=".6"/><circle cx="15" cy="13" r=".6"/><path d="M8 16l-1 4h10l-1-4"/>'),
+    "play": _svg('<circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4Z"/>'),
 }
 
-IMAGE_EXTENSIONS = {".avif", ".jpg", ".jpeg", ".png", ".webp"}
+NEW_TAB_TEXT = '<span class="visually-hidden"> (opens in a new tab)</span>'
+
+
+# --------------------------------------------------------------------------- helpers
 
 
 def escape(text: str) -> str:
-    return html.escape(text)
+    return html.escape(str(text))
 
 
 def attr_url(url: str) -> str:
     return html.escape(url, quote=True)
 
 
-def style_url(url: str) -> str:
-    return html.escape(f'url("{url}")', quote=True)
+SCIENTIFIC_NAMES = ("Litylenchus crenatae mccannii", "Fagus sylvatica")
+
+
+def rich(text: str) -> str:
+    """Escape plain text and italicise scientific names."""
+    out = escape(text)
+    for name in SCIENTIFIC_NAMES:
+        out = out.replace(name, f"<em>{name}</em>")
+    return out
 
 
 def br_join(lines: list[str]) -> str:
@@ -66,6 +108,120 @@ def slugify(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-") or "item"
 
 
+def is_external(href: str) -> bool:
+    return href.startswith("http://") or href.startswith("https://")
+
+
+def link(href: str, label_html: str, cls: str = "", external: bool | None = None, extra: str = "") -> str:
+    """Render an anchor; external links open in a new tab and say so."""
+    ext = is_external(href) if external is None else external
+    class_attr = f' class="{cls}"' if cls else ""
+    if ext:
+        return (
+            f'<a href="{attr_url(href)}"{class_attr} target="_blank" rel="noopener"{extra}>'
+            f'{label_html}{ICONS["external"]}{NEW_TAB_TEXT}</a>'
+        )
+    return f'<a href="{attr_url(href)}"{class_attr}{extra}>{label_html}</a>'
+
+
+def button(item: dict) -> str:
+    variant = item.get("variant", "primary")
+    href = item["href"]
+    ext = item.get("external", is_external(href))
+    icon = "" if ext or href.startswith("mailto:") else ICONS["arrow"]
+    return link(href, f'<span>{escape(item["label"])}</span>{icon}', f"btn btn-{variant}", ext)
+
+
+def buttons_row(items: list[dict], cls: str = "button-row") -> str:
+    if not items:
+        return ""
+    return f'<div class="{cls}">' + "".join(button(item) for item in items) + "</div>"
+
+
+def label_external_links(markup: str) -> str:
+    """Make sure every target=_blank text link in hand-written HTML announces the new tab."""
+
+    def fix(match: re.Match) -> str:
+        whole = match.group(0)
+        inner = match.group(2)
+        if "visually-hidden" in inner or "<img" in inner or "aria-label=" in match.group(1):
+            return whole
+        return f"{match.group(1)}{inner}{ICONS['external']}{NEW_TAB_TEXT}</a>"
+
+    return re.sub(r'(<a\b[^>]*target="_blank"[^>]*>)(.*?)</a>', fix, markup, flags=re.S)
+
+
+def year_of(date: str) -> str:
+    match = re.search(r"(\d{4})", date)
+    return match.group(1) if match else "Earlier"
+
+
+# --------------------------------------------------------------------------- images
+
+
+def local_path(src: str) -> Path | None:
+    if is_external(src) or src.startswith("data:"):
+        return None
+    path = ROOT / src.removeprefix("./").split("#")[0]
+    return path if path.is_file() else None
+
+
+@lru_cache(maxsize=None)
+def image_size(src: str) -> tuple[int, int] | None:
+    path = local_path(src)
+    if not path:
+        return None
+    if Image is not None:
+        try:
+            with Image.open(path) as im:
+                w, h = im.size
+                if im.getexif().get(0x0112) in (5, 6, 7, 8):
+                    w, h = h, w
+                return w, h
+        except Exception:
+            pass
+    if sys.platform == "darwin":
+        try:
+            out = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(path)], capture_output=True, text=True, check=True).stdout
+            w = int(re.search(r"pixelWidth: (\d+)", out).group(1))
+            h = int(re.search(r"pixelHeight: (\d+)", out).group(1))
+            return w, h
+        except Exception:
+            return None
+    return None
+
+
+def resized(src: str, width: int) -> str:
+    """Return a cached, EXIF-corrected JPEG no wider than `width`, or the original when it is already small."""
+    path = local_path(src)
+    size = image_size(src)
+    if Image is None or not path or not size or path.suffix.lower() not in {".jpg", ".jpeg", ".png"} or size[0] <= width * 1.25:
+        return src
+    rel = path.relative_to(ROOT / "assets").with_suffix("").as_posix()
+    out = THUMB_DIR / f"{slugify(rel)}-{width}.webp"
+    if not out.exists() or out.stat().st_mtime < path.stat().st_mtime:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        with Image.open(path) as im:
+            im = ImageOps.exif_transpose(im).convert("RGB")
+            im.thumbnail((width, width * 4))
+            im.save(out, "WEBP", quality=70, method=5)
+    return f"./{out.relative_to(ROOT).as_posix()}"
+
+
+def dims(src: str) -> str:
+    size = image_size(src)
+    return f' width="{size[0]}" height="{size[1]}"' if size else ""
+
+
+def img_tag(src: str, alt: str, width: int | None = None, loading: str = "lazy", cls: str = "", extra: str = "") -> str:
+    shown = resized(src, width) if width else src
+    class_attr = f' class="{cls}"' if cls else ""
+    return f'<img src="{attr_url(shown)}" alt="{escape(alt)}"{dims(shown)} loading="{loading}" decoding="async"{class_attr}{extra}>'
+
+
+# --------------------------------------------------------------------------- data
+
+
 def inventory_group_label(value: str) -> str:
     match = re.fullmatch(r"2025-10Beech(\d+)", value)
     if match:
@@ -73,216 +229,85 @@ def inventory_group_label(value: str) -> str:
     return value
 
 
+ALT_PREFIX = {
+    "contemporary": "Longwood Mall today",
+    "aerial": "Aerial view of Longwood Mall and the surrounding neighborhood",
+    "historical": "Historical image of Longwood Mall",
+}
+
+
 def resolve_collection_items(collection: dict) -> list[dict]:
     if collection.get("items"):
         return collection["items"]
-
     folder = collection.get("folder")
     if not folder:
         return []
-
     folder_root = ROOT / folder.removeprefix("./")
     if not folder_root.exists():
         return []
-
     image_paths = sorted(
-        [path for path in folder_root.rglob("*") if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS],
-        key=lambda path: natural_sort_key(path.relative_to(folder_root).as_posix()),
+        [p for p in folder_root.rglob("*") if p.is_file() and p.suffix.lower() in IMAGE_EXTENSIONS],
+        key=lambda p: natural_sort_key(p.relative_to(folder_root).as_posix()),
     )
     if collection.get("reverse_order"):
         image_paths.reverse()
-
     sources = collection.get("sources", {})
+    alts = collection.get("alts", [])
     items = []
     for index, path in enumerate(image_paths, start=1):
-        relative_path = path.relative_to(ROOT).as_posix()
-        relative_stem = path.relative_to(folder_root).with_suffix("")
-        title = humanize_segment(path.stem)
-        if collection.get("caption_mode") == "path":
-            caption = " / ".join(humanize_segment(part) for part in relative_stem.parts)
-        else:
-            caption = title
+        source = sources.get(path.name, {})
+        note = source.get("note", "")
         items.append(
             {
-                "src": f"./{relative_path}",
-                "alt": f"{collection['eyebrow']}: {title}",
-                "caption": caption,
-                "title": title,
-                "source": sources.get(path.name, {}),
+                "src": f"./{path.relative_to(ROOT).as_posix()}",
+                "alt": note or (alts[index - 1] if index - 1 < len(alts) else f'{ALT_PREFIX.get(collection["id"], "Longwood Mall")}, photo {index} of {len(image_paths)}'),
+                "caption": note,
+                "source": source,
             }
         )
     return items
-
-
-def render_source_caption(item: dict) -> str:
-    source = item.get("source") or {}
-    label = source.get("label")
-    if not label:
-        return ""
-
-    url = source.get("url")
-    note = source.get("note")
-    if url:
-        source_markup = (
-            f'          <a href="{attr_url(url)}" target="_blank" rel="noopener">'
-            f"{escape(label)}</a>"
-        )
-    else:
-        source_markup = f"          <span>{escape(label)}</span>"
-    note_markup = f"\n          <span>{escape(note)}</span>" if note else ""
-    return (
-        "              <figcaption class=\"slide-source\">\n"
-        "                <span class=\"slide-source-label\">Source</span>\n"
-        f"{source_markup}{note_markup}\n"
-        "              </figcaption>\n"
-    )
 
 
 def resolve_inventory_groups(collection: dict) -> list[dict]:
     folder = collection.get("folder")
     if not folder:
         return []
-
     folder_root = ROOT / folder.removeprefix("./")
     if not folder_root.exists():
         return []
-
     groups = []
-    for group_dir in sorted([path for path in folder_root.iterdir() if path.is_dir()], key=lambda path: natural_sort_key(path.name)):
+    for group_dir in sorted([p for p in folder_root.iterdir() if p.is_dir()], key=lambda p: natural_sort_key(p.name)):
         image_paths = sorted(
-            [path for path in group_dir.rglob("*") if path.is_file() and path.suffix.lower() in IMAGE_EXTENSIONS],
-            key=lambda path: natural_sort_key(path.relative_to(group_dir).as_posix()),
+            [p for p in group_dir.rglob("*") if p.is_file() and p.suffix.lower() in IMAGE_EXTENSIONS],
+            key=lambda p: natural_sort_key(p.relative_to(group_dir).as_posix()),
         )
         if not image_paths:
             continue
-
-        display_label = inventory_group_label(group_dir.name)
-        items = []
-        for path in image_paths:
-            relative_path = path.relative_to(ROOT).as_posix()
-            items.append(
-                {
-                    "src": f"./{relative_path}",
-                    "alt": f'{collection["eyebrow"]}: {display_label} {path.stem}',
-                    "caption": path.stem,
-                    "title": path.stem,
-                }
-            )
-
+        label = inventory_group_label(group_dir.name)
+        items = [
+            {
+                "src": f"./{p.relative_to(ROOT).as_posix()}",
+                "alt": f"{label}, inventory photo {i} of {len(image_paths)}",
+                "caption": "",
+                "source": {},
+            }
+            for i, p in enumerate(image_paths, start=1)
+        ]
         groups.append(
             {
                 "id": group_dir.name,
-                "label": display_label,
+                "label": label,
                 "slug": f'{collection["id"]}-{slugify(group_dir.name)}.html',
                 "image": items[0]["src"],
                 "items": items,
-                "page_title": f'{display_label} | {collection["page_title"]}',
-                "page_description": f'{display_label} inventory photos for Longwood Mall.',
+                "page_title": f'{label} | Tree inventory | Longwood Mall',
+                "page_description": f"{label}: inventory photos of an individual beech tree at Longwood Mall.",
             }
         )
     return groups
 
 
-def render_paragraphs(items: list[dict | str], class_name: str) -> str:
-    blocks = []
-    for item in items:
-        if isinstance(item, str):
-            blocks.append(f'      <p class="{class_name}">{escape(item)}</p>')
-            continue
-        if "html" in item:
-            blocks.append(f'      <p class="{class_name}">{item["html"]}</p>')
-        elif "items" in item:
-            list_items = "\n".join(
-                f'        <li>{entry["html"]}</li>' if isinstance(entry, dict) and "html" in entry else f"        <li>{escape(entry)}</li>"
-                for entry in item["items"]
-            )
-            blocks.append(f'      <ul class="{class_name} support-page-list">\n{list_items}\n      </ul>')
-        else:
-            blocks.append(f'      <p class="{class_name}">{escape(item["text"])}</p>')
-    return "\n".join(blocks)
-
-
-def render_buttons(buttons: list[dict], class_prefix: str = "btn", include_icon: bool = True) -> str:
-    rendered = []
-    for button in buttons:
-        variant = button.get("variant", "primary")
-        classes = f"{class_prefix} {class_prefix}-{variant}"
-        rel = ' rel="noopener"' if button.get("external") else ""
-        target = ' target="_blank"' if button.get("external") else ""
-        label_suffix = f' {SVG_ICONS["arrow"]}' if include_icon else ""
-        rendered.append(
-            f'        <a href="{attr_url(button["href"])}" class="{classes}"{target}{rel}>'
-            f'{escape(button["label"])}{label_suffix}</a>'
-        )
-    return "\n".join(rendered)
-
-
-def render_header(site: dict, active_nav: str) -> str:
-    links = []
-    for item in site["navigation"]:
-        class_name = "nav-link active" if item["id"] == active_nav else "nav-link"
-        rel = ' rel="noopener"' if item.get("external") else ""
-        target = ' target="_blank"' if item.get("external") else ""
-        if item.get("icon"):
-            class_name = f"{class_name} nav-icon-link"
-            icon = SVG_ICONS[item["icon"]]
-            links.append(
-                f'          <a href="{attr_url(item["href"])}" class="{class_name}" aria-label="{escape(item["label"])}"{target}{rel}>'
-                f'{icon}<span class="nav-icon-label">{escape(item["label"])}</span></a>'
-            )
-        else:
-            links.append(
-                f'          <a href="{attr_url(item["href"])}" class="{class_name}"{target}{rel}>{escape(item["label"])}</a>'
-            )
-    rendered_links = "\n".join(links)
-    return (
-        "<header class=\"site-header\">\n"
-        "  <div class=\"container header-inner\">\n"
-        "    <button class=\"nav-toggle\" type=\"button\" aria-label=\"Open menu\" aria-expanded=\"false\" data-nav-toggle>\n"
-        f"      {SVG_ICONS['menu']}\n"
-        "    </button>\n"
-        "    <nav class=\"site-nav\" aria-label=\"Main navigation\" data-nav>\n"
-        f"      <p class=\"site-nav-mobile-brand\">{escape(site['brand'])}</p>\n"
-        f"{rendered_links}\n"
-        "    </nav>\n"
-        "  </div>\n"
-        "</header>"
-    )
-
-
-def render_footer(site: dict) -> str:
-    footer = site["footer"]
-    nav_links = "\n".join(
-        f'          <a href="{attr_url(link["href"])}">{escape(link["label"])}</a>' for link in footer["links"]
-    )
-    utility_links = []
-    for link in footer["utility_links"]:
-        rel = ' rel="noopener"' if link.get("external") else ""
-        target = ' target="_blank"' if link.get("external") else ""
-        if link.get("icon"):
-            icon = SVG_ICONS[link["icon"]]
-            utility_links.append(
-                f'          <a class="footer-icon-link" href="{attr_url(link["href"])}" aria-label="{escape(link["label"])}"{target}{rel}>'
-                f'{icon}<span class="visually-hidden">{escape(link["label"])}</span></a>'
-            )
-        else:
-            utility_links.append(
-                f'          <a href="{attr_url(link["href"])}"{target}{rel}>{escape(link["label"])}</a>'
-            )
-    utility_markup = "\n".join(utility_links)
-    return (
-        "<footer class=\"site-footer\">\n"
-        "  <div class=\"container footer-inner\">\n"
-        f'    <div class="footer-brand"><span>{escape(site["brand"])}</span></div>\n'
-        "    <div class=\"footer-links\">\n"
-        f"{nav_links}\n"
-        "    </div>\n"
-        "    <div class=\"footer-utility-links\">\n"
-        f"{utility_markup}\n"
-        "    </div>\n"
-        "  </div>\n"
-        "</footer>"
-    )
+# --------------------------------------------------------------------------- shared chrome
 
 
 def render_head(site: dict, title: str, description: str) -> str:
@@ -293,1013 +318,998 @@ def render_head(site: dict, title: str, description: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{escape(title)}</title>
   <meta name="description" content="{escape(description)}">
+  <meta name="theme-color" content="#1f3a2b">
+  <meta property="og:title" content="{escape(title)}">
+  <meta property="og:description" content="{escape(description)}">
+  <meta property="og:image" content="./assets/hero-home-small.jpg">
+  <link rel="icon" href="./assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="{attr_url(site["font_href"])}" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v={style_version}">
+  <script>document.documentElement.classList.add("js")</script>
   <script src="script.js?v={script_version}" defer></script>
 </head>"""
 
 
-def wrap_page(site: dict, active_nav: str, title: str, description: str, body_class: str, main_content: str) -> str:
+def render_header(site: dict, active_nav: str) -> str:
+    items = []
+    for item in site["navigation"]:
+        current = ' aria-current="page"' if item["id"] == active_nav else ""
+        classes = ["nav-link"]
+        if item.get("cta"):
+            classes = ["btn", "btn-primary", "nav-cta"]
+        li_class = ' class="nav-mobile-only"' if item.get("mobile_only") else ""
+        items.append(
+            f'<li{li_class}><a href="{attr_url(item["href"])}" class="{" ".join(classes)}"{current}>{escape(item["label"])}</a></li>'
+        )
+    return f"""<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-name">{escape(site["brand"])}</span>
+        <span class="brand-sub">{tagline_markup(site["tagline"])}</span>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="nav-toggle-open">{ICONS["menu"]}</span><span class="nav-toggle-close">{ICONS["close"]}</span>
+      <span class="nav-toggle-label">Menu</span>
+    </button>
+    <div class="nav-scrim" data-nav-scrim hidden></div>
+    <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+      <ul class="nav-list">
+        {"".join(items)}
+      </ul>
+    </nav>
+  </div>
+</header>"""
+
+
+def tagline_markup(tagline: str) -> str:
+    if " · " in tagline:
+        head, tail = tagline.split(" · ", 1)
+        return f'<span class="brand-sub-long">{escape(head)} · </span>{escape(tail)}'
+    return escape(tagline)
+
+
+def render_footer(site: dict) -> str:
+    footer = site["footer"]
+    links = "".join(f'<li><a href="{attr_url(l["href"])}">{escape(l["label"])}</a></li>' for l in footer["links"])
+    email = site["contact_email"]
+    return f"""<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand brand-footer" href="index.html">
+        <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+        <span class="brand-text"><span class="brand-name">{escape(site["brand"])}</span><span class="brand-sub">{escape(site["tagline"])}</span></span>
+      </a>
+      <p>{escape(footer["about"])}</p>
+    </div>
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-heading">Explore</h2>
+      <ul class="footer-list">{links}</ul>
+    </nav>
+    <div class="footer-col">
+      <h2 class="footer-heading">Visit</h2>
+      <ul class="footer-list footer-list-plain">
+        <li>{ICONS["pin"]}<span>{escape(site["visit_address"])}</span></li>
+        <li>{ICONS["clock"]}<span>Open daily, dawn to dusk</span></li>
+        <li>{link(site["directions_href"], "Get directions", "footer-action")}</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h2 class="footer-heading">Contact</h2>
+      <ul class="footer-list">
+        <li><a class="footer-action" href="support.html#contact">{ICONS["mail"]}<span>Contact the Friends</span></a></li>
+        <li>{link(site["instagram"], ICONS["instagram"] + "<span>Instagram</span>", "footer-action")}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; 2026 {escape(footer["credit"])}. Longwood Mall is a public park of the Town of Brookline.</p>
+    <a class="footer-top" href="#top">{ICONS["up"]}<span>Back to top</span></a>
+  </div>
+</footer>"""
+
+
+LIGHTBOX = f"""<dialog class="lightbox" data-lightbox aria-label="Photo viewer">
+  <div class="lightbox-inner">
+    <div class="lightbox-bar">
+      <p class="lightbox-count" data-lightbox-count aria-live="polite"></p>
+      <button class="lightbox-btn lightbox-close" type="button" data-lightbox-close aria-label="Close photo viewer">{ICONS["close"]}</button>
+    </div>
+    <figure class="lightbox-figure">
+      <img alt="" data-lightbox-img>
+      <figcaption class="lightbox-caption" data-lightbox-caption></figcaption>
+    </figure>
+    <button class="lightbox-btn lightbox-prev" type="button" data-lightbox-prev aria-label="Previous photo">{ICONS["prev"]}</button>
+    <button class="lightbox-btn lightbox-next" type="button" data-lightbox-next aria-label="Next photo">{ICONS["next"]}</button>
+  </div>
+</dialog>"""
+
+
+def wrap_page(site: dict, active_nav: str, title: str, description: str, body_class: str, main_content: str, lightbox: bool = False) -> str:
+    main_content = label_external_links(main_content)
+    main_content = re.sub(
+        r'href="latest-news\.html#([a-z0-9-]+)"',
+        lambda m: f'href="{NEWS_LINKS[m.group(1)]}"' if m.group(1) in NEWS_LINKS else m.group(0),
+        main_content,
+    )
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 {render_head(site, title, description)}
 <body class="{escape(body_class)}">
-  <div class="page-shell">
 {render_header(site, active_nav)}
-    <main>
+<main id="main" tabindex="-1">
 {main_content}
-    </main>
+</main>
 {render_footer(site)}
-  </div>
+{LIGHTBOX if lightbox else ""}
 </body>
 </html>
 """
 
 
-def render_title_band(title_markup: str) -> str:
+def render_breadcrumb(trail: list[tuple[str, str | None]]) -> str:
+    parts = ['<li><a href="index.html">Home</a></li>']
+    for label, href in trail:
+        if href:
+            parts.append(f'<li><a href="{attr_url(href)}">{escape(label)}</a></li>')
+        else:
+            parts.append(f'<li><span aria-current="page">{escape(label)}</span></li>')
+    return f'<nav class="breadcrumb" aria-label="Breadcrumb"><ol>{"".join(parts)}</ol></nav>'
+
+
+def render_page_header(title: str, description: str = "", trail: list | None = None, eyebrow: str = "", actions: str = "", meta: str = "", wide: bool = False) -> str:
+    crumb = render_breadcrumb(trail) if trail is not None else ""
+    eyebrow_markup = f'<p class="eyebrow">{escape(eyebrow)}</p>' if eyebrow else ""
+    desc = f'<p class="page-lede">{escape(description)}</p>' if description else ""
+    meta_markup = f'<p class="page-meta">{meta}</p>' if meta else ""
+    return f"""<header class="page-header{' page-header-wide' if wide else ''}">
+  <div class="container">
+    {crumb}
+    {eyebrow_markup}
+    <h1 class="page-title">{title}</h1>
+    {desc}
+    {meta_markup}
+    {actions}
+  </div>
+</header>"""
+
+
+def render_paragraphs(items: list, class_name: str = "") -> str:
+    cls = f' class="{class_name}"' if class_name else ""
+    blocks = []
+    for item in items:
+        if isinstance(item, str):
+            blocks.append(f"<p{cls}>{escape(item)}</p>")
+        elif "html" in item:
+            content = item["html"]
+            if re.fullmatch(r"\s*<strong>[^<]+</strong>\s*", content):
+                blocks.append(f'<h3 class="prose-subhead">{re.sub(r"</?strong>", "", content).strip()}</h3>')
+            else:
+                blocks.append(f"<p{cls}>{content}</p>")
+        elif "items" in item:
+            lis = "".join(
+                f'<li>{e["html"]}</li>' if isinstance(e, dict) and "html" in e else f"<li>{escape(e)}</li>" for e in item["items"]
+            )
+            blocks.append(f"<ul>{lis}</ul>")
+        else:
+            blocks.append(f"<p{cls}>{escape(item.get('text', ''))}</p>")
+    return "\n".join(blocks)
+
+
+def zoomable_figure(src: str, alt: str, caption: str = "", cls: str = "", group: str = "page") -> str:
+    cap = f"<figcaption>{escape(caption)}</figcaption>" if caption else ""
     return (
-        "          <div class=\"page-title-band\">\n"
-        f"            <h1>{title_markup}</h1>\n"
-        "          </div>\n"
+        f'<figure class="zoom-figure {cls}">'
+        f'<button class="zoom-trigger" type="button" data-lightbox-item data-group="{group}" data-src="{attr_url(src)}" '
+        f'data-alt="{escape(alt)}" data-caption="{escape(caption)}">'
+        f'{img_tag(src, alt, 640)}'
+        f'<span class="zoom-hint">{ICONS["expand"]}<span class="visually-hidden"> (enlarge)</span></span>'
+        f"</button>{cap}</figure>"
     )
 
 
-def find_posts(data: dict, ids: list[str]) -> list[dict]:
-    posts = {item["id"]: item for item in data["news"]["items"]}
-    return [posts[item_id] for item_id in ids if item_id in posts]
-
-
-def render_stats(stats: list[dict]) -> str:
-    parts = []
-    for item in stats:
-        parts.append(
-            "      <div class=\"stat-card\">\n"
-            f"        <span class=\"stat-value\">{escape(item['value'])}</span>\n"
-            f"        <span class=\"stat-label\">{escape(item['label'])}</span>\n"
-            "      </div>"
-        )
-    return "\n".join(parts)
-
-
-def render_home_news(preview: dict, posts: list[dict]) -> str:
-    primary = posts[:2]
-    secondary = posts[2:]
-    primary_markup = []
-    for post in primary:
-        primary_markup.append(
-            "        <article class=\"news-card news-card-featured\">\n"
-            f"          <p class=\"card-date\">{escape(post['date'])}</p>\n"
-            f"          <h3>{escape(post['title'])}</h3>\n"
-            f"          <p>{escape(post['summary'])}</p>\n"
-            f'          <a href="latest-news.html#{escape(post["id"])}" class="text-link">Read this update {SVG_ICONS["arrow"]}</a>\n'
-            "        </article>"
-        )
-    secondary_markup = []
-    for post in secondary:
-        secondary_markup.append(
-            "          <article class=\"news-list-item\">\n"
-            f"            <p class=\"card-date\">{escape(post['date'])}</p>\n"
-            f"            <h4>{escape(post['title'])}</h4>\n"
-            f"            <p>{escape(post['summary'])}</p>\n"
-            f'            <a href="latest-news.html#{escape(post["id"])}" class="text-link">Open update {SVG_ICONS["arrow"]}</a>\n'
-            "          </article>"
-        )
+def link_card(title: str, href: str, source: str, text: str = "", icon: str = "doc", cta: str = "Read the article") -> str:
+    body = f"<p>{escape(text)}</p>" if text else ""
     return (
-        "<section class=\"section section-news\">\n"
-        "  <div class=\"container section-heading-block\">\n"
-        f'    <p class="section-eyebrow">{escape(preview["eyebrow"])}</p>\n'
-        f'    <h2 class="section-title">{br_join(preview["title_lines"])}</h2>\n'
-        f'    <p class="section-copy">{escape(preview["description"])}</p>\n'
-        "  </div>\n"
-        "  <div class=\"container news-preview-grid\">\n"
-        "    <div class=\"news-feature-grid\">\n"
-        f"{''.join(primary_markup)}\n"
-        "    </div>\n"
-        "    <div class=\"news-list-panel\">\n"
-        "      <p class=\"mini-label\">More updates</p>\n"
-        f"{''.join(secondary_markup)}\n"
-        f'      <a href="{attr_url(preview["button"]["href"])}" class="btn btn-ghost">{escape(preview["button"]["label"])} {SVG_ICONS["arrow"]}</a>\n'
-        "    </div>\n"
-        "  </div>\n"
-        "</section>"
+        f'<div class="link-card"><span class="link-card-icon">{ICONS[icon]}</span>'
+        f'<div><p class="link-card-source">{escape(source)}</p><p class="link-card-title">{escape(title)}</p>{body}'
+        f'{link(href, escape(cta), "text-link")}</div></div>'
     )
 
 
-def render_home_photos(section: dict, collections: list[dict]) -> str:
-    cards = []
-    for collection in collections:
-        items = resolve_collection_items(collection)
-        sample_images = "\n".join(
-            f'            <img src="{attr_url(item["src"])}" alt="{escape(item["alt"])}" loading="lazy">'
-            for item in items[:3]
-        )
-        cards.append(
-            "      <article class=\"collection-card\">\n"
-            f'        <img class="collection-hero-image" src="{attr_url(collection["image"])}" alt="{escape(collection["description"])}" loading="lazy">\n'
-            "        <div class=\"collection-card-body\">\n"
-            f'          <p class="mini-label">{escape(collection["eyebrow"])}</p>\n'
-            f"          <h3>{br_join(collection['title_lines'])}</h3>\n"
-            f'          <p>{escape(collection["summary"])}</p>\n'
-            "          <div class=\"collection-strip\">\n"
-            f"{sample_images}\n"
-            "          </div>\n"
-            f'          <a href="{attr_url(collection["slug"])}" class="btn btn-outline">Open collection {SVG_ICONS["arrow"]}</a>\n'
-            "        </div>\n"
-            "      </article>"
-        )
+def embed_block(frame: dict) -> str:
+    src = frame["src"]
+    if is_external(src):
+        host = re.sub(r"^https?://(www\.)?", "", src).split("/")[0]
+        return link_card(frame["title"], src, host, cta=f"Read on {host}")
+    pdf = src.split("#")[0]
     return (
-        "<section class=\"section section-dark\">\n"
-        "  <div class=\"container section-heading-block\">\n"
-        f'    <p class="section-eyebrow">{escape(section["eyebrow"])}</p>\n'
-        f'    <h2 class="section-title section-title-light">{br_join(section["title_lines"])}</h2>\n'
-        f'    <p class="section-copy section-copy-light">{escape(section["description"])}</p>\n'
-        "  </div>\n"
-        "  <div class=\"container collection-grid\">\n"
-        f"{''.join(cards)}\n"
-        "  </div>\n"
-        "</section>"
+        f'<div class="pdf-embed">{link_card(frame["title"], pdf, "PDF report", cta="Open the full report (PDF)")}'
+        f'<iframe class="pdf-frame" src="{attr_url(src)}" title="{escape(frame["title"])}" loading="lazy"></iframe></div>'
     )
 
 
-def render_home_bld(section: dict, bld: dict) -> str:
-    cards = []
-    for item in bld["summary_cards"]:
-        cards.append(
-            "      <article class=\"info-card\">\n"
-            f"        <h3>{escape(item['title'])}</h3>\n"
-            f"        <p>{escape(item['text'])}</p>\n"
-            "      </article>"
-        )
-    updates = []
-    for item in bld["updates"][:2]:
-        updates.append(
-            "          <article class=\"update-item compact\">\n"
-            f"            <p class=\"card-date\">{escape(item['date'])}</p>\n"
-            f"            <h4>{escape(item['title'])}</h4>\n"
-            f"            <p>{escape(item['text'])}</p>\n"
-            f'            <a href="{attr_url(item["href"])}" class="text-link">Open related note {SVG_ICONS["arrow"]}</a>\n'
-            "          </article>"
-        )
+def youtube_embed(video: dict) -> str:
+    vid, title = video["id"], video["title"]
     return (
-        "<section class=\"section\">\n"
-        "  <div class=\"container bld-overview-grid\">\n"
-        "    <div>\n"
-        f'      <p class="section-eyebrow">{escape(section["eyebrow"])}</p>\n'
-        f'      <h2 class="section-title">{br_join(section["title_lines"])}</h2>\n'
-        f'      <p class="section-copy">{escape(section["description"])}</p>\n'
-        "      <div class=\"info-card-grid\">\n"
-        f"{''.join(cards)}\n"
-        "      </div>\n"
-        "    </div>\n"
-        "    <aside class=\"surface-panel surface-panel-dark\">\n"
-        f'      <p class="mini-label mini-label-light">{escape(bld["current_note"]["label"])}</p>\n'
-        f'      <h3>{escape(bld["current_note"]["title"])}</h3>\n'
-        f'      <p>{escape(bld["current_note"]["body"])}</p>\n'
-        "      <div class=\"stack-list\">\n"
-        f"{''.join(updates)}\n"
-        "      </div>\n"
-        f'      <a href="{attr_url(bld["hero"]["buttons"][0]["href"])}" class="btn btn-outline btn-outline-light">Explore BLD updates {SVG_ICONS["arrow"]}</a>\n'
-        "    </aside>\n"
-        "  </div>\n"
-        "</section>"
+        f'<figure class="video"><div class="video-embed" data-youtube="{attr_url(vid)}" data-title="{escape(title)}">'
+        f'<button class="video-facade" type="button" aria-label="Play video: {escape(title)}">'
+        f'<img src="https://i.ytimg.com/vi/{attr_url(vid)}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">'
+        f'<span class="video-play" aria-hidden="true">{ICONS["play"]}</span></button></div>'
+        f'<figcaption class="video-caption"><span>{escape(title)}</span>'
+        f'{link("https://www.youtube.com/watch?v=" + vid, "Watch on YouTube", "text-link", True)}</figcaption></figure>'
     )
 
 
-def render_home_support(section: dict, support: dict) -> str:
-    if "actions" not in support:
-        buttons = render_buttons(
-            [
-                {
-                    "label": support["donation_label"],
-                    "href": support["donation_href"],
-                    "variant": "primary",
-                    "external": True,
-                }
-            ]
-        )
-        preview_items = "\n".join(
-            "      <article class=\"support-card\">\n"
-            f"        <p>{escape(item)}</p>\n"
-            "      </article>"
-            for item in support["paragraphs"][:3]
-        )
-        return (
-            "<section class=\"section section-support\">\n"
-            "  <div class=\"container support-grid\">\n"
-            "    <div>\n"
-            f'      <p class="section-eyebrow">{escape(section["eyebrow"])}</p>\n'
-            f'      <h2 class="section-title">{br_join(section["title_lines"])}</h2>\n'
-            f'      <p class="section-copy">{escape(section["description"])}</p>\n'
-            "      <div class=\"support-card-grid\">\n"
-            f"{preview_items}\n"
-            "      </div>\n"
-            "    </div>\n"
-            "    <aside class=\"surface-panel\">\n"
-            f"      <h3>{escape(support['title'])}</h3>\n"
-            f'      <p>{escape(support["donation_text"])} {escape(support["donation_label"])}.</p>\n'
-            "      <div class=\"button-row\">\n"
-            f"{buttons}\n"
-            "      </div>\n"
-            "    </aside>\n"
-            "  </div>\n"
-            "</section>"
-        )
-    cards = []
-    for item in support["actions"][:3]:
-        cards.append(
-            "      <article class=\"support-card\">\n"
-            f"        <h3>{escape(item['title'])}</h3>\n"
-            f"        <p>{escape(item['text'])}</p>\n"
-            "      </article>"
-        )
-    buttons = render_buttons(support["hero"]["buttons"])
+# --------------------------------------------------------------------------- home
+
+
+def news_card(post: dict, featured: bool = False) -> str:
+    image = ""
+    if post.get("images"):
+        img = post["images"][0]
+        image = f'<div class="news-card-media">{img_tag(img["src"], "", 640)}</div>'
     return (
-        "<section class=\"section section-support\">\n"
-        "  <div class=\"container support-grid\">\n"
-        "    <div>\n"
-        f'      <p class="section-eyebrow">{escape(section["eyebrow"])}</p>\n'
-        f'      <h2 class="section-title">{br_join(section["title_lines"])}</h2>\n'
-        f'      <p class="section-copy">{escape(section["description"])}</p>\n'
-        "      <div class=\"support-card-grid\">\n"
-        f"{''.join(cards)}\n"
-        "      </div>\n"
-        "    </div>\n"
-        "    <aside class=\"surface-panel\">\n"
-        f'      <p class="mini-label">{escape(support["partner"]["eyebrow"])}</p>\n'
-        f'      <h3>{escape(support["partner"]["title"])}</h3>\n'
-        f'      <p>{escape(support["partner"]["text"])}</p>\n'
-        f'      <img class="partner-image" src="{attr_url(support["partner"]["image"])}" alt="{escape(support["partner"]["title"])}" loading="lazy">\n'
-        "      <div class=\"button-row\">\n"
-        f"{buttons}\n"
-        "      </div>\n"
-        "    </aside>\n"
-        "  </div>\n"
-        "</section>"
+        f'<article class="news-card{" news-card-featured" if featured else ""}">{image}'
+        f'<div class="news-card-body"><p class="card-date">{escape(post["date"])}</p>'
+        f'<h3 class="news-card-title"><a class="stretched-link" href="{attr_url(news_href(post["id"]))}">{escape(post["title"])}</a></h3>'
+        f'<p>{rich(post["summary"])}</p><span class="text-link" aria-hidden="true">Read update {ICONS["arrow"]}</span></div></article>'
     )
 
 
-def render_home_tree_nav(tree_nav: dict, mobile_intro: str = "") -> str:
-    links = []
-    mobile_links = []
-    for item in tree_nav["items"]:
-        class_name = f'tree-link {escape(item["class_name"])}'
-        links.append(
-            f'          <a href="{attr_url(item["href"])}" class="{class_name}" aria-label="{escape(item["label"])}">'
-            f'<img src="{attr_url(item["image"])}" alt="" loading="lazy"></a>'
-        )
-        mobile_links.append(
-            f'        <a href="{attr_url(item["href"])}" class="mobile-branch-link">'
-            f'<span>{escape(item["label"])}</span>{SVG_ICONS["arrow"]}</a>'
-        )
-    links_markup = "\n".join(links)
-    mobile_links_markup = "\n".join(mobile_links)
-    eyebrow = ""
-    if tree_nav.get("eyebrow"):
-        eyebrow = f'    <p class="section-eyebrow">{escape(tree_nav["eyebrow"])}</p>\n'
-    description = ""
-    if tree_nav.get("description"):
-        description = f'    <p class="section-copy">{escape(tree_nav["description"])}</p>\n'
-    mobile_intro_markup = ""
-    if mobile_intro:
-        mobile_intro_markup = f'  <p class="container mobile-branch-intro">{escape(mobile_intro)}</p>\n'
-    return (
-        "<section class=\"section home-tree-nav\" id=\"choose-a-branch\">\n"
-        f"{mobile_intro_markup}"
-        "  <div class=\"container section-heading-block tree-nav-heading\">\n"
-        f"{eyebrow}"
-        f'    <h2 class="section-title">{br_join(tree_nav["title_lines"])}</h2>\n'
-        f"{description}"
-        "  </div>\n"
-        "  <nav class=\"container mobile-branch-list\" aria-label=\"Longwood Mall sections\">\n"
-        f"{mobile_links_markup}\n"
-        "  </nav>\n"
-        "  <div class=\"container tree-nav-container\">\n"
-        "    <div class=\"tree-nav-stage\">\n"
-        f'      <img class="tree-nav-image" src="{attr_url(tree_nav["image"])}" alt="Illustrated Longwood Mall tree with wooden sign links to the main site sections" loading="eager">\n'
-        "      <div class=\"tree-nav-links\">\n"
-        f"{links_markup}\n"
-        "      </div>\n"
-        "    </div>\n"
-        "  </div>\n"
-        "</section>"
+LEAF_SVG = (
+    '<svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'
+    '<path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/>'
+    '<path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" '
+    'stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg>'
+)
+
+# x position, size, fall duration, start offset, sideways drift (vw), spin (deg), colour (greens sampled from the hero canopy)
+LEAVES = [
+    (8, 0.9, 19, -2, 6, 260, "#7d9a3c"), (22, 0.7, 23, -11, -4, -220, "#5f7f2f"),
+    (37, 1.1, 21, -6, 8, 300, "#9bb552"), (55, 0.8, 26, -16, -6, -280, "#4f6e2a"),
+    (68, 1.0, 20, -9, 5, 240, "#7d9a3c"), (81, 0.75, 24, -3, -7, -300, "#87a447"),
+    (93, 0.9, 22, -13, 4, 200, "#a9c25e"),
+]
+
+
+def hero_leaves() -> str:
+    leaves = "".join(
+        f'<span class="leaf" style="--x: {x}%; --s: {sz}; --d: {d}s; --delay: {dl}s; --drift: {dr}; --spin: {sp}; --leaf: {c}">{LEAF_SVG}</span>'
+        for x, sz, d, dl, dr, sp, c in LEAVES
     )
+    return f'<div class="hero-leaves" aria-hidden="true">{leaves}</div>'
 
 
-def render_home_event(event: dict) -> str:
-    pdf_src = f'{event["pdf"]}#toolbar=0&navpanes=0&scrollbar=0&view=Fit&zoom=page-fit'
-    return f"""
-        <aside class="home-event-callout" aria-label="Longwood Mall event">
-          <p class="home-event-title">{escape(event["title"])}</p>
-          <p class="home-event-countdown">
-            <span>{escape(event["countdown_label"])}</span>
-            <strong data-event-countdown data-event-datetime="{attr_url(event["datetime"])}">Calculating...</strong>
-          </p>
-          <button class="home-event-link" type="button" data-event-info>
-            {escape(event["link_label"])}
-          </button>
-        </aside>
-        <div class="event-overlay" role="dialog" aria-modal="true" aria-labelledby="event-overlay-title" hidden data-event-overlay>
-          <div class="event-overlay-backdrop" data-event-close></div>
-          <div class="event-overlay-panel">
-            <div class="event-overlay-header">
-              <h2 id="event-overlay-title">2026 Longwood Mall Event</h2>
-              <button class="event-overlay-close" type="button" aria-label="Close event flyer" data-event-close>&times;</button>
-            </div>
-            <iframe class="event-pdf-frame" src="{attr_url(pdf_src)}" title="2026 Longwood Mall Event flyer"></iframe>
-          </div>
-        </div>
-"""
-
-
-def render_home_classic(data: dict) -> str:
-    site = data["site"]
-    home = data["home"]
-    featured_posts = find_posts(data, home["latest_news"]["featured_ids"] + home["latest_news"]["list_ids"])
-    hero_buttons = render_buttons(home["hero"]["buttons"])
-    quote = home["quote"]
-    cta_buttons = render_buttons(home["cta"]["buttons"])
-    hero_eyebrow = ""
-    if home["hero"].get("eyebrow"):
-        hero_eyebrow = f'\n            <p class="hero-eyebrow">{escape(home["hero"]["eyebrow"])}</p>'
-    hero_subtitle = ""
-    if home["hero"].get("subtitle"):
-        hero_subtitle = f'\n            <p class="hero-copy">{escape(home["hero"]["subtitle"])}</p>'
-    hero_button_row = ""
-    if hero_buttons:
-        hero_button_row = f'\n            <div class="button-row">\n{hero_buttons}\n            </div>'
-    content = f"""
-      <section class="home-hero" style="--hero-image: {style_url(home["hero"]["background_image"])};">
-        <div class="home-hero-overlay"></div>
-        <div class="container home-hero-grid home-hero-grid-single">
-          <div class="home-hero-copy">
-{hero_eyebrow}
-            <h1>{br_join(home["hero"]["title_lines"])}</h1>
-{hero_subtitle}
-{hero_button_row}
-          </div>
-        </div>
-      </section>
-
-      <section class="quote-band">
-        <div class="container quote-inner">
-          <p class="quote-mark">&ldquo;</p>
-          <blockquote>{escape(quote["text"])}</blockquote>
-          <p class="quote-author">{escape(quote["author"])}</p>
-        </div>
-      </section>
-
-{render_home_news(home["latest_news"], featured_posts)}
-{render_home_photos(home["photos"], data["photos"]["collections"])}
-{render_home_bld(home["bld"], data["bld"])}
-{render_home_support(home["support"], data["support"])}
-
-      <section class="cta-band" style="--cta-image: {style_url(home["cta"]["background_image"])};">
-        <div class="cta-overlay"></div>
-        <div class="container cta-inner">
-          <h2>{escape(home["cta"]["title"])}</h2>
-          <p>{br_join(home["cta"]["subtitle_lines"])}</p>
-          <div class="button-row">
-{cta_buttons}
-          </div>
-        </div>
-      </section>
-"""
-    return wrap_page(site, "home", home["meta_title"], home["meta_description"], "page-home", content)
+def fact_value(value: str) -> str:
+    match = re.match(r"^(\d+(?:\.\d+)?)(.*)$", value)
+    if not match:
+        return f'<span class="fact-value">{escape(value)}</span>'
+    number, suffix = match.groups()
+    return f'<span class="fact-value" data-count="{number}" data-suffix="{escape(suffix)}">{escape(value)}</span>'
 
 
 def render_home(data: dict) -> str:
-    site = data["site"]
-    home = data["home"]
-    hero_buttons = render_buttons(home["hero"]["buttons"])
-    hero_eyebrow = ""
-    if home["hero"].get("eyebrow"):
-        hero_eyebrow = f'\n            <p class="hero-eyebrow">{escape(home["hero"]["eyebrow"])}</p>'
-    hero_subtitle = ""
-    if home["hero"].get("subtitle"):
-        hero_subtitle = f'\n            <p class="hero-copy">{escape(home["hero"]["subtitle"])}</p>'
-    hero_scroll_label = escape(home["hero"].get("scroll_label", "Scroll for main menu"))
-    hero_button_row = ""
-    if hero_buttons:
-        hero_button_row = f'\n            <div class="button-row">\n{hero_buttons}\n            </div>'
+    site, home = data["site"], data["home"]
+    hero = home["hero"]
+    stats = "".join(
+        f'<li class="fact">{fact_value(s["value"])}<span class="fact-label">{escape(s["label"])}</span></li>'
+        for s in home["stats"]
+    )
+    explore = home["explore"]
+    tree = home["tree_nav"]
+    hotspots = "".join(
+        f'<a href="{attr_url(i["href"])}" class="tree-link {escape(i["class_name"])}" tabindex="-1" aria-hidden="true">'
+        f'{img_tag(i["image"], "", 640)}</a>'
+        for i in tree["items"]
+    )
+    explore_items = "".join(
+        f'<li><a class="explore-link" href="{attr_url(i["href"])}" data-explore="{escape(i["id"])}">'
+        f'<span class="explore-text"><span class="explore-label">{escape(i["label"])}</span>'
+        f'<span class="explore-desc">{escape(i["text"])}</span></span>{ICONS["arrow"]}</a></li>'
+        for i in explore["items"]
+    )
+    posts = data["news"]["items"][: home["latest_news"].get("count", 3)]
+    news_cards = "".join(news_card(p, i == 0) for i, p in enumerate(posts))
+    quote = home["quote"]
+    bld, sup = home["bld_band"], home["support_band"]
+    visit = data["visit"]
     content = f"""
-      <section class="home-hero" style="--hero-image: {style_url(home["hero"]["background_image"])};">
-        <div class="home-hero-overlay"></div>
-        <div class="container home-hero-grid home-hero-grid-single">
-          <div class="home-hero-copy">
-{hero_eyebrow}
-            <h1>{br_join(home["hero"]["title_lines"])}</h1>
-{hero_subtitle}
-{hero_button_row}
-            <a href="#choose-a-branch" class="home-scroll-cue">{hero_scroll_label} {SVG_ICONS["arrow"]}</a>
-          </div>
-        </div>
-      </section>
+<section class="hero" aria-labelledby="hero-title">
+  <picture class="hero-media">
+    <source media="(max-width: 700px)" srcset="{attr_url(hero["background_image_small"])}">
+    <img src="{attr_url(hero["background_image"])}" alt="Old European Beech trees casting dappled shade across the lawn at Longwood Mall"{dims(hero["background_image"])} fetchpriority="high">
+  </picture>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  {hero_leaves()}
+  <div class="container hero-content">
+    <p class="hero-eyebrow">{escape(hero["eyebrow"])}</p>
+    <h1 id="hero-title" class="hero-title">{br_join(hero["title_lines"])}</h1>
+    <p class="hero-lede">{escape(hero["subtitle"])}</p>
+    {buttons_row(hero["buttons"])}
+  </div>
+</section>
 
-{render_home_tree_nav(home["tree_nav"], home["hero"].get("subtitle", ""))}
+<section class="facts-band" aria-label="Longwood Mall at a glance">
+  <ul class="container facts">{stats}</ul>
+</section>
+
+<section class="section explore" aria-labelledby="explore-title">
+  <div class="container explore-grid">
+    <div class="explore-copy">
+      <p class="eyebrow">{escape(explore["eyebrow"])}</p>
+      <h2 id="explore-title" class="section-title">{escape(explore["title"])}</h2>
+      <p class="section-lede">{escape(explore["description"])}</p>
+      <ul class="explore-list">{explore_items}</ul>
+    </div>
+    <figure class="explore-tree">
+      <div class="tree-stage">
+        {img_tag(tree["image"], "Illustration of a European Beech tree with wooden signs for each section of the site", 640, cls="tree-image")}
+        <div class="tree-links">{hotspots}</div>
+      </div>
+      <figcaption class="tree-quote"><blockquote>&ldquo;{escape(quote["text"])}&rdquo;</blockquote><cite>{escape(quote["author"])}</cite></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section section-tint" aria-labelledby="news-title">
+  <div class="container">
+    <div class="section-head">
+      <div><p class="eyebrow">From the park</p><h2 id="news-title" class="section-title">Latest news</h2></div>
+      <a class="btn btn-outline" href="latest-news.html"><span>All news</span>{ICONS["arrow"]}</a>
+    </div>
+    <div class="news-grid">{news_cards}</div>
+  </div>
+</section>
+
+<section class="band band-dark" aria-labelledby="bld-title">
+  <div class="container band-grid">
+    <div>
+      <p class="eyebrow eyebrow-light">{escape(bld["eyebrow"])}</p>
+      <h2 id="bld-title" class="section-title">{escape(bld["title"])}</h2>
+    </div>
+    <div>
+      <p class="band-text">{escape(bld["text"])}</p>
+      {buttons_row(bld["buttons"])}
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Visit and support">
+  <div class="container duo">
+    <article class="panel panel-visit">
+      <p class="eyebrow">Plan your visit</p>
+      <h2 class="panel-title">Visit the park</h2>
+      <ul class="info-list">
+        <li>{ICONS["pin"]}<span><strong>Where</strong>{escape(", ".join(visit["address_lines"]))}</span></li>
+        <li>{ICONS["clock"]}<span><strong>When</strong>Open daily, dawn to dusk. Free.</span></li>
+        <li>{ICONS["train"]}<span><strong>By T</strong>One block from Hawes Street (Green Line C)</span></li>
+      </ul>
+      <p class="panel-note">Please help protect the trees: no dogs, and no climbing or sitting on trunks and branches.</p>
+      <div class="button-row">
+        <a class="btn btn-primary" href="visit.html"><span>Visitor information</span>{ICONS["arrow"]}</a>
+        {link(site["directions_href"], "<span>Get directions</span>", "btn btn-outline")}
+      </div>
+    </article>
+    <article class="panel panel-support">
+      {f'<div class="panel-media">{img_tag(sup["image"], sup.get("image_alt", ""), 640)}</div>' if sup.get("image") else ""}
+      <p class="eyebrow">{escape(sup["eyebrow"])}</p>
+      <h2 class="panel-title">{escape(sup["title"])}</h2>
+      <p>{escape(sup["text"])}</p>
+      {buttons_row(sup["buttons"])}
+    </article>
+  </div>
+</section>
 """
     return wrap_page(site, "home", home["meta_title"], home["meta_description"], "page-home", content)
 
 
-def render_page_hero(
-    section: dict,
-    body_class: str = "",
-    include_button_icons: bool = True,
-    include_media: bool = True,
-    description_after_buttons: bool = False,
-) -> str:
-    buttons = (
-        render_buttons(section.get("buttons", []), include_icon=include_button_icons) if section.get("buttons") else ""
-    )
-    button_row = ""
-    if buttons:
-        button_row = f'\n          <div class="button-row">\n{buttons}\n          </div>'
-    eyebrow = section.get("hero_eyebrow", section.get("eyebrow", ""))
-    eyebrow_markup = f'            <p class="hero-eyebrow">{escape(eyebrow)}</p>\n' if eyebrow else ""
-    media_markup = ""
-    if include_media:
-        media_markup = f"""
-          <figure class="page-hero-media">
-            <img src="{attr_url(section["image"])}" alt="{escape(section["description"])}" loading="eager">
-          </figure>"""
-    description = f'            <p class="hero-copy">{escape(section["description"])}</p>'
-    hero_content = f"{eyebrow_markup}{description}{button_row}"
-    if description_after_buttons:
-        hero_content = f"{eyebrow_markup}{button_row}\n{description}"
-    return f"""
-      <section class="page-hero {body_class}">
-{render_title_band(plain_join(section["title_lines"]))}\
-        <div class="container page-hero-grid">
-          <div class="page-hero-copy">
-{hero_content}
-          </div>
-{media_markup}
-        </div>
-      </section>
-"""
+# --------------------------------------------------------------------------- news
 
 
-def render_history_page(data: dict) -> str:
-    site = data["site"]
-    history = data["history"]
-    cards = []
-    tilts = ["-1.8deg", "1.2deg", "-0.7deg", "1.8deg", "-1.1deg"]
-    for index, item in enumerate(history["items"]):
-        rel = ' rel="noopener"' if item.get("external") else ""
-        target = ' target="_blank"' if item.get("external") else ""
-        cards.append(
-            f'          <a class="history-paper-card" href="{attr_url(item["href"])}"{target}{rel} style="--paper-tilt: {tilts[index % len(tilts)]};">\n'
-            f'            <span>{escape(item["label"])}</span>\n'
-            "          </a>"
-        )
-    cards_markup = "\n".join(cards)
-    content = (
-        "      <section class=\"history-menu-page\">\n"
-        "        <div class=\"container history-menu-shell\">\n"
-        f"{render_title_band(escape(history['title']))}"
-        "          <nav class=\"history-paper-grid\" aria-label=\"History links\">\n"
-        f"{cards_markup}\n"
-        "          </nav>\n"
-        "        </div>\n"
-        "      </section>\n"
-    )
-    return wrap_page(site, "history", history["meta_title"], history["meta_description"], "page-interior page-history-menu", content)
+NEWS_LINKS: dict[str, str] = {}
 
 
-def render_history_article_page(site: dict, article: dict) -> str:
+def news_href(post_id: str) -> str:
+    return f"news-{post_id}.html"
+
+
+def post_body(post: dict) -> str:
     images = []
-    for index, image_item in enumerate(article["images"], start=1):
-        if isinstance(image_item, str):
-            image = image_item
-            alt = f'{article["title"]} page {index}'
-            caption = ""
+    group = f'news-{post["id"]}'
+    for item in post.get("images", []):
+        if item.get("href"):
+            cap = f'<figcaption>{escape(item["caption"])}</figcaption>' if item.get("caption") else ""
+            cls = " news-logo" if item.get("variant") == "logo" else ""
+            label = item.get("link_label", item["alt"])
+            extra = f' aria-label="{escape(label)} (opens in a new tab)"' if item.get("external") else f' aria-label="{escape(label)}"'
+            images.append(
+                f'<figure class="zoom-figure{cls}">'
+                + link(item["href"], img_tag(item["src"], item["alt"], 640), "image-link", item.get("external"), extra)
+                + f"{cap}</figure>"
+            )
         else:
-            image = image_item["src"]
-            alt = image_item.get("alt", f'{article["title"]} page {index}')
-            caption = ""
-            if image_item.get("caption"):
-                caption = f'            <figcaption>{escape(image_item["caption"])}</figcaption>\n'
-        images.append(
-            "          <figure class=\"history-document-page\">\n"
-            f'            <button class="history-document-open" type="button" data-document-open data-document-src="{attr_url(image)}" data-document-alt="{escape(alt)}" aria-label="Open {escape(alt)}">\n'
-            f'              <img src="{attr_url(image)}" alt="{escape(alt)}" loading="lazy" decoding="async">\n'
-            "            </button>\n"
-            f"{caption}"
-            "          </figure>"
+            images.append(zoomable_figure(item["src"], item["alt"], item.get("caption", ""), group=group))
+    image_markup = f'<div class="media-grid media-grid-{min(len(images), 3)}">{"".join(images)}</div>' if images else ""
+    embedded = (post.get("iframe") or {}).get("src", "").split("#")[0]
+    post_links = [l for l in post.get("links", []) if l["href"].split("#")[0] != embedded]
+    links = ""
+    if post_links:
+        items = "".join(
+            f"<li>{link(l['href'], escape(l['label']), 'text-link', is_external(l['href']))}</li>"
+            for l in sorted(post_links, key=lambda l: l.get("index", 0))
         )
-    images_markup = "\n".join(images)
-    document_grid_class = "history-document-grid"
-    if len(images) == 1:
-        document_grid_class += " history-document-grid-single"
-    if article.get("image_size") == "small":
-        document_grid_class += " history-document-grid-small"
-    image_note = ""
-    if article.get("image_note"):
-        image_note = f'            <p class="history-document-note">{escape(article["image_note"])}</p>\n'
-    documents_markup = (
-        f"          <div class=\"{document_grid_class}\">\n"
-        f"{images_markup}\n"
-        f"{image_note}"
-        "          </div>\n"
+        links = f'<ul class="resource-list">{items}</ul>'
+    embed = embed_block(post["iframe"]) if post.get("iframe") else ""
+    after = post.get("image_position") == "after_paragraphs"
+    return f"""{"" if after else image_markup}
+<div class="prose">{render_paragraphs(post["paragraphs"])}</div>
+{image_markup if after else ""}
+{links}
+{embed}"""
+
+
+def post_teaser(post: dict, label: str) -> str:
+    return (
+        f'<a class="post-nav-link" href="{attr_url(news_href(post["id"]))}"><span class="post-nav-label">{escape(label)}</span>'
+        f'<span class="post-nav-title">{escape(post["title"])}</span><span class="card-date">{escape(post["date"])}</span></a>'
     )
-    image_after_paragraph = article.get("image_after_paragraph")
-    if isinstance(image_after_paragraph, int):
-        before_images = render_paragraphs(article["paragraphs"][:image_after_paragraph], "history-article-copy")
-        after_images = render_paragraphs(article["paragraphs"][image_after_paragraph:], "history-article-copy")
-        article_body = f"{before_images}\n{documents_markup}{after_images}"
-        trailing_documents = ""
-    else:
-        paragraphs = render_paragraphs(article["paragraphs"], "history-article-copy")
-        article_body = f"{paragraphs}\n"
-        trailing_documents = documents_markup
-    article_title = br_join(article.get("title_lines", [article["title"]]))
-    content = (
-        "      <section class=\"history-article-page\">\n"
-        "        <div class=\"container history-article-shell\">\n"
-        f"{render_title_band(article_title)}"
-        "          <article class=\"history-article-body\">\n"
-        f"{article_body}\n"
-        "          </article>\n"
-        f"{trailing_documents}"
-        "          <dialog class=\"history-document-overlay\" data-document-overlay aria-label=\"Enlarged document page\">\n"
-        "            <button class=\"history-document-close\" type=\"button\" data-document-close aria-label=\"Close document view\">&times;</button>\n"
-        "            <img src=\"\" alt=\"\" data-document-overlay-image>\n"
-        "          </dialog>\n"
-        "        </div>\n"
-        "      </section>\n"
-    )
-    return wrap_page(site, "history", article["meta_title"], article["meta_description"], "page-interior page-history-article", content)
+
+
+def render_news_post_page(site: dict, news: dict, index: int) -> str:
+    items = news["items"]
+    post = items[index]
+    newer = items[index - 1] if index > 0 else None
+    older = items[index + 1] if index + 1 < len(items) else None
+    pager = '<nav class="post-nav" aria-label="More posts">'
+    pager += post_teaser(newer, "Newer post") if newer else "<span></span>"
+    pager += post_teaser(older, "Older post") if older else "<span></span>"
+    pager += "</nav>"
+    header = render_page_header(escape(post["title"]), "", [("Latest news", "latest-news.html")],
+                                eyebrow=post["date"], wide=True, meta="Posted by Friends of Longwood Mall")
+    content = f"""{header}
+<section class="section section-tight">
+  <div class="container">
+    <article class="post-article" aria-labelledby="post-title">{post_body(post)}
+      <p class="post-contact">Questions or something to report? <a href="support.html#contact">Contact the Friends of Longwood Mall</a>.</p>
+    </article>
+    {pager}
+    <p class="article-back"><a class="text-link" href="latest-news.html">{ICONS["prev"]}<span>All news</span></a></p>
+  </div>
+</section>"""
+    page = wrap_page(site, "news", f'{post["title"]} | Longwood Mall', post["summary"], "page-interior page-post", content, lightbox=True)
+    return page.replace('<h1 class="page-title">', '<h1 class="page-title" id="post-title">', 1)
 
 
 def render_news_page(data: dict) -> str:
-    site = data["site"]
-    news = data["news"]
-    list_markup = []
+    site, news = data["site"], data["news"]
+    groups: dict[str, list] = {}
     for post in news["items"]:
-        post_href = f'#{post["id"]}'
-        post_title = escape(post["title"])
-        post_title_link = (
-            f'            <h2><a class="news-page-title-link" href="{attr_url(post_href)}" '
-            f'aria-label="Link directly to: {post_title}">'
-            f"{post_title}</a></h2>\n"
-        )
-        image_blocks = []
-        for item in post.get("images", []):
-            caption = ""
-            if item.get("caption"):
-                caption = f'                <figcaption>{escape(item["caption"])}</figcaption>\n'
-            figure_class = "news-page-image"
-            if item.get("variant"):
-                figure_class += f' news-page-image-{slugify(item["variant"])}'
-            image_markup = (
-                f'                  <img src="{attr_url(item["src"])}" alt="{escape(item["alt"])}" loading="lazy" decoding="async">\n'
+        groups.setdefault(year_of(post["date"]), []).append(post)
+    year_links = "".join(f'<li><a class="year-chip" href="#y{escape(y)}">{escape(y)}</a></li>' for y in groups)
+    sections = []
+    first = True
+    for year, posts in groups.items():
+        cards = []
+        for post in posts:
+            aliases = "".join(
+                f'<span class="anchor-alias" id="{attr_url(a)}" data-post-href="{attr_url(news_href(post["id"]))}"></span>'
+                for a in post.get("anchor_aliases", [])
             )
-            if item.get("href"):
-                rel = ' rel="noopener"' if item.get("external") else ""
-                target = ' target="_blank"' if item.get("external") else ""
-                image_control = (
-                    f'                <a class="news-page-image-link" href="{attr_url(item["href"])}"{target}{rel} aria-label="{escape(item.get("link_label", item["alt"]))}">\n'
-                    f"{image_markup}"
-                    "                </a>\n"
-                )
-            else:
-                image_control = (
-                    f'                <button class="history-document-open" type="button" data-document-open data-document-src="{attr_url(item["src"])}" data-document-alt="{escape(item["alt"])}" aria-label="Open {escape(item["alt"])}">\n'
-                    f"{image_markup}"
-                    "                </button>\n"
-                )
-            image_blocks.append(
-                f"              <figure class=\"{figure_class}\">\n"
-                f"{image_control}"
-                f"{caption}"
-                "              </figure>"
-            )
-        images = "\n".join(image_blocks)
-        images_markup = ""
-        if images:
-            image_grid_class = "news-page-image-grid"
-            if post.get("image_size") == "small":
-                image_grid_class += " news-page-image-grid-small"
-            if post.get("image_layout"):
-                image_grid_class += f' news-page-image-grid-{slugify(post["image_layout"])}'
-            images_markup = f"            <div class=\"{image_grid_class}\">\n{images}\n            </div>\n"
-        links = ""
-        if post.get("links"):
-            link_markup = []
-            for link in sorted(post["links"], key=lambda item: item.get("index", 0)):
-                link_markup.append(
-                    f'              <a href="{attr_url(link["href"])}" target="_blank" rel="noopener">{escape(link["label"])} {SVG_ICONS["arrow"]}</a>'
-                )
-            links = f"            <div class=\"bld-page-link-list news-page-link-list\">\n{chr(10).join(link_markup)}\n            </div>"
-        iframe = ""
-        if post.get("iframe"):
-            frame = post["iframe"]
-            iframe = (
-                "\n            <div class=\"bld-page-article-frame news-page-article-frame\">\n"
-                f'              <iframe src="{attr_url(frame["src"])}" title="{escape(frame["title"])}" loading="lazy"></iframe>\n'
-                "            </div>"
-            )
-        before_paragraphs = "" if post.get("image_position") == "after_paragraphs" else images_markup
-        after_paragraphs = images_markup if post.get("image_position") == "after_paragraphs" else ""
-        anchor_aliases = "\n".join(
-            f'          <span class="news-page-anchor-alias" id="{attr_url(alias)}" aria-hidden="true"></span>'
-            for alias in post.get("anchor_aliases", [])
+            card = news_card(post, featured=first)
+            card = card.replace('<article class="news-card', f'<article id="{attr_url(post["id"])}" data-post-href="{attr_url(news_href(post["id"]))}" class="news-card', 1)
+            card = card.replace('<div class="news-card-body">', f'<div class="news-card-body">{aliases}', 1)
+            cards.append(card)
+            first = False
+        sections.append(
+            f'<section class="news-year" id="y{escape(year)}" aria-labelledby="y{escape(year)}-h">'
+            f'<h2 class="news-year-title" id="y{escape(year)}-h">{escape(year)}</h2><div class="news-list">{"".join(cards)}</div></section>'
         )
-        if anchor_aliases:
-            anchor_aliases += "\n"
-        list_markup.append(
-            f"{anchor_aliases}"
-            "          <article class=\"news-page-entry\""
-            f' id="{escape(post["id"])}">\n'
-            f"          <p class=\"card-date\">{escape(post['date'])}</p>\n"
-            f"{post_title_link}"
-            f"{before_paragraphs}"
-            f"{render_paragraphs(post['paragraphs'], 'support-page-copy')}\n"
-            f"{after_paragraphs}"
-            f"{links}\n"
-            f"{iframe}\n"
-            "          </article>"
-        )
-    content = (
-        "      <section class=\"support-page news-page\">\n"
-        "        <div class=\"container support-page-shell news-page-shell\">\n"
-        f"{render_title_band(escape(news['title']))}"
-        f"{render_mobile_jump_links(news['items'], limit=8)}"
-        f"{chr(10).join(list_markup)}\n"
-        "          <dialog class=\"history-document-overlay\" data-document-overlay aria-label=\"Enlarged news image\">\n"
-        "            <button class=\"history-document-close\" type=\"button\" data-document-close aria-label=\"Close image view\">&times;</button>\n"
-        "            <img src=\"\" alt=\"\" data-document-overlay-image>\n"
-        "          </dialog>\n"
-        "        </div>\n"
-        "      </section>\n"
+    header = render_page_header(
+        "Latest news",
+        "Events, plantings, Beech Leaf Disease treatment, and other updates from Longwood Mall, newest first.",
+        [("Latest news", None)],
+        eyebrow=news.get("eyebrow", "Updates"),
+        meta=f'{len(news["items"])} posts, 2012 to 2026',
+        actions=f'<nav class="year-nav" aria-label="Jump to year"><ul>{year_links}</ul></nav>',
     )
-    return wrap_page(site, "news", news["meta_title"], news["meta_description"], "page-interior", content)
+    content = f'{header}<div class="container news-archive">{"".join(sections)}</div>'
+    return wrap_page(site, "news", news["meta_title"], news["meta_description"], "page-interior page-news", content)
+
+
+# --------------------------------------------------------------------------- photos
 
 
 def render_photos_overview(data: dict) -> str:
-    site = data["site"]
-    photos = data["photos"]
+    site, photos = data["site"], data["photos"]
     cards = []
-    for collection in photos["collections"]:
+    for c in photos["collections"]:
+        if c["id"] == "inventory":
+            count = len(resolve_inventory_groups(c))
+            count_label = f"{count} trees"
+        else:
+            count_label = f"{len(resolve_collection_items(c))} photos"
         cards.append(
-            f'          <a href="{attr_url(collection["slug"])}" class="photo-portal" style="--photo-card-image: {style_url(collection["image"])};">\n'
-            "            <div class=\"photo-portal-body\">\n"
-            f"              <h2>{escape(collection['eyebrow'])}</h2>\n"
-            "            </div>\n"
-            "          </a>"
+            f'<article class="collection-card"><div class="collection-media">{img_tag(c["image"], "", 640)}</div>'
+            f'<div class="collection-body"><p class="card-meta">{escape(count_label)}</p>'
+            f'<h2 class="collection-title"><a class="stretched-link" href="{attr_url(c["slug"])}">{escape(" ".join(c["title_lines"]))}</a></h2>'
+            f'<p>{escape(c["summary"])}</p><span class="text-link" aria-hidden="true">View collection {ICONS["arrow"]}</span></div></article>'
         )
-    content = (
-        "      <section class=\"photos-hub\">\n"
-        "        <div class=\"container photos-hub-shell\">\n"
-        "          <div class=\"photos-hub-intro\">\n"
-        f"{render_title_band(br_join(photos['hero']['title_lines']))}"
-        "          </div>\n"
-        "          <div class=\"photos-hub-grid\">\n"
-        f"{''.join(cards)}\n"
-        "          </div>\n"
-        "        </div>\n"
-        "      </section>\n"
+    video = photos["drone_video"]
+    cards.append(
+        f'<article class="collection-card collection-card-video"><div class="collection-body"><p class="card-meta">{len(video["reels"])} short videos</p>'
+        f'<h2 class="collection-title"><a class="stretched-link" href="{attr_url(video["slug"])}">Drone video</a></h2>'
+        f'<p>Fly over the grove: short aerial clips of Longwood Mall shared on Instagram.</p><span class="text-link" aria-hidden="true">Watch {ICONS["arrow"]}</span></div></article>'
     )
-    return wrap_page(
-        site,
-        "photos",
-        photos["meta_title"],
-        photos["meta_description"],
-        "page-interior page-photos-overview",
-        content,
+    header = render_page_header(
+        "Photos",
+        "Browse the park today, from above, tree by tree, and through more than a century of historical images.",
+        [("Photos", None)],
+        eyebrow="Collections",
+        actions=f'<div class="button-row"><a class="btn btn-outline" href="mailto:{attr_url(site["contact_email"])}?subject=Photo%20for%20Longwood%20Mall">{ICONS["mail"]}<span>Share a photo with us</span></a></div>',
     )
+    content = f'{header}<section class="section section-tight"><div class="container collection-grid">{"".join(cards)}</div></section>'
+    return wrap_page(site, "photos", photos["meta_title"], photos["meta_description"], "page-interior page-photos", content)
 
 
-def render_scroll_gallery(items: list[dict]) -> str:
-    slides = []
+def pile_offsets(index: int) -> tuple[float, float]:
+    """Deterministic 'tossed print' tilt (degrees) and sideways shift (%) for a photo in the pile."""
+    unit = lambda seed: (math.sin(index * 127.1 + seed * 311.7) * 43758.5453) % 1
+    tilt = (2 + unit(3) * 3.5) * (-1 if index % 2 == 0 else 1)
+    shift = (unit(2) - 0.5) * 14
+    return round(tilt, 2), round(shift, 2)
+
+
+def render_gallery(items: list[dict], group: str = "gallery") -> str:
+    """One set of photos that can be shown as the signature 'photo pile' or as a grid."""
+    total = len(items)
+    photos = []
     for index, item in enumerate(items):
-        title = item.get("title") or item.get("caption") or f"Image {index + 1}"
-        loading = "eager" if index < 2 else "lazy"
-        source_caption = render_source_caption(item)
-        slides.append(
-            "            <figure class=\"slide\""
-            f' data-gallery-slide data-title="{escape(title)}">\n'
-            f'              <img src="{attr_url(item["src"])}" alt="{escape(item["alt"])}" loading="{loading}" decoding="async">\n'
-            f"{source_caption}"
-            "            </figure>"
+        source = item.get("source") or {}
+        caption = item.get("caption", "")
+        credit = source.get("label", "")
+        credit_url = source.get("url", "")
+        cap_parts = []
+        if caption:
+            cap_parts.append(f'<span class="photo-caption">{escape(caption)}</span>')
+        if credit:
+            src_link = link(credit_url, escape(credit), "photo-credit-link", True) if credit_url else escape(credit)
+            cap_parts.append(f'<span class="photo-credit">Source: {src_link}</span>')
+        cap_parts.append(f'<span class="photo-number" aria-hidden="true">{index + 1:02d} / {total:02d}</span>')
+        tilt, shift = pile_offsets(index)
+        size = image_size(resized(item["src"], 640)) or image_size(item["src"]) or (4, 3)
+        ratio = round(size[0] / size[1], 4)
+        photos.append(
+            f'<figure class="photo" style="--i: {index + 1}; --tilt: {tilt}deg; --shift: {shift}%; --ar: {ratio}" data-photo>'
+            f'<button class="zoom-trigger" type="button" data-lightbox-item data-group="{group}" data-src="{attr_url(item["src"])}" '
+            f'data-alt="{escape(item["alt"])}" data-caption="{escape(caption)}" data-credit="{escape(credit)}" data-credit-url="{attr_url(credit_url)}">'
+            f'{img_tag(item["src"], item["alt"], 640, "eager" if index < 3 else "lazy")}'
+            f'<span class="zoom-hint">{ICONS["expand"]}<span class="visually-hidden"> (photo {index + 1} of {total}, enlarge)</span></span></button>'
+            f'<figcaption>{"".join(cap_parts)}</figcaption></figure>'
         )
-    return (
-        "      <section class=\"gallery-shell\" id=\"gallery-start\" data-gallery-shell>\n"
-        "        <div class=\"sticky-wrap\">\n"
-        "          <div class=\"stage\" data-gallery-stage>\n"
-        f"{''.join(slides)}\n"
-        "          </div>\n"
-        "        </div>\n"
-        "      </section>\n"
-        "      <div class=\"gallery-status\" data-gallery-status hidden>\n"
-        "        <span class=\"dot\" aria-hidden=\"true\"></span>\n"
-        "        <span data-gallery-status-text>00 / 00</span>\n"
-        "      </div>\n"
+    captioned = " photos-captioned" if any(i.get("caption") or (i.get("source") or {}).get("label") for i in items) else ""
+    return f"""<div class="gallery-view" data-gallery-view data-view="pile">
+  <div class="view-bar">
+    <p class="view-hint"><span class="view-hint-pile">Scroll to leaf through the pile.</span><span class="view-hint-grid">All {total} photos at a glance.</span> Select any photo to enlarge it.</p>
+    <div class="view-toggle" role="group" aria-label="Gallery layout">
+      <button type="button" class="view-btn" data-view-btn="pile" aria-pressed="true">Photo pile</button>
+      <button type="button" class="view-btn" data-view-btn="grid" aria-pressed="false">Grid</button>
+    </div>
+  </div>
+  <div class="photos{captioned}" data-photos>{"".join(photos)}</div>
+  <button type="button" class="pile-counter" data-pile-counter data-view-btn="grid"><span aria-hidden="true"><span data-pile-current>01</span> / {total:02d}</span><span class="pile-counter-action">Show grid</span></button>
+</div>"""
+
+
+def collection_actions(site: dict, collection: dict, extra: list[dict] | None = None) -> str:
+    items = list(extra or [])
+    for b in collection.get("buttons", []):
+        if b["href"] == "photos.html":
+            continue
+        if b["href"].startswith("mailto:"):
+            items.append({"label": "Share a photo", "href": f'mailto:{site["contact_email"]}?subject=Photo%20for%20Longwood%20Mall', "variant": "outline"})
+        else:
+            items.append({**b, "variant": "outline"})
+    return buttons_row(items)
+
+
+def render_gallery_page(site: dict, collection: dict, items: list[dict] | None = None, page_title: str | None = None,
+                        page_description: str | None = None, title: str | None = None, trail: list | None = None,
+                        extra_buttons: list[dict] | None = None, pager: str = "") -> str:
+    gallery_items = items if items is not None else resolve_collection_items(collection)
+    active = "photos"
+    heading = title or " ".join(collection["title_lines"])
+    if trail is None:
+        trail = [("Photos", "photos.html"), (heading, None)]
+    header = render_page_header(
+        escape(heading),
+        collection["description"],
+        trail,
+        eyebrow="Photo collection",
+        meta=f"{len(gallery_items)} photos",
+        actions=collection_actions(site, collection, extra_buttons),
     )
+    content = f'{header}<section class="section section-tight"><div class="container">{render_gallery(gallery_items)}{pager}</div></section>'
+    return wrap_page(site, active, page_title or collection["page_title"], page_description or collection["page_description"],
+                     "page-interior page-gallery", content, lightbox=True)
 
 
 def render_inventory_index(site: dict, collection: dict, groups: list[dict]) -> str:
-    cards = []
-    for group in groups:
-        cards.append(
-            "        <a class=\"inventory-group-card\""
-            f' href="{attr_url(group["slug"])}">\n'
-            f'          <img src="{attr_url(group["image"])}" alt="{escape(group["label"])}" loading="lazy">\n'
-            "          <div class=\"inventory-group-card-body\">\n"
-            f'            <h2>{escape(group["label"])}</h2>\n'
-            "          </div>\n"
-            "        </a>"
-        )
-    hero = {**collection, "hero_eyebrow": ""}
-    content = (
-        f"{render_page_hero(hero, include_button_icons=False, include_media=False, description_after_buttons=True)}\n"
-        "      <section class=\"section inventory-index-section\">\n"
-        "        <div class=\"container inventory-group-grid\">\n"
-        f"{''.join(cards)}\n"
-        "        </div>\n"
-        "      </section>\n"
+    cards = "".join(
+        f'<article class="tree-card"><div class="tree-card-media">{img_tag(g["image"], "", 640)}</div>'
+        f'<div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="{attr_url(g["slug"])}">{escape(g["label"])}</a></h2>'
+        f'<p class="card-meta">{len(g["items"])} photos</p></div></article>'
+        for g in groups
     )
-    return wrap_page(site, "photos", collection["page_title"], collection["page_description"], "page-interior page-inventory-index", content)
-
-
-def render_gallery_page_header(section: dict) -> str:
-    buttons = render_buttons(section.get("buttons", []), include_icon=False) if section.get("buttons") else ""
-    button_row = f'\n          <div class="button-row">\n{buttons}\n          </div>' if buttons else ""
-    scroll_label = section.get("scroll_label", "Scroll for more photos")
-    scroll_cue = ""
-    if section.get("show_scroll_cue", True):
-        scroll_cue = (
-            f'            <a class="gallery-scroll-cue" href="#gallery-start" aria-label="{escape(scroll_label)}">\n'
-            f"              <span>{escape(scroll_label)}</span>\n"
-            f"              {SVG_ICONS['arrow']}\n"
-            "            </a>\n"
-        )
-    return (
-        "      <section class=\"gallery-page-header\">\n"
-        f"{render_title_band(plain_join(section['title_lines']))}"
-        "        <div class=\"container gallery-page-header-inner\">\n"
-        "          <div class=\"gallery-page-copy\">\n"
-        f"{button_row}\n"
-        f'            <p class="hero-copy">{escape(section["description"])}</p>\n'
-        f"{scroll_cue}"
-        "          </div>\n"
-        "        </div>\n"
-        "      </section>\n"
+    header = render_page_header(
+        "Tree inventory",
+        f'{collection["description"]} Each of the {len(groups)} beech trees has its own set of photos.',
+        [("Photos", "photos.html"), ("Tree inventory", None)],
+        eyebrow="Photo collection",
+        actions=collection_actions(site, collection),
     )
-
-
-def render_mobile_jump_links(items: list[dict], label_key: str = "title", limit: int | None = None) -> str:
-    visible_items = items[:limit] if limit else items
-    links = []
-    for item in visible_items:
-        if not item.get("id"):
-            continue
-        label = item.get(label_key, "")
-        if not label:
-            continue
-        links.append(
-            f'            <a href="#{attr_url(item["id"])}">{escape(label)}</a>'
-        )
-    if not links:
-        return ""
-    return (
-        "          <nav class=\"mobile-page-jump-list\" aria-label=\"Page sections\">\n"
-        f"{chr(10).join(links)}\n"
-        "          </nav>\n"
-    )
-
-
-def render_gallery_page(site: dict, collection: dict, items: list[dict] | None = None, page_title: str | None = None, page_description: str | None = None, title_lines: list[str] | None = None, buttons: list[dict] | None = None) -> str:
-    gallery_items = items if items is not None else resolve_collection_items(collection)
-    section = dict(collection)
-    if title_lines is not None:
-        section["title_lines"] = title_lines
-    if page_title is not None:
-        section["page_title"] = page_title
-    if page_description is not None:
-        section["page_description"] = page_description
-    if buttons is not None:
-        section["buttons"] = buttons
-    content = f"{render_gallery_page_header(section)}\n{render_scroll_gallery(gallery_items)}"
-    active_nav = "history" if collection.get("id") == "historical" else "photos"
-    return wrap_page(site, active_nav, section["page_title"], section["page_description"], "page-interior page-photo-gallery", content)
+    content = f'{header}<section class="section section-tight"><div class="container tree-grid">{cards}</div></section>'
+    return wrap_page(site, "photos", collection["page_title"], collection["page_description"], "page-interior page-inventory", content)
 
 
 def render_drone_video_page(data: dict) -> str:
     site = data["site"]
     section = data["photos"]["drone_video"]
-    reels = []
-    for index, reel in enumerate(section["reels"], start=1):
-        permalink = reel["permalink"]
-        embed_url = f"{permalink}?utm_source=ig_embed&utm_campaign=loading"
-        reels.append(
-            "          <article class=\"drone-reel-card\">\n"
-            f'            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="{attr_url(embed_url)}" data-instgrm-version="14">\n'
-            "              <div>\n"
-            f'                <a href="{attr_url(embed_url)}" target="_blank" rel="noopener">View drone video {index} on Instagram</a>\n'
-            "              </div>\n"
-            "            </blockquote>\n"
-            "          </article>"
-        )
-    content = (
-        f"{render_gallery_page_header(section)}\n"
-        "      <section class=\"drone-video-section\" id=\"gallery-start\">\n"
-        "        <div class=\"container drone-reel-grid\">\n"
-        f"{chr(10).join(reels)}\n"
-        "        </div>\n"
-        "      </section>\n"
-        "      <script async src=\"https://www.instagram.com/embed.js\"></script>\n"
+    reels = "".join(
+        f'<article class="reel-card"><blockquote class="instagram-media" data-instgrm-captioned '
+        f'data-instgrm-permalink="{attr_url(r["permalink"])}?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">'
+        f'{link(r["permalink"], f"Watch drone video {i} on Instagram", "text-link", True)}</blockquote></article>'
+        for i, r in enumerate(section["reels"], start=1)
     )
-    return wrap_page(site, "photos", section["page_title"], section["page_description"], "page-interior page-photo-gallery page-drone-video", content)
+    header = render_page_header(
+        "Drone video",
+        "Short aerial clips of Longwood Mall, shared on the park's Instagram account.",
+        [("Photos", "photos.html"), ("Drone video", None)],
+        eyebrow="Video",
+        actions=buttons_row([{"label": "Aerial photos", "href": "aerial-photos.html", "variant": "outline"}]),
+    )
+    content = (
+        f'{header}<section class="section section-tight"><div class="container reel-grid">{reels}</div></section>'
+        '<script async src="https://www.instagram.com/embed.js"></script>'
+    )
+    return wrap_page(site, "photos", section["page_title"], section["page_description"], "page-interior page-video", content)
+
+
+# --------------------------------------------------------------------------- history
+
+
+def render_history_page(data: dict) -> str:
+    site, history = data["site"], data["history"]
+    cards, reading = [], []
+    for item in history["items"]:
+        if item.get("external"):
+            reading.append(
+                f'<li class="reading-item"><p class="card-meta">{escape(item.get("kicker", ""))}</p>'
+                f'{link(item["href"], escape(item["label"]), "reading-link", True)}<p>{escape(item.get("summary", ""))}</p></li>'
+            )
+            continue
+        media = f'<div class="history-card-media">{img_tag(item["image"], "", 640)}</div>' if item.get("image") else ""
+        cards.append(
+            f'<article class="history-card">{media}<div class="history-card-body"><p class="card-meta">{escape(item.get("kicker", ""))}</p>'
+            f'<h2 class="history-card-title"><a class="stretched-link" href="{attr_url(item["href"])}">{escape(item["label"])}</a></h2>'
+            f'<p>{escape(item.get("summary", ""))}</p><span class="text-link" aria-hidden="true">{escape(item.get("cta", "Read"))} {ICONS["arrow"]}</span></div></article>'
+        )
+    reading_markup = ""
+    if reading:
+        reading_markup = (
+            '<section class="further-reading" aria-labelledby="reading-title"><h2 class="section-subtitle" id="reading-title">Further reading on other sites</h2>'
+            f'<ul class="reading-list">{"".join(reading)}</ul></section>'
+        )
+    header = render_page_header("History", history["description"], [("History", None)], eyebrow="Since the 1840s")
+    content = f'{header}<section class="section section-tight"><div class="container"><div class="history-grid">{"".join(cards)}</div>{reading_markup}</div></section>'
+    return wrap_page(site, "history", history["meta_title"], history["meta_description"], "page-interior page-history", content)
+
+
+def render_history_article_page(site: dict, article: dict) -> str:
+    figures = []
+    for index, image_item in enumerate(article["images"], start=1):
+        if isinstance(image_item, str):
+            src, alt, caption = image_item, f'{article["title"]}, page {index}', ""
+        else:
+            src = image_item["src"]
+            alt = image_item.get("alt", f'{article["title"]}, page {index}')
+            caption = image_item.get("caption", "")
+        figures.append(zoomable_figure(src, alt, caption, "document", group="doc"))
+    size_cls = " documents-small" if article.get("image_size") == "small" else ""
+    single = " documents-single" if len(figures) == 1 else ""
+    note = f'<p class="documents-note">{escape(article["image_note"])}</p>' if article.get("image_note") else ""
+    documents = f'<div class="documents{size_cls}{single}">{"".join(figures)}</div>{note}'
+    split = article.get("image_after_paragraph")
+    if isinstance(split, int):
+        body = f'{render_paragraphs(article["paragraphs"][:split])}{documents}{render_paragraphs(article["paragraphs"][split:])}'
+    else:
+        body = f'{render_paragraphs(article["paragraphs"])}{documents}'
+    title = plain_join(article.get("title_lines", [article["title"]]))
+    header = render_page_header(title, "", [("History", "history.html"), (article["title"], None)], eyebrow="History")
+    content = f"""{header}<section class="section section-tight"><div class="container"><article class="prose prose-article">{body}</article>
+<p class="article-back"><a class="text-link" href="history.html">{ICONS["prev"]}<span>All history</span></a></p></div></section>"""
+    return wrap_page(site, "history", article["meta_title"], article["meta_description"], "page-interior page-article", content, lightbox=True)
+
+
+# --------------------------------------------------------------------------- BLD
+
+
+def video_card(section: dict) -> str:
+    video = section["youtube"]
+    vid = video["id"]
+    thumbs = ""
+    if section.get("images"):
+        thumbs = '<div class="video-card-thumbs">' + "".join(
+            zoomable_figure(i["src"], i["alt"], group=f'bld-{section["id"]}') for i in section["images"]
+        ) + "</div>"
+    return f"""<article class="video-card" id="{attr_url(section["id"])}">
+  <div class="video-embed" data-youtube="{attr_url(vid)}" data-title="{escape(video["title"])}">
+    <button class="video-facade" type="button" aria-label="Play video: {escape(section.get("card_title", video["title"]))}">
+      <img src="https://i.ytimg.com/vi/{attr_url(vid)}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+      <span class="video-play" aria-hidden="true">{ICONS["play"]}</span>
+    </button>
+  </div>
+  <div class="video-card-body">
+    <p class="card-date">{escape(section.get("date", ""))}</p>
+    <h3 class="video-card-title">{escape(section.get("card_title", section["title"]))}</h3>
+    <p>{escape(section.get("card_text", ""))}</p>
+    {thumbs}
+    {link("https://www.youtube.com/watch?v=" + vid, "Watch on YouTube", "text-link", True)}
+  </div>
+</article>"""
 
 
 def render_bld_page(data: dict) -> str:
-    site = data["site"]
-    bld = data["bld"]
-    sections = []
-    for section in bld["page_sections"]:
-        paragraphs = render_paragraphs(section.get("paragraphs", []), "support-page-copy")
-        images = "\n".join(
-            f'              <figure class="bld-page-image {escape(image.get("class_name", ""))}">\n'
-            f'                <img src="{attr_url(image["src"])}" alt="{escape(image["alt"])}" loading="lazy" decoding="async">\n'
-            "              </figure>"
-            for image in section.get("images", [])
-        )
-        images_markup = f"\n            <div class=\"bld-page-image-grid\">\n{images}\n            </div>" if images else ""
-        youtube = ""
-        if section.get("youtube"):
-            video = section["youtube"]
-            youtube = (
-                "\n            <div class=\"bld-page-video\">\n"
-                f'              <iframe src="https://www.youtube-nocookie.com/embed/{attr_url(video["id"])}" title="{escape(video["title"])}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>\n'
-                "            </div>"
-            )
-        iframe = ""
-        if section.get("iframe"):
-            frame = section["iframe"]
-            iframe = (
-                "\n            <div class=\"bld-page-article-frame\">\n"
-                f'              <iframe src="{attr_url(frame["src"])}" title="{escape(frame["title"])}" loading="lazy"></iframe>\n'
-                "            </div>"
-            )
-        links = []
-        for item in sorted(section.get("links", []), key=lambda link: link.get("index", 0)):
-            rel = ' rel="noopener"' if item.get("external") else ""
-            target = ' target="_blank"' if item.get("external") else ""
-            links.append(
-                f'              <a href="{attr_url(item["href"])}"{target}{rel}>{escape(item["label"])} {SVG_ICONS["arrow"]}</a>'
-            )
-        links_markup = f"\n            <div class=\"bld-page-link-list\">\n{chr(10).join(links)}\n            </div>" if links else ""
-        sections.append(
-            f'          <section class="bld-page-section" id="{attr_url(section["id"])}">\n'
-            f"            <h2>{escape(section['title'])}</h2>\n"
-            f"{paragraphs}{images_markup}{youtube}{iframe}{links_markup}\n"
-            "          </section>"
-        )
-    content = (
-        "      <section class=\"support-page bld-page\">\n"
-        "        <div class=\"container support-page-shell bld-page-shell\">\n"
-        f"{render_title_band(escape(bld['title']))}"
-        f"{render_mobile_jump_links(bld['page_sections'])}"
-        f"{chr(10).join(sections)}\n"
-        "        </div>\n"
-        "      </section>\n"
+    site, bld = data["site"], data["bld"]
+    secs = {s["id"]: s for s in bld["page_sections"]}
+    glance = "".join(
+        f'<article class="glance-card"><h2 class="glance-title">{escape(g["title"])}</h2><p>{escape(g["text"])}</p>'
+        + (f'<a class="text-link" href="{attr_url(g["href"])}">{escape(g["link_label"])} {ICONS["arrow"]}</a>' if g.get("href") else "")
+        + "</article>"
+        for g in bld["at_a_glance"]
     )
-    return wrap_page(site, "bld", bld["meta_title"], bld["meta_description"], "page-interior", content)
+    updates = "".join(
+        f'<li class="timeline-item"><p class="card-date">{escape(u["date"])}</p><h3 class="timeline-title"><a href="{attr_url(u["href"])}">{escape(u["title"])}</a></h3><p>{escape(u["text"])}</p></li>'
+        for u in bld["updates"]
+    )
+    about = secs["what-is-bld"]
+    videos = [s for s in bld["page_sections"] if s.get("youtube")]
+    article = secs.get("brookline-news")
+    article_card = ""
+    if article:
+        article_card = link_card(article["iframe"]["title"], article["iframe"]["src"], f'Brookline.News · {article.get("date", "")}',
+                                 article.get("card_text", ""), cta="Read the article")
+    reading = secs.get("links", {"links": []})
+    reading_items = "".join(
+        f"<li>{link(l['href'], escape(l['label']), 'text-link', True)}</li>"
+        for l in sorted(reading["links"], key=lambda l: l.get("index", 0))
+    )
+    toc = [("updates", "Treatment timeline"), ("what-is-bld", about["title"]), ("videos", "Videos and webinars"),
+           ("brookline-news", "In the news"), ("links", reading.get("title", "Further reading"))]
+    toc_links = "".join(f'<li><a href="#{attr_url(i)}" data-toc-link>{escape(t)}</a></li>' for i, t in toc)
+    header = render_page_header("Beech Leaf Disease", bld["description"], [("Beech Leaf Disease", None)], eyebrow="Protecting the grove")
+    content = f"""{header}
+<section class="section section-tight" aria-label="At a glance">
+  <div class="container"><div class="glance-grid">{glance}</div></div>
+</section>
+<div class="container layout-sidebar">
+  <aside class="sidebar" aria-label="On this page">
+    <details class="toc" data-toc open><summary class="toc-summary">On this page</summary><ol class="toc-list">{toc_links}</ol></details>
+  </aside>
+  <div class="layout-main">
+    <section class="doc-section" id="updates" aria-labelledby="updates-h">
+      <h2 class="doc-section-title" id="updates-h">Treatment timeline at Longwood Mall</h2>
+      <ol class="timeline">{updates}</ol>
+    </section>
+    <section class="doc-section" id="what-is-bld" aria-labelledby="what-is-bld-h">
+      <h2 class="doc-section-title" id="what-is-bld-h">{escape(about["title"])}</h2>
+      <div class="prose">{render_paragraphs(about["paragraphs"])}</div>
+    </section>
+    <section class="doc-section" id="videos" aria-labelledby="videos-h">
+      <h2 class="doc-section-title" id="videos-h">Videos and webinars</h2>
+      <div class="video-grid">{"".join(video_card(v) for v in videos)}</div>
+    </section>
+    <section class="doc-section" id="brookline-news" aria-labelledby="news-h">
+      <h2 class="doc-section-title" id="news-h">In the news</h2>
+      {article_card}
+    </section>
+    <section class="doc-section" id="links" aria-labelledby="links-h">
+      <h2 class="doc-section-title" id="links-h">{escape(reading.get("title", "Further reading"))}</h2>
+      <ul class="resource-list resource-list-2">{reading_items}</ul>
+    </section>
+  </div>
+</div>"""
+    return wrap_page(site, "bld", bld["meta_title"], bld["meta_description"], "page-interior page-bld", content, lightbox=True)
+
+
+# --------------------------------------------------------------------------- visit / support / donations
+
+
+def render_visit_page(data: dict) -> str:
+    site, visit = data["site"], data["visit"]
+    facts = "".join(f'<div class="fact-row"><dt>{escape(f["label"])}</dt><dd>{escape(f["value"])}</dd></div>' for f in visit["facts"])
+    ways = "".join(f'<article class="way"><h3 class="way-title">{escape(w["title"])}</h3><p>{escape(w["text"])}</p></article>' for w in visit["getting_there"])
+    rules = "".join(f"<li>{escape(r)}</li>" for r in visit["rules"])
+    signs = "".join(zoomable_figure(i["src"], i["alt"], cls="sign", group="signs") for i in visit["images"])
+    header = render_page_header(escape(visit["title"]), visit["description"], [("Visit", None)], eyebrow=visit["eyebrow"])
+    content = f"""{header}
+<section class="section section-tight">
+  <div class="container visit-grid">
+    <div class="panel visit-info">
+      <h2 class="panel-title">Location and hours</h2>
+      <address class="visit-address">{ICONS["pin"]}<span>{"<br>".join(escape(l) for l in visit["address_lines"])}</span></address>
+      <dl class="fact-list">{facts}</dl>
+      <div class="button-row">{link(site["directions_href"], "<span>Get directions</span>", "btn btn-primary")}</div>
+    </div>
+    <figure class="map-frame">
+      <iframe src="{attr_url(visit["map_embed"])}" title="Map of the walking route from the Hawes Street T stop to Longwood Mall in Brookline, Massachusetts" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <figcaption class="map-caption">{escape(visit.get("map_caption", ""))}</figcaption>
+    </figure>
+  </div>
+</section>
+<section class="section section-tint" aria-labelledby="getting-there">
+  <div class="container">
+    <h2 class="section-title" id="getting-there">Getting there</h2>
+    <div class="ways">{ways}</div>
+  </div>
+</section>
+<section class="section" id="rules" aria-labelledby="rules-title">
+  <div class="container rules-grid">
+    <div>
+      <p class="eyebrow">Protect the trees</p>
+      <h2 class="section-title" id="rules-title">Park rules</h2>
+      <p class="section-lede">{escape(visit["rules_intro"])}</p>
+      <ul class="check-list">{rules}</ul>
+    </div>
+    <div class="signs">{signs}</div>
+  </div>
+</section>"""
+    return wrap_page(site, "visit", visit["meta_title"], visit["meta_description"], "page-interior page-visit", content, lightbox=True)
+
+
+def render_contact_form(site: dict, support: dict) -> str:
+    email = site["contact_email"]
+    return f"""<section class="section section-tint" id="contact" aria-labelledby="contact-title">
+  <div class="container contact-grid">
+    <div>
+      <p class="eyebrow">Get in touch</p>
+      <h2 class="section-title" id="contact-title">{escape(support["contact_title"])}</h2>
+      <p class="section-lede">{escape(support["contact_text"])}</p>
+      <div class="email-box">
+        <p class="email-box-label">Email us directly</p>
+        <p class="email-box-row"><a class="email-address" href="mailto:{attr_url(email)}">{escape(email)}</a>
+        <button class="btn btn-small btn-outline" type="button" data-copy="{attr_url(email)}">{ICONS["copy"]}<span data-copy-label>Copy</span></button></p>
+      </div>
+      <p class="contact-aside">{escape(support.get("contact_reply", ""))} You can also follow and message the park on {link(site["instagram"], "Instagram", "text-link", True)}.</p>
+    </div>
+    <form class="contact-form panel" data-contact-form data-email="{attr_url(email)}" data-subject="{attr_url(support["contact_subject"])}" novalidate>
+      <p class="form-note">All fields are required. Sending opens your email app with the message ready to go; nothing is sent until you press send there.</p>
+      <div class="field">
+        <label for="cf-name">Your name</label>
+        <input id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-error">
+        <p class="field-error" id="cf-name-error" data-error-for="name"></p>
+      </div>
+      <div class="field">
+        <label for="cf-email">Your email</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" required aria-describedby="cf-email-error">
+        <p class="field-error" id="cf-email-error" data-error-for="email"></p>
+      </div>
+      <div class="field">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" rows="6" required aria-describedby="cf-message-error"></textarea>
+        <p class="field-error" id="cf-message-error" data-error-for="message"></p>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit">{ICONS["mail"]}<span>Write email</span></button>
+      <div class="form-status" data-form-status role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</section>"""
 
 
 def render_support_page(data: dict) -> str:
-    site = data["site"]
-    support = data["support"]
-    paragraphs = "\n".join(
-        f'            <p class="support-page-copy">{escape(item)}</p>' for item in support["paragraphs"]
+    site, support = data["site"], data["support"]
+    ways = "".join(
+        f'<article class="way way-card" id="way-{escape(w["id"])}"><span class="way-num" aria-hidden="true">{i:02d}</span>'
+        f'<h2 class="way-title">{escape(w["title"])}</h2><p>{escape(w["text"])}</p>'
+        f'<a class="text-link" href="{attr_url(w["href"])}">{escape(w["link_label"])} {ICONS["arrow"]}</a></article>'
+        for i, w in enumerate(support["ways"], start=1)
     )
-    images = "\n".join(
-        "            <figure class=\"support-sign-image\">\n"
-        f'              <button class="history-document-open" type="button" data-document-open data-document-src="{attr_url(item["src"])}" data-document-alt="{escape(item["alt"])}" aria-label="Open {escape(item["alt"])}">\n'
-        f'                <img src="{attr_url(item["src"])}" alt="{escape(item["alt"])}" loading="lazy" decoding="async">\n'
-        "              </button>\n"
-        "            </figure>"
-        for item in support.get("images", [])
-    )
-    images_markup = ""
-    if images:
-        images_markup = f'          <div class="support-sign-grid">\n{images}\n          </div>\n'
-    fields = []
-    for field in support["form_fields"]:
-        if field == "Write a message":
-            fields.append(
-                f'              <label><span>{escape(field)}</span><textarea name="message" rows="5"></textarea></label>'
-            )
-        else:
-            fields.append(
-                f'              <label><span>{escape(field)}</span><input name="{slugify(field)}" type="text"></label>'
-            )
-    fields_markup = "\n".join(fields)
-    contact_action = f'mailto:{support["contact_email"]}?subject={quote(support["contact_subject"])}'
-    content = (
-        "      <section class=\"support-page\">\n"
-        "        <div class=\"container support-page-shell\">\n"
-        f"{render_title_band(escape(support['title']))}"
-        "          <div class=\"support-page-body\">\n"
-        f'            <p class="support-page-copy">{escape(support["donation_text"])} <a href="{attr_url(support["donation_href"])}" target="_blank" rel="noopener">{escape(support["donation_label"])}</a>.</p>\n'
-        f"{paragraphs}\n"
-        "          </div>\n"
-        f"{images_markup}"
-        "          <section class=\"support-contact-block\">\n"
-        f"            <h2>{escape(support['contact_title'])}</h2>\n"
-        f"            <form class=\"support-contact-form\" action=\"{attr_url(contact_action)}\" method=\"post\" enctype=\"text/plain\">\n"
-        f"{fields_markup}\n"
-        f'              <button class="btn btn-primary" type="submit">{escape(support["submit_label"])}</button>\n'
-        "            </form>\n"
-        f'            <p class="support-thanks">{escape(support["thanks_text"])}</p>\n'
-        "          </section>\n"
-        "          <dialog class=\"history-document-overlay\" data-document-overlay aria-label=\"Enlarged support image\">\n"
-        "            <button class=\"history-document-close\" type=\"button\" data-document-close aria-label=\"Close image view\">&times;</button>\n"
-        "            <img src=\"\" alt=\"\" data-document-overlay-image>\n"
-        "          </dialog>\n"
-        "        </div>\n"
-        "      </section>\n"
-    )
-    return wrap_page(site, "support", support["meta_title"], support["meta_description"], "page-interior", content)
+    header = render_page_header(escape(support["title"]), support["description"], [("Support", None)], eyebrow="Get involved",
+                                actions=buttons_row([{"label": "How to donate", "href": "donations.html", "variant": "primary"},
+                                                     {"label": "Contact the Friends", "href": "#contact", "variant": "outline"}]))
+    content = f"""{header}
+<section class="section section-tight"><div class="container ways ways-3">{ways}</div></section>
+{render_contact_form(site, support)}"""
+    return wrap_page(site, "support", support["meta_title"], support["meta_description"], "page-interior page-support", content)
 
 
 def render_donations_page(data: dict) -> str:
-    site = data["site"]
-    donations = data["donations"]
-    paragraphs = "\n".join(
-        f'            <p class="support-page-copy">{escape(item)}</p>' for item in donations["paragraphs"]
-    )
-    address = "\n".join(f"              <span>{escape(item)}</span>" for item in donations["mail_to"])
-    contact_action = f'mailto:{donations["contact_email"]}?subject={quote(donations["contact_subject"])}'
-    email_link = f'<a href="{attr_url(contact_action)}">'
-    closing_paragraph = escape(donations["closing_paragraph"])
-    closing_paragraph = closing_paragraph.replace("please email me", f"{email_link}please email me</a>")
-    closing_paragraph = closing_paragraph.replace("contact me", f"{email_link}contact me</a>")
-    content = (
-        "      <section class=\"support-page donations-page\">\n"
-        "        <div class=\"container support-page-shell\">\n"
-        f"{render_title_band(escape(donations['title']))}"
-        "          <div class=\"support-page-body\">\n"
-        f"{paragraphs}\n"
-        f'            <p class="support-page-callout">{escape(donations["check_payable"])}</p>\n'
-        f'            <p class="support-page-copy">{escape(donations["mail_intro"])}</p>\n'
-        f"            <address class=\"support-mail-address\">\n{address}\n            </address>\n"
-        f'            <p class="support-page-copy">{closing_paragraph}</p>\n'
-        "          </div>\n"
-        "        </div>\n"
-        "      </section>\n"
-    )
-    return wrap_page(site, "support", donations["meta_title"], donations["meta_description"], "page-interior", content)
+    site, d = data["site"], data["donations"]
+    email = d["contact_email"]
+    subject = quote("Longwood Mall donation")
+    address = "<br>".join(escape(l) for l in d["mail_to"])
+    copy_text = "\n".join(d["mail_to"])
+    header = render_page_header(escape(d["title"]), d["description"], [("Support", "support.html"), ("Donate", None)], eyebrow="Give")
+    content = f"""{header}
+<section class="section section-tight">
+  <div class="container donate-grid">
+    <ol class="steps">
+      <li class="step"><h2 class="step-title">Write a check payable to</h2><p class="step-value">{escape(d["check_payable"])}</p></li>
+      <li class="step"><h2 class="step-title">Mail it to</h2><address class="step-value">{address}</address>
+        <button class="btn btn-small btn-outline" type="button" data-copy="{attr_url(copy_text)}">{ICONS["copy"]}<span data-copy-label>Copy address</span></button></li>
+      <li class="step"><h2 class="step-title">Let us know</h2><p>Email us after you give so we can track donations made for Longwood Mall. Ask us about donor-advised funds or any other questions.</p>
+        <a class="btn btn-primary" href="mailto:{attr_url(email)}?subject={subject}">{ICONS["mail"]}<span>Email the Friends</span></a></li>
+    </ol>
+    <div class="prose donate-why"><h2 class="section-subtitle">Why your gift matters</h2>{render_paragraphs(d["paragraphs"][:2])}</div>
+  </div>
+</section>"""
+    return wrap_page(site, "support", d["meta_title"], d["meta_description"], "page-interior page-donate", content)
+
+
+# --------------------------------------------------------------------------- build
 
 
 def build() -> None:
     data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     site = data["site"]
+    site["visit_address"] = ", ".join(data["visit"]["address_lines"])
 
+    for post in data["news"]["items"]:
+        NEWS_LINKS[post["id"]] = news_href(post["id"])
+        for alias in post.get("anchor_aliases", []):
+            NEWS_LINKS[alias] = news_href(post["id"])
+
+    home = render_home(data)
     outputs = {
-        "index.html": render_home(data),
-        "index-classic.html": render_home_classic(data),
+        "index.html": home,
+        "index-classic.html": home,
         "history.html": render_history_page(data),
         "latest-news.html": render_news_page(data),
         "photos.html": render_photos_overview(data),
         data["photos"]["drone_video"]["slug"]: render_drone_video_page(data),
         "beech-leaf-disease.html": render_bld_page(data),
+        "visit.html": render_visit_page(data),
         "support.html": render_support_page(data),
         "donations.html": render_donations_page(data),
     }
-
     for article in data.get("history_articles", {}).values():
         outputs[article["slug"]] = render_history_article_page(site, article)
+    for index, post in enumerate(data["news"]["items"]):
+        outputs[news_href(post["id"])] = render_news_post_page(site, data["news"], index)
 
     for collection in data["photos"]["collections"]:
         if collection.get("id") == "inventory":
             groups = resolve_inventory_groups(collection)
             outputs[collection["slug"]] = render_inventory_index(site, collection, groups)
-            for group in groups:
-                buttons = [
-                    {
-                        "label": "Back to Inventory Menu",
-                        "href": collection["slug"],
-                        "variant": "outline",
-                    },
-                    collection["buttons"][1],
-                ]
+            for i, group in enumerate(groups):
+                prev_g = groups[i - 1] if i > 0 else None
+                next_g = groups[i + 1] if i + 1 < len(groups) else None
+                pager = '<nav class="pager" aria-label="Other trees">'
+                pager += f'<a class="btn btn-outline" href="{attr_url(prev_g["slug"])}">{ICONS["prev"]}<span>{escape(prev_g["label"])}</span></a>' if prev_g else "<span></span>"
+                pager += f'<a class="btn btn-outline" href="{attr_url(collection["slug"])}"><span>All trees</span></a>'
+                pager += f'<a class="btn btn-outline" href="{attr_url(next_g["slug"])}"><span>{escape(next_g["label"])}</span>{ICONS["next"]}</a>' if next_g else "<span></span>"
+                pager += "</nav>"
                 outputs[group["slug"]] = render_gallery_page(
                     site,
-                    collection,
+                    {**collection, "description": f'{group["label"]} in the November 2025 tree inventory. Photos by Emily Lyons.'},
                     items=group["items"],
                     page_title=group["page_title"],
                     page_description=group["page_description"],
-                    title_lines=[group["label"]],
-                    buttons=buttons,
+                    title=group["label"],
+                    trail=[("Photos", "photos.html"), ("Tree inventory", collection["slug"]), (group["label"], None)],
+                    extra_buttons=[{"label": "All trees", "href": collection["slug"], "variant": "outline"}],
+                    pager=pager,
                 )
             continue
         outputs[collection["slug"]] = render_gallery_page(site, collection)
 
-    for filename, html_output in outputs.items():
-        (ROOT / filename).write_text(html_output, encoding="utf-8")
+    for filename, markup in outputs.items():
+        (ROOT / filename).write_text(markup, encoding="utf-8")
 
 
 if __name__ == "__main__":

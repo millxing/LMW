@@ -1,258 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inventory Photos | Longwood Mall</title>
+  <title>Tree inventory | Longwood Mall</title>
   <meta name="description" content="Inventory photos documenting individual beech trees and inspection views across Longwood Mall.">
+  <meta name="theme-color" content="#1f3a2b">
+  <meta property="og:title" content="Tree inventory | Longwood Mall">
+  <meta property="og:description" content="Inventory photos documenting individual beech trees and inspection views across Longwood Mall.">
+  <meta property="og:image" content="./assets/hero-home-small.jpg">
+  <link rel="icon" href="./assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1781115330">
-  <script src="script.js?v=1777854410" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1793974538">
+  <script>document.documentElement.classList.add("js")</script>
+  <script src="script.js?v=1793973501" defer></script>
 </head>
-<body class="page-interior page-inventory-index">
-  <div class="page-shell">
-<header class="site-header">
+<body class="page-interior page-inventory">
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header" data-header>
   <div class="container header-inner">
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-name">Longwood Mall</span>
+        <span class="brand-sub"><span class="brand-sub-long">Historic public park · </span>Brookline, MA</span>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="nav-toggle-open"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></span><span class="nav-toggle-close"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg></span>
+      <span class="nav-toggle-label">Menu</span>
     </button>
-    <nav class="site-nav" aria-label="Main navigation" data-nav>
-      <p class="site-nav-mobile-brand">Longwood Mall</p>
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="latest-news.html" class="nav-link">Latest News</a>
-          <a href="photos.html" class="nav-link active">Photos</a>
-          <a href="history.html" class="nav-link">History</a>
-          <a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a>
-          <a href="support.html" class="nav-link">Support</a>
-          <a href="https://www.instagram.com/longwoodmall02446/" class="nav-link nav-icon-link" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="nav-icon-label">Instagram</span></a>
+    <div class="nav-scrim" data-nav-scrim hidden></div>
+    <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+      <ul class="nav-list">
+        <li><a href="latest-news.html" class="nav-link">News</a></li><li><a href="photos.html" class="nav-link" aria-current="page">Photos</a></li><li><a href="history.html" class="nav-link">History</a></li><li><a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a></li><li><a href="visit.html" class="nav-link">Visit</a></li><li><a href="support.html" class="btn btn-primary nav-cta">Support the park</a></li>
+      </ul>
     </nav>
   </div>
 </header>
-    <main>
-
-      <section class="page-hero ">
-          <div class="page-title-band">
-            <h1>Tree Inventory</h1>
-          </div>
-        <div class="container page-hero-grid">
-          <div class="page-hero-copy">
-
-          <div class="button-row">
-        <a href="photos.html" class="btn btn-outline">Photos Menu</a>
-        <a href="mailto:longwoodmall02446@gmail.com" class="btn btn-primary">Submit Photo</a>
-          </div>
-            <p class="hero-copy">These were taken by Emily Lyons in November 2025.</p>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="section inventory-index-section">
-        <div class="container inventory-group-grid">
-        <a class="inventory-group-card" href="inventory-2025-10beech01.html">
-          <img src="./assets/Photos/inventory/2025-10Beech01/IMG_3819.jpeg" alt="Tree 01" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 01</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech02.html">
-          <img src="./assets/Photos/inventory/2025-10Beech02/IMG_3834.jpeg" alt="Tree 02" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 02</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech03.html">
-          <img src="./assets/Photos/inventory/2025-10Beech03/IMG_3852.jpeg" alt="Tree 03" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 03</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech04.html">
-          <img src="./assets/Photos/inventory/2025-10Beech04/IMG_3865.jpeg" alt="Tree 04" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 04</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech05.html">
-          <img src="./assets/Photos/inventory/2025-10Beech05/IMG_3879.jpeg" alt="Tree 05" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 05</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech06.html">
-          <img src="./assets/Photos/inventory/2025-10Beech06/IMG_3897.jpeg" alt="Tree 06" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 06</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech07.html">
-          <img src="./assets/Photos/inventory/2025-10Beech07/IMG_3915.jpeg" alt="Tree 07" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 07</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech08.html">
-          <img src="./assets/Photos/inventory/2025-10Beech08/IMG_3940.jpeg" alt="Tree 08" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 08</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech09.html">
-          <img src="./assets/Photos/inventory/2025-10Beech09/IMG_3965.jpeg" alt="Tree 09" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 09</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech10.html">
-          <img src="./assets/Photos/inventory/2025-10Beech10/IMG_4006.jpeg" alt="Tree 10" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 10</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech11.html">
-          <img src="./assets/Photos/inventory/2025-10Beech11/IMG_4018.jpeg" alt="Tree 11" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 11</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech12.html">
-          <img src="./assets/Photos/inventory/2025-10Beech12/IMG_4048.jpeg" alt="Tree 12" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 12</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech13.html">
-          <img src="./assets/Photos/inventory/2025-10Beech13/IMG_4067.jpeg" alt="Tree 13" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 13</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech14.html">
-          <img src="./assets/Photos/inventory/2025-10Beech14/IMG_4094.jpeg" alt="Tree 14" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 14</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech15.html">
-          <img src="./assets/Photos/inventory/2025-10Beech15/IMG_4116 2.jpeg" alt="Tree 15" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 15</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech16.html">
-          <img src="./assets/Photos/inventory/2025-10Beech16/IMG_4127.jpeg" alt="Tree 16" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 16</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech17.html">
-          <img src="./assets/Photos/inventory/2025-10Beech17/IMG_4153.jpeg" alt="Tree 17" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 17</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech18.html">
-          <img src="./assets/Photos/inventory/2025-10Beech18/IMG_4179.jpeg" alt="Tree 18" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 18</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech19.html">
-          <img src="./assets/Photos/inventory/2025-10Beech19/IMG_4192.jpeg" alt="Tree 19" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 19</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech20.html">
-          <img src="./assets/Photos/inventory/2025-10Beech20/IMG_4202.jpeg" alt="Tree 20" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 20</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech21.html">
-          <img src="./assets/Photos/inventory/2025-10Beech21/IMG_4227.jpeg" alt="Tree 21" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 21</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech22.html">
-          <img src="./assets/Photos/inventory/2025-10Beech22/IMG_4244.jpeg" alt="Tree 22" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 22</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech23.html">
-          <img src="./assets/Photos/inventory/2025-10Beech23/IMG_4262.jpeg" alt="Tree 23" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 23</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech24.html">
-          <img src="./assets/Photos/inventory/2025-10Beech24/IMG_4369.jpeg" alt="Tree 24" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 24</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech25.html">
-          <img src="./assets/Photos/inventory/2025-10Beech25/IMG_4350.jpeg" alt="Tree 25" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 25</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech26.html">
-          <img src="./assets/Photos/inventory/2025-10Beech26/IMG_4334.jpeg" alt="Tree 26" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 26</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech27.html">
-          <img src="./assets/Photos/inventory/2025-10Beech27/IMG_4309.jpeg" alt="Tree 27" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 27</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech28.html">
-          <img src="./assets/Photos/inventory/2025-10Beech28/IMG_4299.jpeg" alt="Tree 28" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 28</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech29.html">
-          <img src="./assets/Photos/inventory/2025-10Beech29/IMG_4386.jpeg" alt="Tree 29" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 29</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech30.html">
-          <img src="./assets/Photos/inventory/2025-10Beech30/IMG_4395.jpeg" alt="Tree 30" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 30</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech31.html">
-          <img src="./assets/Photos/inventory/2025-10Beech31/IMG_4411.jpeg" alt="Tree 31" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 31</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech32.html">
-          <img src="./assets/Photos/inventory/2025-10Beech32/IMG_4432.jpeg" alt="Tree 32" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 32</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech33.html">
-          <img src="./assets/Photos/inventory/2025-10Beech33/IMG_4457.jpeg" alt="Tree 33" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 33</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech34.html">
-          <img src="./assets/Photos/inventory/2025-10Beech34/IMG_4469.jpeg" alt="Tree 34" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 34</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech35.html">
-          <img src="./assets/Photos/inventory/2025-10Beech35/IMG_4485.jpeg" alt="Tree 35" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 35</h2>
-          </div>
-        </a>        <a class="inventory-group-card" href="inventory-2025-10beech36.html">
-          <img src="./assets/Photos/inventory/2025-10Beech36/IMG_4495.jpeg" alt="Tree 36" loading="lazy">
-          <div class="inventory-group-card-body">
-            <h2>Tree 36</h2>
-          </div>
-        </a>
-        </div>
-      </section>
-
-    </main>
+<main id="main" tabindex="-1">
+<header class="page-header">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="photos.html">Photos</a></li><li><span aria-current="page">Tree inventory</span></li></ol></nav>
+    <p class="eyebrow">Photo collection</p>
+    <h1 class="page-title">Tree inventory</h1>
+    <p class="page-lede">These were taken by Emily Lyons in November 2025. Each of the 36 beech trees has its own set of photos.</p>
+    
+    <div class="button-row"><a href="mailto:longwoodmall02446@gmail.com?subject=Photo%20for%20Longwood%20Mall" class="btn btn-outline"><span>Share a photo</span></a></div>
+  </div>
+</header><section class="section section-tight"><div class="container tree-grid"><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech01-img-3819-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech01.html">Tree 01</a></h2><p class="card-meta">7 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech02-img-3834-640.webp" alt="" width="640" height="480" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech02.html">Tree 02</a></h2><p class="card-meta">8 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech03-img-3852-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech03.html">Tree 03</a></h2><p class="card-meta">8 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech04-img-3865-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech04.html">Tree 04</a></h2><p class="card-meta">8 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech05-img-3879-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech05.html">Tree 05</a></h2><p class="card-meta">13 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech06-img-3897-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech06.html">Tree 06</a></h2><p class="card-meta">14 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech07-img-3915-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech07.html">Tree 07</a></h2><p class="card-meta">14 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech08-img-3940-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech08.html">Tree 08</a></h2><p class="card-meta">19 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech09-img-3965-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech09.html">Tree 09</a></h2><p class="card-meta">31 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech10-img-4006-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech10.html">Tree 10</a></h2><p class="card-meta">11 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech11-img-4018-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech11.html">Tree 11</a></h2><p class="card-meta">20 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech12-img-4048-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech12.html">Tree 12</a></h2><p class="card-meta">16 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech13-img-4067-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech13.html">Tree 13</a></h2><p class="card-meta">17 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech14-img-4094-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech14.html">Tree 14</a></h2><p class="card-meta">19 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech15-img-4116-2-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech15.html">Tree 15</a></h2><p class="card-meta">14 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech16-img-4127-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech16.html">Tree 16</a></h2><p class="card-meta">12 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech17-img-4153-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech17.html">Tree 17</a></h2><p class="card-meta">1 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech18-img-4179-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech18.html">Tree 18</a></h2><p class="card-meta">13 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech19-img-4192-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech19.html">Tree 19</a></h2><p class="card-meta">10 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech20-img-4202-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech20.html">Tree 20</a></h2><p class="card-meta">20 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech21-img-4227-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech21.html">Tree 21</a></h2><p class="card-meta">18 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech22-img-4244-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech22.html">Tree 22</a></h2><p class="card-meta">10 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech23-img-4262-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech23.html">Tree 23</a></h2><p class="card-meta">19 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech24-img-4369-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech24.html">Tree 24</a></h2><p class="card-meta">14 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech25-img-4350-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech25.html">Tree 25</a></h2><p class="card-meta">18 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech26-img-4334-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech26.html">Tree 26</a></h2><p class="card-meta">11 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech27-img-4309-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech27.html">Tree 27</a></h2><p class="card-meta">20 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech28-img-4299-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech28.html">Tree 28</a></h2><p class="card-meta">9 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech29-img-4386-640.webp" alt="" width="640" height="480" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech29.html">Tree 29</a></h2><p class="card-meta">7 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech30-img-4395-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech30.html">Tree 30</a></h2><p class="card-meta">15 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech31-img-4411-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech31.html">Tree 31</a></h2><p class="card-meta">19 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech32-img-4432-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech32.html">Tree 32</a></h2><p class="card-meta">20 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech33-img-4457-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech33.html">Tree 33</a></h2><p class="card-meta">17 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech34-img-4469-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech34.html">Tree 34</a></h2><p class="card-meta">11 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech35-img-4485-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech35.html">Tree 35</a></h2><p class="card-meta">10 photos</p></div></article><article class="tree-card"><div class="tree-card-media"><img src="./assets/thumbs/photos-inventory-2025-10beech36-img-4495-640.webp" alt="" width="640" height="853" loading="lazy" decoding="async"></div><div class="tree-card-body"><h2 class="tree-card-title"><a class="stretched-link" href="inventory-2025-10beech36.html">Tree 36</a></h2><p class="card-meta">23 photos</p></div></article></div></section>
+</main>
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand"><span>Longwood Mall</span></div>
-    <div class="footer-links">
-          <a href="latest-news.html">Latest News</a>
-          <a href="photos.html">Photos</a>
-          <a href="history.html">History</a>
-          <a href="beech-leaf-disease.html">Beech Leaf Disease</a>
-          <a href="support.html">Support</a>
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand brand-footer" href="index.html">
+        <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+        <span class="brand-text"><span class="brand-name">Longwood Mall</span><span class="brand-sub">Historic public park · Brookline, MA</span></span>
+      </a>
+      <p>A historic public park in Brookline, Massachusetts, home to what is generally considered the oldest grove of European Beech trees in North America. Cared for by the Town of Brookline and the volunteers of Friends of Longwood Mall.</p>
     </div>
-    <div class="footer-utility-links">
-          <a href="https://maps.google.com/?q=Longwood+Mall+Brookline+MA" target="_blank" rel="noopener">Get Directions</a>
-          <a href="mailto:longwoodmall02446@gmail.com">Contact</a>
-          <a class="footer-icon-link" href="https://www.instagram.com/longwoodmall02446/" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="visually-hidden">Instagram</span></a>
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-heading">Explore</h2>
+      <ul class="footer-list"><li><a href="latest-news.html">Latest news</a></li><li><a href="photos.html">Photos</a></li><li><a href="history.html">History</a></li><li><a href="beech-leaf-disease.html">Beech Leaf Disease</a></li><li><a href="visit.html">Visit</a></li><li><a href="support.html">Support the park</a></li></ul>
+    </nav>
+    <div class="footer-col">
+      <h2 class="footer-heading">Visit</h2>
+      <ul class="footer-list footer-list-plain">
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Beech Road, between Kent Street and Hawes Street, Brookline, MA 02446</span></li>
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Open daily, dawn to dusk</span></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Longwood+Mall%2C+Beech+Road%2C+Brookline%2C+MA+02446" class="footer-action" target="_blank" rel="noopener">Get directions<svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
     </div>
+    <div class="footer-col">
+      <h2 class="footer-heading">Contact</h2>
+      <ul class="footer-list">
+        <li><a class="footer-action" href="support.html#contact"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Contact the Friends</span></a></li>
+        <li><a href="https://www.instagram.com/longwoodmall02446/" class="footer-action" target="_blank" rel="noopener"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg><span>Instagram</span><svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; 2026 Friends of Longwood Mall. Longwood Mall is a public park of the Town of Brookline.</p>
+    <a class="footer-top" href="#top"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg><span>Back to top</span></a>
   </div>
 </footer>
-  </div>
+
 </body>
 </html>

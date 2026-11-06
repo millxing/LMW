@@ -1,18 +1,13 @@
 {
   "site": {
     "brand": "Longwood Mall",
-    "font_href": "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap",
+    "font_href": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap",
     "base_title": "Longwood Mall",
     "base_description": "Longwood Mall is a historic park in Brookline, Massachusetts, with stewardship updates, photo collections, Beech Leaf Disease information, and ways to support the grove.",
     "navigation": [
       {
-        "id": "home",
-        "label": "Home",
-        "href": "index.html"
-      },
-      {
         "id": "news",
-        "label": "Latest News",
+        "label": "News",
         "href": "latest-news.html"
       },
       {
@@ -31,22 +26,22 @@
         "href": "beech-leaf-disease.html"
       },
       {
-        "id": "support",
-        "label": "Support",
-        "href": "support.html"
+        "id": "visit",
+        "label": "Visit",
+        "href": "visit.html"
       },
       {
-        "id": "instagram",
-        "label": "Instagram",
-        "href": "https://www.instagram.com/longwoodmall02446/",
-        "external": true,
-        "icon": "instagram"
+        "id": "support",
+        "label": "Support the park",
+        "href": "support.html",
+        "cta": true
       }
     ],
     "footer": {
+      "about": "A historic public park in Brookline, Massachusetts, home to what is generally considered the oldest grove of European Beech trees in North America. Cared for by the Town of Brookline and the volunteers of Friends of Longwood Mall.",
       "links": [
         {
-          "label": "Latest News",
+          "label": "Latest news",
           "href": "latest-news.html"
         },
         {
@@ -62,57 +57,61 @@
           "href": "beech-leaf-disease.html"
         },
         {
-          "label": "Support",
+          "label": "Visit",
+          "href": "visit.html"
+        },
+        {
+          "label": "Support the park",
           "href": "support.html"
         }
       ],
-      "utility_links": [
-        {
-          "label": "Get Directions",
-          "href": "https://maps.google.com/?q=Longwood+Mall+Brookline+MA",
-          "external": true
-        },
-        {
-          "label": "Contact",
-          "href": "mailto:longwoodmall02446@gmail.com"
-        },
-        {
-          "label": "Instagram",
-          "href": "https://www.instagram.com/longwoodmall02446/",
-          "external": true,
-          "icon": "instagram"
-        }
-      ]
-    }
+      "credit": "Friends of Longwood Mall"
+    },
+    "tagline": "Historic public park · Brookline, MA",
+    "contact_email": "longwoodmall02446@gmail.com",
+    "instagram": "https://www.instagram.com/longwoodmall02446/",
+    "directions_href": "https://www.google.com/maps/search/?api=1&query=Longwood+Mall%2C+Beech+Road%2C+Brookline%2C+MA+02446"
   },
   "home": {
-    "meta_title": "Longwood Mall | Brookline",
+    "meta_title": "Longwood Mall | Historic beech grove park in Brookline, MA",
     "meta_description": "Explore Longwood Mall through current updates, photo collections, Beech Leaf Disease information, and ways to support the park.",
     "hero": {
-      "background_image": "./assets/hero.jpg",
+      "background_image": "./assets/hero-home.jpg",
+      "background_image_small": "./assets/hero-home-small.jpg",
+      "eyebrow": "Historic public park · Brookline, Massachusetts",
       "title_lines": [
         "Longwood Mall"
       ],
-      "subtitle": "Welcome to the Longwood Mall website. This site contains information about Longwood Mall, a historic linear park in Brookline, Massachusetts. The park is known for its European Beech trees, many of which were planted by David Sears in the late 1840s. It is generally considered to be the oldest grove of European Beech trees in North America.",
-      "scroll_label": "Scroll Down for Main Menu",
-      "buttons": []
+      "subtitle": "A public park and home to what is generally considered the oldest grove of European Beech trees in North America, many planted by David Sears in the late 1840s.",
+      "buttons": [
+        {
+          "label": "Plan your visit",
+          "href": "visit.html",
+          "variant": "primary"
+        },
+        {
+          "label": "Latest news",
+          "href": "latest-news.html",
+          "variant": "light"
+        }
+      ]
     },
     "stats": [
       {
-        "value": "2.55",
-        "label": "Acres of historic parkland"
-      },
-      {
-        "value": "c. 1840",
-        "label": "Planting period for many beech trees"
+        "value": "1840s",
+        "label": "European Beeches planted by David Sears"
       },
       {
         "value": "1902",
-        "label": "Deeded to Brookline as public parkland"
+        "label": "Deeded to the Town of Brookline"
       },
       {
-        "value": "2024",
-        "label": "Most recent stewardship updates in this site build"
+        "value": "2.5 acres",
+        "label": "Of open, shaded lawn"
+      },
+      {
+        "value": "Dawn to dusk",
+        "label": "Open daily, free to all"
       }
     ],
     "quote": {
@@ -138,7 +137,8 @@
         "label": "See All Updates",
         "href": "latest-news.html",
         "variant": "ghost"
-      }
+      },
+      "count": 3
     },
     "photos": {
       "eyebrow": "Photos",
@@ -230,6 +230,79 @@
           "external": true
         }
       ]
+    },
+    "explore": {
+      "eyebrow": "Explore",
+      "title": "A small park with a long story",
+      "description": "Follow what is happening in the grove today, browse more than a century of photographs, and learn how neighbors are protecting the trees.",
+      "items": [
+        {
+          "id": "news",
+          "label": "Latest news",
+          "href": "latest-news.html",
+          "text": "Events, new plantings, and stewardship updates from the park."
+        },
+        {
+          "id": "photos",
+          "label": "Photos",
+          "href": "photos.html",
+          "text": "Contemporary, historical, aerial, and tree-by-tree inventory collections."
+        },
+        {
+          "id": "history",
+          "label": "History",
+          "href": "history.html",
+          "text": "From David Sears's 1840s plantings to the 1902 deed and the Friends of Longwood Mall."
+        },
+        {
+          "id": "bld",
+          "label": "Beech Leaf Disease",
+          "href": "beech-leaf-disease.html",
+          "text": "What the disease is and how the grove is being treated."
+        },
+        {
+          "id": "support",
+          "label": "Support the park",
+          "href": "support.html",
+          "text": "Donate, lend a hand, or get in touch with the Friends."
+        }
+      ]
+    },
+    "bld_band": {
+      "eyebrow": "Beech Leaf Disease",
+      "title": "Treatment appears to be working",
+      "text": "Beech Leaf Disease has killed beech trees across the Northeast. Since 2022 the grove has received regular treatment, and in June 2026 Brookline's Tree Warden reported little visible evidence of the disease at Longwood Mall.",
+      "buttons": [
+        {
+          "label": "About the disease",
+          "href": "beech-leaf-disease.html",
+          "variant": "light"
+        },
+        {
+          "label": "Read the June 2026 update",
+          "href": "latest-news.html#bgsa-event-longwood-mall-2026",
+          "variant": "ghost-light"
+        }
+      ]
+    },
+    "support_band": {
+      "eyebrow": "Get involved",
+      "title": "Help care for the trees",
+      "text": "100% of donations go to planting new trees and caring for the existing ones. You can also help simply by picking up litter and keeping people off the trunks and branches.",
+      "buttons": [
+        {
+          "label": "Ways to support",
+          "href": "support.html",
+          "variant": "primary"
+        },
+        {
+          "label": "How to donate",
+          "href": "donations.html",
+          "variant": "outline"
+        }
+      ],
+      "image": "./assets/news/june-2026-event/IMG_0443.jpeg",
+      "image_alt": "More than 110 neighbors gathered under the beeches for the June 2026 Longwood Mall community event"
     }
   },
   "history": {
@@ -239,31 +312,49 @@
     "items": [
       {
         "label": "1982: Origins of the Friends of Longwood Mall",
-        "href": "friends-of-longwood-mall-1982.html"
+        "href": "friends-of-longwood-mall-1982.html",
+        "kicker": "1982",
+        "summary": "How a group of neighbors organized to protect the grove, as told in the original newsletters.",
+        "image": "./assets/1982_01.png"
       },
       {
-        "label": "1902: To Have and To Hold",
-        "href": "to-have-and-to-hold.html"
+        "label": "1902: To have and to hold",
+        "href": "to-have-and-to-hold.html",
+        "kicker": "1902",
+        "summary": "The Sears family deed that gave Longwood Mall to the Town of Brookline as public parkland.",
+        "image": "./assets/deed-1.jpg"
       },
       {
         "label": "How did the Rose Garden Park become a playground?",
-        "href": "rose-garden-playground.html"
+        "href": "rose-garden-playground.html",
+        "kicker": "Neighborhood",
+        "summary": "How the nearby Rose Garden park became the playground it is today.",
+        "image": "./assets/rose02.avif"
       },
       {
-        "label": "Historical Photos",
-        "href": "historical-photos.html"
+        "label": "Historical photos",
+        "href": "historical-photos.html",
+        "kicker": "Photo collection",
+        "summary": "Postcards, photographs, and maps of the mall from 1855 onward.",
+        "image": "./assets/Photos/historical/PC361-Beech.jpg",
+        "cta": "View photos"
       },
       {
         "label": "Longwood and Cottage Farm",
         "href": "https://brooklinehistoricalsociety.org/history/pehlke/longwood.asp",
-        "external": true
+        "external": true,
+        "kicker": "Brookline Historical Society",
+        "summary": "The history of the Longwood and Cottage Farm neighborhoods."
       },
       {
         "label": "David Sears",
         "href": "https://en.wikipedia.org/wiki/David_Sears_(businessman)",
-        "external": true
+        "external": true,
+        "kicker": "Wikipedia",
+        "summary": "The Boston merchant who planted the beech grove and laid out Longwood."
       }
-    ]
+    ],
+    "description": "Articles, documents, and photographs tracing Longwood Mall from David Sears's 1840s plantings to today."
   },
   "history_articles": {
     "friends_of_longwood_mall_1982": {
@@ -276,11 +367,11 @@
         "Longwood Mall"
       ],
       "paragraphs": [
-        "The July 15, 1982 issue of the Brookline Chronicle Citizen featured a story about efforts to save the trees of Longwood Mall, which were not in good health at the time. Ellen Golde, who 40 years later still leads citizen efforts to looks after the trees, led the campaign which raised over $20,000 (which is over $62,000 in 2023 dollars!) and persuaded Brookline to match the funds.",
+        "On July 15, 1982, the Brookline Chronicle Citizen reported on a neighborhood campaign to save the trees of Longwood Mall, which were then in poor health. Ellen Golde, who 40 years later still leads citizen efforts to look after the trees, led the campaign. It raised over $20,000 (more than $62,000 in 2023 dollars) and persuaded Brookline to match the funds.",
         "In 1984, Friends of Longwood Mall received a Massachusetts Historical Commission Preservation award for their efforts to save the trees.",
-        "Text of the article:",
+        "The full text of the article:",
         "A neighborhood group has come up with a plan to save the nationally-treasured stand of beech trees on Longwood Mall, using both town funds and money raised through private donations.",
-        "The trees, planted nearly 150 years ago, are threatened by some twenty years of neglect. A recent review by the Lowden Company of Needham, commissioned by Mall neighbors, shows that tour trees are likely to die in the next few years. while the remainder need immediate pruning, fertilizing and cultivation.",
+        "The trees, planted nearly 150 years ago, are threatened by some twenty years of neglect. A recent review by the Lowden Company of Needham, commissioned by Mall neighbors, shows that four trees are likely to die in the next few years, while the remainder need immediate pruning, fertilizing and cultivation.",
         "After a meeting with Longwood residents Tuesday, the Selectmen said they will ask Town Meeting next spring for $20,000 to rejuvenate the mall's beech trees.",
         "The beech trees were planted on Longwood Mall in 1850 by David Sears, a wealthy Brookline landowner. In 1902, thirteen o his descendants deeded the mall to the town.",
         "Since that time, Longwood Mall has been cited by National Geographic magazine and the Arnold Arboretum as one of the finest single stands of beech trees in the country. The Mall is also listed in the National Register of Historic Places.",
@@ -308,9 +399,9 @@
     },
     "to_have_and_to_hold": {
       "slug": "to-have-and-to-hold.html",
-      "meta_title": "1902: To Have And To Hold | Longwood Mall",
-      "meta_description": "1902: To Have And To Hold.",
-      "title": "1902: To Have And To Hold",
+      "meta_title": "1902: To have and to hold | Longwood Mall",
+      "meta_description": "The 1902 Sears family deed that gave Longwood Mall to the Town of Brookline.",
+      "title": "1902: To have and to hold",
       "paragraphs": [
         "The Sears family “remise, release and forever quitclaim unto the said inhabitants of the Town of Brookline, the following described parcels of land situate in said Brookline…”",
         "The parcels included Longwood Mall, Winthrop Square, Knyvet Square and Mason Square.",
@@ -363,7 +454,7 @@
     }
   },
   "news": {
-    "meta_title": "Latest News | Longwood Mall",
+    "meta_title": "Latest news | Longwood Mall",
     "meta_description": "Recent Longwood Mall updates, including community meetings, treatment notes, and stewardship news.",
     "title": "Latest News",
     "hero": {
@@ -384,15 +475,13 @@
         "id": "bgsa-event-longwood-mall-2026",
         "date": "June 2026",
         "title": "June 8 event celebrates Longwood Mall's community and future",
-        "summary": "More than 110 neighbors and friends gathered at Longwood Mall on June 8 for an evening of gratitude, community support, and encouraging news about the park's European Beech trees.",
+        "summary": "More than 110 neighbors gathered on June 8 and heard Brookline's Tree Warden report that the Beech Leaf Disease treatments appear to be working.",
         "paragraphs": [
-          "The June 8, 2026 event at Longwood Mall was a wonderful evening for the park. More than 110 people from across Brookline came out at 6 p.m. on a beautiful night to gather under the European Beech trees, hear from Brookline's tree experts, and show how much this place matters to the community.",
-          "We are deeply grateful to everyone who attended, asked questions, brought curiosity, and helped make the evening feel both celebratory and purposeful. A crowd that large sends an unmistakable message: Longwood Mall is not just a quiet green space between streets. It is a beloved public park, a historic landscape, and a shared responsibility.",
-          "The event was sponsored by the Brookline GreenSpace Alliance (BGSA) and Friends of Longwood Mall. Sean Lynn Jones, president of BGSA, opened the evening with an introduction to the alliance and its work supporting parks throughout Brookline. Rob Schoen from Friends of Longwood Mall spoke about the park's long history, and Ellen Golde, one of the founders of Friends of Longwood Mall, shared the story of the group's origins in the early 1980s and its decades of work to protect the park.",
-          "The most encouraging message of the evening came from Brookline's Tree Warden and Urban Forestry Manager, Jack Schleifer. Jack explained that the Beech Leaf Disease treatments appear to be working. At this point, there is little visible evidence of BLD infestation in Longwood Mall, which is very good news for the future of the park.",
-          "Jack also helped put the condition of the trees in context. Some of the older beeches are not in perfect health, but that does not necessarily mean BLD is taking hold. Many of these trees are very old, and some are dealing with age-related decline or other diseases that have affected beeches for many years. The plan is to keep monitoring carefully and to pursue additional maintenance that may improve the health of some of the more stressed trees.",
-          "After the question and answer session, Jack led a guided tour through the park. The evening continued with cookies, refreshments, and conversation, and ended on a hopeful note with Jack planting two tiny Japanese Beech saplings.",
-          "Thank you again to everyone who came out to support Longwood Mall. The turnout, the questions, and the energy around the park all point in the same direction: there is real reason to be optimistic about Longwood Mall's future, and the community is ready to help care for it."
+          "More than 110 people from across Brookline gathered under the European Beech trees on the evening of June 8, 2026, and heard some very good news. Brookline's Tree Warden and Urban Forestry Manager, Jack Schleifer, explained that the Beech Leaf Disease treatments appear to be working: there is little visible evidence of BLD in Longwood Mall today.",
+          "Jack also put the condition of the trees in context. Some of the older beeches are not in perfect health, but that does not necessarily mean BLD is taking hold. Many are very old, and some are dealing with age-related decline or other diseases that have affected beeches for years. The plan is to keep monitoring carefully and to pursue maintenance that may help the more stressed trees.",
+          "The event was sponsored by the Brookline GreenSpace Alliance (BGSA) and Friends of Longwood Mall. BGSA president Sean Lynn Jones opened the evening, Rob Schoen of Friends of Longwood Mall spoke about the park's long history, and Ellen Golde, one of the group's founders, shared the story of its origins in the early 1980s and its decades of work to protect the park.",
+          "After questions, Jack led a guided tour of the park. The evening ended with cookies, conversation, and Jack planting two tiny Japanese Beech saplings.",
+          "Thank you to everyone who came out. The turnout, the questions, and the energy around the park all give real reason to be optimistic about Longwood Mall's future."
         ],
         "image_position": "after_paragraphs",
         "image_layout": "event-grid",
@@ -461,13 +550,13 @@
         "summary": "A conversation with UMass Amherst Beech Leaf Disease expert Nick Brazee helped clarify treatment options and new planting decisions for Longwood Mall.",
         "paragraphs": [
           {
-            "html": "A recent report by <a href=\"https://www.umass.edu/agriculture-food-environment/landscape/fact-sheets/beech-leaf-disease\" target=\"_blank\" rel=\"noopener\">Nick Brazee</a>, a Beech Leaf Disease expert at UMass Amherst, ended with a statement that concerned some of us: <em>\"At this time, new plantings of American and European beech are not recommended.\"</em> Given our plan to diversify the species in the park, but also plant some new European Beeches, I wanted to speak with Nick about his report."
+            "html": "A recent report by <a href=\"https://www.umass.edu/agriculture-food-environment/landscape/fact-sheets/beech-leaf-disease\" target=\"_blank\" rel=\"noopener\">Nick Brazee</a>, a Beech Leaf Disease expert at UMass Amherst, ended with a statement that concerned some of us: <em>\"At this time, new plantings of American and European beech are not recommended.\"</em> Since our plan includes planting some new European Beeches, I spoke with Nick about his report."
           },
-          "Nick confirmed that he generally does not recommend planting new European and American Beech in situations where the trees will not be closely monitored and treated, and when there are plenty of other options for plantings. But he also clarified that the decision to plant some new European Beech trees is reasonable in the context of Longwood Mall, given our plans for treatment and the desire to preserve the history and tradition.",
-          "Nick was also super helpful in explaining the latest research on BLD. He was very encouraging about the effectiveness of BLD treatments generally and was supportive of our strategic plan for Longwood Mall. He has a great deal of confidence in the research lab professionals at Bartlett Tree Experts, with whom Jack Schleifer has been consulting on our strategic plan for the park.",
-          "We will continue to do the foliar spray treatments this summer. We have done these treatments in each of the last three summers and they seem to have been very effective in controlling the progression of BLD. Nick explained that the latest research suggests that only two treatments per year (down from 3 to 4) are needed and that the effective concentration can be as low as 2-4 oz of Broadform per 100 gallons of water, which is considerably lower than the previously recommended concentrations.",
-          "Arbortect 20-S is the latest BLD treatment and research suggests it is the most effective treatment available. We hope to start a trial with the Arbortect 20-S injectable treatment on some of the healthier trees, but that may not happen until next year. Nick told me that the initial indications from Arbortect treatments on the UMass campus are that the trees are tolerating the injection wounds much better than originally expected.",
-          "Some of the trees in our park may not look very healthy when the trees bud this season. That is not necessarily related to BLD becoming worse in the park. Many of the trees are very old and suffer from other ailments such as Beech Bark disease and Canker disease. The tell-tale sign of BLD is the banding on the leaves (see photo below). If you see examples of significant banding like this, please let me know and I’ll share with Jack. We plan to do root-collar excavations on some of the trees and Jack is getting quotes on phosphorus treatments, which we hope will help some of the less healthy trees to recover."
+          "Nick generally does not recommend planting new European or American Beech where the trees will not be closely monitored and treated and there are plenty of other options. But he agreed that planting some new European Beeches is reasonable at Longwood Mall, given our treatment plans and the desire to preserve the park's history.",
+          "Nick was encouraging about the effectiveness of BLD treatments and supportive of our strategic plan. He has great confidence in the researchers at Bartlett Tree Experts, whom Jack Schleifer has been consulting on the plan.",
+          "We will continue the foliar spray treatments this summer, as we have for the last three summers; they seem to have been very effective in controlling BLD. The latest research suggests only two treatments a year are needed (down from three or four), at concentrations as low as 2–4 oz of Broadform per 100 gallons of water.",
+          "Research suggests the injectable Arbortect 20-S is the most effective treatment available. We hope to start a trial on some of the healthier trees, though it may not happen until next year. Nick told me early results on the UMass campus show the trees tolerating the injection wounds much better than expected.",
+          "Some trees may not look very healthy as they bud this season. That is not necessarily a sign of BLD: many of the trees are very old and also suffer from Beech Bark disease and canker. The tell-tale sign of BLD is banding on the leaves (see photo below). If you see significant banding like this, please let me know and I'll share it with Jack. We also plan root-collar excavations on some trees, and Jack is getting quotes for phosphorus treatments to help the less healthy trees recover."
         ],
         "image_position": "after_paragraphs",
         "images": [
@@ -480,7 +569,7 @@
       {
         "id": "new-tree-plantings-coming-2026",
         "date": "April 2026",
-        "title": "New tree plantings coming to the Longwood Mall",
+        "title": "New tree plantings coming to Longwood Mall",
         "summary": "Friends of Longwood Mall plan to plant new trees this spring, including Japanese Beech saplings and two young European Beech trees.",
         "paragraphs": [
           "We plan to plant new trees in the park this spring. It has been a long time since any new trees have been planted in the park. When new trees have been planted in the past, they were almost exclusively European Beeches, maintaining the monoculture that has existed for many years at Longwood Mall.",
@@ -503,7 +592,7 @@
       {
         "id": "brookline-ma-biodiversity-grant-application-2025",
         "date": "March 2026",
-        "title": "Brookline applies for a MA Biodiversity Grant",
+        "title": "Brookline applies for a Massachusetts biodiversity grant",
         "summary": "Brookline applied for a Massachusetts Community Biodiversity Grant to support Longwood Mall's long-term tree health and biodiversity plan.",
         "paragraphs": [
           {
@@ -535,7 +624,7 @@
       {
         "id": "jack-schleifer-urban-forest-manager-2025",
         "date": "June 2025",
-        "title": "Brookline hires Jack Schleifer as the Urban Forest Manager",
+        "title": "Brookline hires Jack Schleifer as Urban Forest Manager",
         "summary": "Brookline has named Jack Schleifer as its new Urban Forest Manager.",
         "paragraphs": [
           {
@@ -550,7 +639,7 @@
       {
         "id": "bartlett-tree-inventory-management-plan-2025",
         "date": "January 2025",
-        "title": "Bartlett Tree Experts Tree Inventory and Management Plan",
+        "title": "Bartlett Tree Experts tree inventory and management plan",
         "summary": "Bartlett Tree Experts generously submitted a complimentary Tree Inventory and Management Plan for the Town of Brookline.",
         "paragraphs": [
           {
@@ -571,18 +660,15 @@
       {
         "id": "community-meeting-december-2024",
         "date": "December 2024",
-        "title": "Community Meeting about the Longwood Mall",
-        "summary": "On December 11, we held an in-person community meeting concerning the future of Longwood Mall at the Church of Our Saviour.",
+        "title": "December 11 community meeting on the future of Longwood Mall",
+        "summary": "Tree Warden Tom Brady introduced Arbortect 20-S, a newly approved injectable treatment, at a December 11 community meeting on the park's future.",
         "paragraphs": [
-          "December 2024 - On December 11, we held an in-person community meeting concerning the future of Longwood Mall at the Church of Our Saviour. Turnout was strong, considering how bad the weather was that night (3-4 inches of rain and 50 mph wind gusts). Tom Brady (Conservation Administrator, Tree Warden, and Town Arborist) and Alexandra Vecchio (Acting Director of Parks and Open Space and Director of Sustainability) were in attendance.",
-          "The meeting was led by Tom, who walked through the history of Brookline's experience with Beech Leaf Disease (BLD). He discussed how he worked with Bartlett Tree Experts and Dr. Beth Brantley, a leading researcher in BLD treatment, to learn more about BLD and how they have all been learning together as our understanding of the disease has progressed.",
-          "We discussed Arbortect 20-S, a treatment that has only been approved for use on Beech trees in the last six months. Unlike Broadform, a foliar spray we have been using as a BLD treatment, Arbortect is an injectable treatment that needs to be administered directly into the roots of the trees once every 2-3 years. This treatment, which has been used successfully for many years to treat Dutch Elm disease, has now been shown to be very effective at treating BLD.",
-          "While this new treatment is very promising, Tom tempered expectations by explaining that older trees already stressed from other diseases (Beech Bark disease, Bleeding Canker, etc.) may not respond to any BLD treatment.",
-          "We also discussed planting new trees to replace the dead or dying trees that have been removed or may need to be removed in the future. We considered the option of planting species other than European Beeches, given the risk posed by BLD. It may be possible to pay for new plantings by applying for Community Preservation Act (CPA) funds.",
-          "The evening was bittersweet given the recent news that Tom will be leaving Brookline. Tom spoke about his experience working in Brookline, why he was leaving, and his confidence that Brookline will be able to find an excellent replacement. Tom's departure complicates our plans to formulate a long-term strategic plan for Longwood Mall.",
-          "We agreed that we should continue BLD treatments (including Arbortect for trees that are good candidates for the treatment), but it would be best to meet with the new Tree Warden before deciding on any new tree plantings. Hopefully, that will happen early in 2025.",
-          "We understand that people would like to see new trees planted as soon as possible, and it will be a priority. But when we are talking about a tree grove that is around 180 years old, we should be patient and make decisions about the long-term direction of the park carefully and deliberately.",
-          "Thank you to Tom Brady and Alexandra Vecchio for attending the event and also to the Church of Our Saviour for allowing us to use one of their rooms for the evening."
+          "At a December 11 community meeting at the Church of Our Saviour, Tree Warden Tom Brady introduced Arbortect 20-S, a newly approved injectable treatment for Beech Leaf Disease, as a promising next step for the trees. Turnout was strong despite 3–4 inches of rain and 50 mph wind gusts. Alexandra Vecchio, Acting Director of Parks and Open Space and Director of Sustainability, also attended.",
+          "Tom walked through Brookline's experience with BLD and how he has worked with Bartlett Tree Experts and Dr. Beth Brantley, a leading researcher in BLD treatment, as everyone's understanding of the disease has grown.",
+          "Arbortect was approved for use on beech trees only in the last six months. Unlike Broadform, the foliar spray we have been using, it is injected directly into the roots once every 2–3 years. It has been used successfully for many years against Dutch Elm disease and has now been shown to be very effective against BLD. Tom tempered expectations: older trees already stressed by other diseases, such as Beech Bark disease and bleeding canker, may not respond to any BLD treatment.",
+          "We also discussed replacing trees that have died or may need to be removed, including planting species other than European Beech given the risk from BLD. Community Preservation Act (CPA) funds may help pay for new plantings.",
+          "The evening was bittersweet, as Tom will soon be leaving Brookline, which complicates plans for a long-term strategy for the park. We agreed to continue BLD treatments, including Arbortect for trees that are good candidates, and to meet with the new Tree Warden before deciding on new plantings, hopefully early in 2025. New trees will be a priority, but for a grove around 180 years old, the long-term direction deserves careful, deliberate decisions.",
+          "Thank you to Tom Brady and Alexandra Vecchio for attending, and to the Church of Our Saviour for hosting us."
         ],
         "images": [
           {
@@ -594,10 +680,10 @@
       {
         "id": "tom-brady-leaving",
         "date": "December 2024",
-        "title": "Tree Warden Tom Brady Leaving Brookline",
+        "title": "Tree Warden Tom Brady is leaving Brookline",
         "summary": "Tom Brady, Brookline's Conservation Administrator, Tree Warden, and Town Arborist, is leaving Brookline after 23 years of service.",
         "paragraphs": [
-          "December 2024 - Tom Brady, Brookline's Conservation Administrator, Tree Warden, and Town Arborist, is leaving Brookline after 23 years of service. He has taken a new job as the Director of Public Works in Watertown. Tom was named Massachusetts Conservation Administrator of the Year in 2021.",
+          "Tom Brady, Brookline's Conservation Administrator, Tree Warden, and Town Arborist, is leaving Brookline after 23 years of service. He has taken a new job as the Director of Public Works in Watertown. Tom was named Massachusetts Conservation Administrator of the Year in 2021.",
           "Tom has been an amazing partner with the Friends of Longwood Mall. In recent years, he has been on the front lines of the battle versus Beech Leaf Disease, working with Bartlett Tree Experts to provide critical treatments for the trees. While this is a huge loss for Brookline, we are happy for Tom, as his new position is an exciting new career opportunity and also a significantly easier commute for him. We are very grateful for Tom's service to the Brookline community and wish him all the best!",
           "A search is underway for Tom's replacement. Tom will connect his successor with his contacts at Bartlett. The Friends of Longwood Mall will work with the new Tree Warden to ensure that the preservation of Longwood Mall stays on track during this challenging period."
         ],
@@ -611,16 +697,13 @@
       {
         "id": "community-meeting-november-2024",
         "date": "November 2024",
-        "title": "Upcoming Community Meeting about the Longwood Mall: December 11",
-        "summary": "We will hold an in-person community meeting concerning the future of Longwood Mall at 7 p.m. on December 11, 2024.",
+        "title": "Community meeting on December 11 about the future of Longwood Mall",
+        "summary": "An in-person community meeting about the future of Longwood Mall was held at 7 p.m. on December 11, 2024, at the Church of Our Saviour.",
         "paragraphs": [
-          "Note: The link to the July webinar has been updated and the old link no longer works.",
-          "November 2024 - We will hold an in-person community meeting concerning the future of Longwood Mall at 7 p.m. on December 11, 2024, at the Church of Our Saviour (25 Monmouth St). The church has generously agreed to allow us to hold the meeting in the Lawrence room.",
-          "Tom Brady, Brookline's arborist, conservation administrator and tree warden, will be in attendance at the meeting. Tom will be there to provide a quick update on the health of the park's trees, discuss some of the long-term options available, and listen to feedback from the community.",
-          "One of the important issues that will be discussed will be the option of diversifying the park by replacing lost trees with species other than European Beech, given European Beech's vulnerability to Beech Leaf Disease.",
-          "If you did not attend the information session that we held in July, I would encourage you to watch the recording. That session was meant to update everyone on what the experts are seeing in the park and with Beech Leaf Disease generally, while this session is intended to discuss options and to hear from the community.",
-          "We are not planning to provide a Zoom option. If you cannot attend, please feel free to reach out to me. I will be happy to recap the meeting and collect your feedback.",
-          "Hope to see you there for this important meeting!"
+          "We will hold an in-person community meeting about the future of Longwood Mall at 7 p.m. on December 11, 2024, in the Lawrence Room of the Church of Our Saviour (25 Monmouth St.), which has generously offered the space.",
+          "Tom Brady, Brookline's arborist, conservation administrator, and tree warden, will give a quick update on the health of the park's trees, discuss long-term options, and listen to feedback from the community. One important topic will be diversifying the park by replacing lost trees with species other than European Beech, given its vulnerability to Beech Leaf Disease.",
+          "If you missed the July information session, I encourage you to watch the recording first. That session covered what the experts are seeing in the park; this one is for discussing options and hearing from the community.",
+          "There will be no Zoom option. If you cannot attend, please reach out to me and I will be happy to recap the meeting and collect your feedback. Hope to see you there!"
         ],
         "links": [
           {
@@ -633,7 +716,7 @@
       {
         "id": "brookline-times-article",
         "date": "September 2024",
-        "title": "How Brookline is Using Science to Save Its Beech Trees",
+        "title": "How Brookline is using science to save its beech trees",
         "summary": "In September 2024, Brookline.News reported on how Brookline is using new science to try to save its beech trees, including the historic beech trees at Longwood Mall.",
         "paragraphs": [
           "In September 2024, Brookline.News reported on how Brookline is using new science to try to save its beech trees, including the historic beech trees at Longwood Mall."
@@ -653,7 +736,7 @@
       {
         "id": "bld-treatments-2024",
         "date": "August 2024",
-        "title": "First BLD Treatment of 2024",
+        "title": "First BLD treatment of 2024",
         "summary": "Bartlett Tree Experts administered Beech Leaf Disease treatments to the trees of Longwood Mall on August 1.",
         "paragraphs": [
           "[Update: The town administered 4 BLD treatments between August 1 and September 30.]",
@@ -665,7 +748,7 @@
       {
         "id": "webinar-follow-up-july-2024",
         "date": "July 2024",
-        "title": "Follow-up on Community Information Session on Beech Leaf Disease",
+        "title": "Recording of the Beech Leaf Disease information session",
         "summary": "The Brookline Parks Department held a Community Information Webinar to address concerns about Beech Leaf Disease.",
         "paragraphs": [
           "On Monday, July 15, 2024, at 7 p.m., the Brookline Parks Department held a Community Information Webinar to address concerns about Beech Leaf Disease (BLD).",
@@ -682,7 +765,7 @@
       {
         "id": "community-information-session-july-2024",
         "date": "May 2024",
-        "title": "Community Information Session on Beech Leaf Disease",
+        "title": "Community information session on Beech Leaf Disease",
         "summary": "The Brookline Parks Department announced a July 15 Community Information Session on Beech Leaf Disease.",
         "paragraphs": [
           "On Monday, July 15, 2024, at 7 p.m., the Brookline Parks Department will hold a Community Information Session to address concerns about Beech Leaf Disease (BLD). Please see the poster below for a list of the discussion topics and scheduled speakers.",
@@ -692,7 +775,7 @@
       {
         "id": "bgsa-event-2023",
         "date": "July 2023",
-        "title": "Brookline GreenSpace Alliance Longwood Mall Event",
+        "title": "Brookline GreenSpace Alliance event on Longwood Mall",
         "summary": "The Brookline GreenSpace Alliance hosted an event on Longwood Mall to celebrate the park.",
         "paragraphs": [
           "On Wednesday, July 26, 2023, the Brookline GreenSpace Alliance hosted an event on Longwood Mall to celebrate the park by discussing its history and the challenges it currently faces. After the talk, people strolled through the park and then gathered in front of one of the houses to have cookies and cupcakes. Nicholas Nixon (renowned documentary photographer) shared large-format prints of his photos of the trees. About 80 people attended the event, which is a powerful statement about how important this particular park is to the Brookline community."
@@ -711,11 +794,10 @@
       {
         "id": "bgsa-article-2023",
         "date": "2023",
-        "title": "BGSA Place Magazine article on Longwood Mall",
+        "title": "Article on Longwood Mall in BGSA's Place magazine",
         "summary": "The Brookline GreenSpace Alliance asked for an article about Longwood Mall for the 2023 Spring/Summer issue of Place.",
         "paragraphs": [
           "The Brookline GreenSpace Alliance (BGSA) asked me to write an article about Longwood Mall for the 2023 Spring/Summer issue of Place, their biannual publication.",
-          "Please save the date for July 26 at 7 p.m., when we will meet on Longwood Mall for a BGSA event. We'll have more details about the event in late June or early July.",
           {
             "html": "<strong>Preserving Longwood Mall: An Urban Oasis in Brookline</strong>"
           },
@@ -772,7 +854,7 @@
       {
         "id": "tree-removals-2023",
         "date": "February 2023",
-        "title": "Tree Removals",
+        "title": "Two trees removed from Longwood Mall",
         "summary": "On February 21 and 22, 2023, two of the trees were removed from Longwood Mall.",
         "paragraphs": [
           "On February 21 and 22, 2023, two of the trees were removed from the Longwood Mall. Tom Brady, Brookline's Arborist and Tree Warden, had this to say about the removals:",
@@ -785,12 +867,11 @@
       {
         "id": "bld-treatment-2022",
         "date": "Fall 2022",
-        "title": "BLD Treatment for the Trees",
+        "title": "BLD treatment for the trees",
         "summary": "In the fall of 2022, the trees of Longwood Mall were treated for Beech Leaf Disease and Beech Canker disease.",
         "paragraphs": [
           "In fall 2022, the trees of Longwood Mall were treated for Beech Leaf Disease and Beech Canker disease. Treatments were funded through cooperative efforts of the neighborhood and the town. Additionally, the trees were pruned and the entire mall was aerated to help improve access to water and nutrients. Aeration also helps reduce soil compaction, which inhibits the growth of root systems.",
-          "Avoiding soil compaction is why ball playing is not allowed on the mall (in case you were ever wondering about that).",
-          "To learn more about Beech Leaf Disease, please go here."
+          "Avoiding soil compaction is also why ball playing is not allowed on the mall, in case you were ever wondering."
         ],
         "links": [
           {
@@ -802,7 +883,7 @@
       {
         "id": "bgsa-grant-2022",
         "date": "Fall 2022",
-        "title": "Brookline GreenSpace Alliance",
+        "title": "Friends of Longwood Mall joins the Brookline GreenSpace Alliance",
         "summary": "Friends of Longwood Mall formally joined the Brookline GreenSpace Alliance and received a Park Initiative Program Grant.",
         "paragraphs": [
           "Friends of Longwood Mall formally joined the Brookline GreenSpace Alliance (BGSA) as a park organization in the summer of 2022. We applied for a Park Initiative Program Grant and were awarded a grant for $8,500 for BLD treatments of the trees on Longwood Mall. These grants are available to Brookline park organizations thanks to funding obtained by our State Representative Tommy Vitolo.",
@@ -828,7 +909,7 @@
       {
         "id": "boston-25-bld-2022",
         "date": "August 2022",
-        "title": "Boston 25 News Story on Beech Leaf Disease",
+        "title": "Boston 25 News story on Beech Leaf Disease",
         "summary": "Boston 25 News did a story about Beech Leaf Disease, featuring Longwood Mall.",
         "paragraphs": [
           "In August 2022, Boston 25 News did a story about Beech Leaf Disease, featuring Longwood Mall, Brookline Parks Director Alexandra Vecchio, and Tree Warden Thomas Brady. Watch the full video at the following link."
@@ -854,7 +935,7 @@
       {
         "id": "best-streets-2012",
         "date": "2012",
-        "title": "2012: The 20 Best Streets in Boston",
+        "title": "Beech Road tops the Boston Globe's 20 best streets",
         "summary": "Boston Globe Magazine named Beech Road at the top of its list of the 20 best streets in the Boston metro area.",
         "paragraphs": [
           "In 2012, Boston Globe Magazine did a story on the 20 best streets in the Boston metro area. At the top of the list was Beech Road in Brookline. While Longwood Mall is not directly mentioned, it's clear that the trees were a major factor in their assessment of the street."
@@ -873,7 +954,8 @@
           }
         ]
       }
-    ]
+    ],
+    "eyebrow": "Updates"
   },
   "photos": {
     "meta_title": "Photos | Longwood Mall",
@@ -890,15 +972,14 @@
       {
         "id": "contemporary",
         "slug": "contemporary-photos.html",
-        "page_title": "Contemporary Photos | Longwood Mall",
+        "page_title": "Contemporary photos | Longwood Mall",
         "page_description": "Contemporary photos showing the current scale, canopy, and character of Longwood Mall.",
         "eyebrow": "Contemporary",
         "title_lines": [
-          "Contemporary",
-          "Photos"
+          "Contemporary photos"
         ],
         "description": "Recent pictures of Longwood Mall",
-        "summary": "The present-day park: canopy, trunks, seasonal light, and the lived texture of the mall now.",
+        "summary": "The park today: the old beeches, their canopy, and the lawn through the seasons.",
         "image": "./assets/Photos/contemporary-srgb/IMG_3911.jpg",
         "folder": "./assets/Photos/contemporary-srgb",
         "buttons": [
@@ -912,20 +993,61 @@
             "href": "mailto:longwoodmall02446@gmail.com",
             "variant": "primary"
           }
+        ],
+        "alts": [
+          "Massive beech trunk in the foreground with sunlit lawn and more beeches beyond",
+          "Copper beech with dark purple leaves casting deep shade on the grass",
+          "Two large beeches with spreading crowns over a shaded summer lawn",
+          "Long low beech limb framing a view across the open lawn",
+          "Gnarled old beech trunk with exposed roots beside the lawn",
+          "Low green beech branches arching over a shaded corner of the park",
+          "Beech tree in front of a red-brick house across the street, with sunny lawn",
+          "View down the lawn between beeches toward a white house and a red Japanese maple",
+          "Broad beech crown in full summer leaf over dappled shade",
+          "Single beech on dry, dappled ground with houses behind",
+          "Huge twisting beech trunk beside a sunny lawn",
+          "Multi-stemmed beech trunk with smooth grey bark",
+          "Tall beech in full leaf seen from the shaded lawn",
+          "Several beech trunks across a shaded lawn in summer",
+          "Sunny open lawn edged by beeches and a weeping beech",
+          "Shaded grove of beech trunks and low branches",
+          "Beeches turned bright gold in autumn over a leaf-covered lawn",
+          "Group of green beeches and a copper beech around a bright lawn",
+          "Tall beech in dense green summer leaf",
+          "Golden autumn beech branches spreading over fallen leaves",
+          "Long beech limbs arching over the lawn toward the street",
+          "Copper beech with deep red foliage against a blue sky",
+          "Row of tall beeches across dry, dappled ground",
+          "Looking up into a sunlit beech canopy",
+          "Autumn beeches with red fallen leaves covering the ground",
+          "Beech beside the road with a red-brick house behind it",
+          "Looking straight up a tall double beech trunk",
+          "Large beech trunk in morning light with long shadows on the lawn",
+          "Old beech with a broken limb and new growth beside the lawn",
+          "Two beeches in low golden light across the lawn",
+          "Morning sun through beeches with long shadows on the grass",
+          "Tall forked beech trunk rising into the canopy",
+          "Looking up the massive base of an old beech into its branches",
+          "Looking up a beech trunk into bright green spring leaves",
+          "Tall, slender beech in full green leaf",
+          "Close view of a thick beech trunk covered in moss and lichen",
+          "Hollowed, twisted base of a very old beech",
+          "Weeping beech with cascading branches on a sunny lawn",
+          "Tall beech against a blue sky above a shaded lawn",
+          "Looking up through dark beech branches toward the sky"
         ]
       },
       {
         "id": "historical",
         "slug": "historical-photos.html",
-        "page_title": "Historical Photos | Longwood Mall",
+        "page_title": "Historical photos | Longwood Mall",
         "page_description": "Historical images and maps of Longwood Mall and its surrounding landscape.",
         "eyebrow": "Historical",
         "title_lines": [
-          "Historical",
-          "Photos"
+          "Historical photos"
         ],
         "description": "Older photographs of Longwood Mall.",
-        "summary": "Older photographs, map views, and source material that show how the grove has been seen over time.",
+        "summary": "Postcards, photographs, and maps showing the mall from 1855 through the 1950s.",
         "image": "./assets/Photos/historical/PC360-Beech.jpg",
         "folder": "./assets/Photos/historical",
         "reverse_order": true,
@@ -933,12 +1055,12 @@
           "PC360-Beech.jpg": {
             "label": "Brookline Historical Society / Brookline Public Library",
             "url": "https://brooklinehistoricalsociety.org/archives/slideShow.asp?mainList=archives&dispSequence=lwag17",
-            "note": "Beech Rd. looking west from Hawes St.; from Photographic postcards: Brookline and vicinity."
+            "note": "Beech Road looking west from Hawes Street, on an early photographic postcard."
           },
           "PC361-Beech.jpg": {
             "label": "Brookline Historical Society / Brookline Public Library",
             "url": "https://brooklinehistoricalsociety.org/archives/slideShow.asp?mainList=archives&dispSequence=lwag16",
-            "note": "Beech Rd. looking east from Kent St.; from Photographic postcards: Brookline and vicinity."
+            "note": "Beech Road looking east from Kent Street, on an early photographic postcard."
           },
           "map-1855.png": {
             "label": "Digital Commonwealth",
@@ -948,57 +1070,57 @@
           "map-1874.png": {
             "label": "Digital Commonwealth",
             "url": "https://www.digitalcommonwealth.org/book_viewer/commonwealth:tt44pw11s#1/1",
-            "note": "1874 Complete Atlas, G.M. Hopkins & Co."
+            "note": "1874 atlas of Brookline by G.M. Hopkins & Co."
           },
           "map-1893.png": {
             "label": "Digital Commonwealth",
             "url": "https://www.digitalcommonwealth.org/book_viewer/commonwealth:tt44pw806#1/1",
-            "note": "1893 Complete Atlas, G.W. Bromley and Co."
+            "note": "1893 atlas of Brookline by G.W. Bromley & Co."
           },
           "map-1897.png": {
             "label": "Brookline Historical Society",
             "url": "https://brooklinehistoricalsociety.org/archives/atlas/1897/plate3.asp",
-            "note": "1897 Plate 3: Longwood Area."
+            "note": "1897 atlas, plate 3: the Longwood area."
           },
           "old-photo-1.png": {
             "label": "Digital Commonwealth / Public Library of Brookline",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:6t053t001",
-            "note": "Beech trees on Longwood Mall, 1924. Brookline Photograph Collection; local identifier B1c."
+            "note": "Beech trees on Longwood Mall, 1924."
           },
           "old-photo-2.png": {
             "label": "Digital Commonwealth / Public Library of Brookline",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:6t053t06p",
-            "note": "Beech trees on Longwood Mall, December 1956. Brookline Photograph Collection; local identifier B1h."
+            "note": "Beech trees on Longwood Mall in winter, December 1956."
           },
           "old-photo-3.png": {
             "label": "Digital Commonwealth / Public Library of Brookline",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:6t053t044",
-            "note": "Longwood Mall, 1924. Brookline Photograph Collection; local identifier B1g copy 1."
+            "note": "Longwood Mall, 1924."
           },
           "old-photo-4.png": {
             "label": "Digital Commonwealth / Arnold Arboretum Horticultural Library",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:n296x0715",
-            "note": "Fagus sylvatica Massachusetts (Brookline), December 1, 1924. Ernest Wilson's New England Trees; local identifier AAW-136."
+            "note": "A European Beech at Longwood Mall, photographed by plant collector Ernest H. Wilson, December 1924."
           },
           "old-photo-5.png": {
             "label": "Digital Commonwealth / Public Library of Brookline",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:6t053s986",
-            "note": "Longwood Mall, December 1956. Brookline Photograph Collection; local identifier B1b."
+            "note": "Longwood Mall in winter, December 1956."
           },
           "old-photo-6.png": {
             "label": "Digital Commonwealth / Public Library of Brookline",
             "url": "https://www.digitalcommonwealth.org/search/commonwealth:6t053s99g",
-            "note": "Longwood Mall, December 1956. Brookline Photograph Collection; local identifier B1b copy 2."
+            "note": "Another winter view of Longwood Mall, December 1956."
           },
           "old-photo-7.jpg": {
             "label": "Brookline Historical Society",
             "url": "https://brooklinehistoricalsociety.org/archives/listPhotos.asp?mainList=archives",
-            "note": "Likely source based on legacy attribution; direct archive item not yet identified."
+            "note": "Historical photograph of Longwood Mall."
           },
           "old-photo-8.jpg": {
             "label": "Brookline Historical Society",
             "url": "https://brooklinehistoricalsociety.org/archives/listPhotos.asp?mainList=archives",
-            "note": "Likely source based on legacy attribution; direct archive item not yet identified."
+            "note": "Historical photograph of Longwood Mall."
           }
         },
         "buttons": [
@@ -1017,15 +1139,14 @@
       {
         "id": "aerial",
         "slug": "aerial-photos.html",
-        "page_title": "Aerial Photos | Longwood Mall",
+        "page_title": "Aerial photos | Longwood Mall",
         "page_description": "Aerial and drone photos showing Longwood Mall from above.",
         "eyebrow": "Aerial",
         "title_lines": [
-          "Aerial",
-          "Photos"
+          "Aerial photos"
         ],
         "description": "Pictures of the park taken with a drone.",
-        "summary": "Bird's-eye views that make the geometry of the grove and its surroundings legible at a glance.",
+        "summary": "Drone views showing the shape of the grove and the neighborhood around it.",
         "image": "./assets/Photos/drone/drone_01.JPG",
         "folder": "./assets/Photos/drone",
         "buttons": [
@@ -1044,20 +1165,36 @@
             "href": "mailto:longwoodmall02446@gmail.com",
             "variant": "primary"
           }
+        ],
+        "alts": [
+          "Aerial view of the grove's canopy and lawn among surrounding houses",
+          "Aerial view looking along the park toward the Boston skyline",
+          "Aerial view of the large beech canopy with Beech Road alongside",
+          "Aerial close view of the beech crowns and open lawn",
+          "Aerial view of the park's dense canopy between residential streets",
+          "Overhead view of the narrow park with roads on both sides",
+          "Overhead view of the large central beech crowns",
+          "Overhead view of the long, narrow park and its copper beech",
+          "Overhead view along the length of the mall",
+          "Overhead view of the south end of the park at the street",
+          "Aerial view along the park with the Boston skyline behind",
+          "Aerial view of the park with the Longwood area skyline beyond",
+          "Aerial view down the length of the park toward the city",
+          "Aerial close view of houses and trees beside the park",
+          "Aerial view of the neighborhood streets around the park"
         ]
       },
       {
         "id": "inventory",
         "slug": "inventory-photos.html",
-        "page_title": "Inventory Photos | Longwood Mall",
+        "page_title": "Tree inventory | Longwood Mall",
         "page_description": "Inventory photos documenting individual beech trees and inspection views across Longwood Mall.",
         "eyebrow": "Inventory",
         "title_lines": [
-          "Tree",
-          "Inventory"
+          "Tree inventory"
         ],
         "description": "These were taken by Emily Lyons in November 2025.",
-        "summary": "A working visual record organized by inventory group, useful when the broad landscape view is not enough.",
+        "summary": "Photos of each of the 36 beeches recorded in the November 2025 tree inventory.",
         "image": "./assets/Photos/inventory/2025-10Beech02/IMG_3834.jpeg",
         "folder": "./assets/Photos/inventory",
         "caption_mode": "path",
@@ -1077,7 +1214,7 @@
     ],
     "drone_video": {
       "slug": "drone-video.html",
-      "page_title": "Drone Video | Longwood Mall",
+      "page_title": "Drone video | Longwood Mall",
       "page_description": "Longwood Mall from above.",
       "eyebrow": "Drone Video",
       "title_lines": [
@@ -1118,23 +1255,17 @@
     "page_sections": [
       {
         "id": "what-is-bld",
-        "title": "What is Beech Leaf Disease (BLD)?",
+        "title": "About the disease",
         "paragraphs": [
           {
-            "html": "<a href=\"https://en.wikipedia.org/wiki/Beech_leaf_disease\" target=\"_blank\" rel=\"noopener\">From the Wikipedia page:</a>"
+            "html": "Beech Leaf Disease (BLD) is caused by a microscopic roundworm, the nematode <em>Litylenchus crenatae mccannii</em>, that lives and feeds inside beech leaves. The first sign is dark green banding between the leaf veins, usually on lower branches. Over several years, leaves shrink, curl, and drop early, buds fail, and the canopy thins."
           },
-          "Beech leaf disease is a newly discovered lethal disease of beech trees believed to be caused by the nematode Litylenchus crenatae mccannii. The symptoms of the disease appear as a dark green, interveinal banding pattern on the lower canopy foliage, eventually spreading throughout the tree. The symptoms appear to progress through the buds and no new leaves are produced. This eventually results in the death of the tree.",
-          "The disease has the potential to drastically alter the Eastern deciduous forests of the United States on its own and through potential compounding disease effects.",
-          "The disease affects the native American beech as well as the commonly planted European beech. The estimated economic and environmental cost of the loss of the beech in Ohio alone is $225 million. The disease has no known cure.",
+          "Young trees can die within a few years. Large, mature trees like the beeches of Longwood Mall decline more slowly, which gives time to treat them. The disease affects both the native American beech and the European beech planted here.",
+          "BLD was first found in Lake County, Ohio, in 2012 and has spread across the Northeast, reaching Massachusetts in 2020. Birds, insects, and people may all help move the nematodes from tree to tree.",
+          "There is no cure, but treatment can hold the disease back. At Longwood Mall, foliar spray treatments every summer since 2022 appear to be keeping it in check.",
           {
-            "html": "<strong>Cause</strong>"
-          },
-          "The disease is caused by a type of nematode that feeds inside the leaves. The nematodes feeding cause dark bands in the leaves. The worms are most damaging to young trees, which can die in less than five years after the first signs of damage appear. In places where the disease is established, it can prove fatal to 90% of saplings.",
-          "The U.S. Department of Agriculture Forest Service believes that insects, birds, as well as human movement are all possible modes of transport for the nematodes.",
-          {
-            "html": "<strong>Disease range</strong>"
-          },
-          "Since its discovery in Lake County, Ohio in 2012, it has rapidly spread to 14 counties in Ohio, as well as to western Pennsylvania, Western New York, and Ontario, Canada. In 2020, it has been identified in eastern New York, Long Island, Connecticut, Rhode Island, and Massachusetts. In 2021 it was found in Maine, in Lincolnville, Waldo County, and in northern Virginia, in Prince William County."
+            "html": "Sources: <a href=\"https://en.wikipedia.org/wiki/Beech_leaf_disease\" target=\"_blank\" rel=\"noopener\">Wikipedia</a>, <a href=\"https://www.fs.usda.gov/research/news/highlights/cracking-case-beech-leaf-disease-mystery#summary\" target=\"_blank\" rel=\"noopener\">US Forest Service</a>, and <a href=\"https://www.umass.edu/agriculture-food-environment/landscape/fact-sheets/beech-leaf-disease\" target=\"_blank\" rel=\"noopener\">UMass Amherst</a>."
+          }
         ]
       },
       {
@@ -1154,7 +1285,9 @@
             "href": "https://brookline.news/how-brookline-is-using-new-science-to-try-to-save-its-beech-trees/",
             "external": true
           }
-        ]
+        ],
+        "date": "September 2024",
+        "card_text": "How Brookline is using new science to try to save its beech trees, including the historic grove at Longwood Mall."
       },
       {
         "id": "brookline-parks-webinar-july-2024",
@@ -1172,7 +1305,10 @@
         "youtube": {
           "id": "EAY_unB-oM0",
           "title": "Brookline Parks and Open Spaces community information session about Beech Leaf Disease"
-        }
+        },
+        "date": "July 2024",
+        "card_title": "Brookline community information session",
+        "card_text": "Brookline Parks and Open Space hosted tree experts to explain the state of the disease in town and the treatment options for the beeches."
       },
       {
         "id": "webinar",
@@ -1193,7 +1329,10 @@
         "youtube": {
           "id": "CJyl9bsevVc",
           "title": "Newport Tree Conservancy webinar about Beech Leaf Disease"
-        }
+        },
+        "date": "February 2023",
+        "card_title": "Newport Tree Conservancy webinar",
+        "card_text": "A detailed look at what researchers have learned about BLD and the new treatments that have become available."
       },
       {
         "id": "boston-25",
@@ -1204,11 +1343,14 @@
         "youtube": {
           "id": "55n-6ZyfzZk",
           "title": "Boston 25 story about Beech Leaf Disease and Longwood Mall"
-        }
+        },
+        "date": "August 2022",
+        "card_title": "Boston 25 News: BLD at Longwood Mall",
+        "card_text": "A TV news story featuring Longwood Mall, Brookline Parks Director Alexandra Vecchio, and Tree Warden Thomas Brady."
       },
       {
         "id": "links",
-        "title": "Links About Beech Leaf Disease",
+        "title": "Further reading",
         "links": [
           {
             "index": 10,
@@ -1356,28 +1498,28 @@
     ],
     "updates": [
       {
+        "date": "June 2026",
+        "title": "Treatments appear to be working",
+        "text": "At the June 8 community event, Tree Warden Jack Schleifer reported little visible evidence of BLD in the park.",
+        "href": "latest-news.html#bgsa-event-longwood-mall-2026"
+      },
+      {
+        "date": "April 2026",
+        "title": "Expert guidance on treatment and new plantings",
+        "text": "UMass Amherst's Nick Brazee supported the park's treatment plan and its decision to plant some new European Beeches.",
+        "href": "latest-news.html#bld-update-april-2026"
+      },
+      {
         "date": "December 2024",
-        "title": "Arbortect 20-S discussed as a promising next treatment step",
-        "text": "The December community meeting highlighted Arbortect 20-S, an injectable treatment newly approved for beech trees and seen as a potentially important long-term tool for suitable trees.",
+        "title": "Arbortect 20-S discussed as a next step",
+        "text": "A community meeting covered a newly approved injectable treatment for suitable trees.",
         "href": "latest-news.html#community-meeting-december-2024"
       },
       {
-        "date": "August-September 2024",
-        "title": "Four treatments administered in the 2024 season",
-        "text": "The transferred posts note that Bartlett Tree Experts administered four treatments between August 1 and September 30, 2024 as Brookline continued trying to control BLD.",
+        "date": "August 2024",
+        "title": "Four treatments in the 2024 season",
+        "text": "Bartlett Tree Experts treated the grove between August 1 and September 30, 2024.",
         "href": "latest-news.html#bld-treatments-2024"
-      },
-      {
-        "date": "July 2024",
-        "title": "Public webinar helped explain the science and the choices ahead",
-        "text": "A Brookline Parks Department information session gave residents a technical overview of current conditions in the park and the treatment landscape.",
-        "href": "latest-news.html#webinar-follow-up-july-2024"
-      },
-      {
-        "date": "Fall 2022",
-        "title": "Early treatment efforts informed later monitoring",
-        "text": "The older site noted that trees were treated in fall 2022 and that no confirmed infections had been observed in Longwood Mall at that time.",
-        "href": "latest-news.html"
       }
     ],
     "media": {
@@ -1423,12 +1565,33 @@
         "href": "https://ohiodnr.gov/discover-and-learn/safety-conservation/about-ODNR/forestry/forest-health/insects-diseases/Beech-leaf-disease",
         "external": true
       }
+    ],
+    "description": "What Beech Leaf Disease is, how it affects the trees of Longwood Mall, and what is being done to protect them.",
+    "at_a_glance": [
+      {
+        "title": "What it is",
+        "text": "A disease of beech trees caused by a microscopic nematode that feeds inside the leaves. It was first found in Ohio in 2012 and reached Massachusetts in 2020."
+      },
+      {
+        "title": "Status at Longwood Mall",
+        "text": "As of June 2026, Brookline's Tree Warden reports little visible evidence of the disease in the grove. Some older trees show age-related decline."
+      },
+      {
+        "title": "What is being done",
+        "text": "Foliar spray treatments each summer since 2022, close monitoring, a planned trial of the injectable Arbortect 20-S, and new plantings."
+      },
+      {
+        "title": "How you can help",
+        "text": "Support the treatment and planting fund, and help keep people off trunks and branches, which stresses already-vulnerable trees.",
+        "href": "support.html",
+        "link_label": "Ways to support"
+      }
     ]
   },
   "support": {
     "meta_title": "Support | Longwood Mall",
     "meta_description": "Ways to support Longwood Mall through donations, stewardship, and community involvement.",
-    "title": "Ways to Support Longwood Mall",
+    "title": "Support Longwood Mall",
     "donation_text": "Please consider making a",
     "donation_label": "Donation",
     "donation_href": "donations.html",
@@ -1447,7 +1610,7 @@
         "alt": "Longwood Mall sign"
       }
     ],
-    "contact_title": "Contact Us",
+    "contact_title": "Contact the Friends of Longwood Mall",
     "contact_email": "longwoodmall02446@gmail.com",
     "contact_subject": "Longwood Mall website contact",
     "form_fields": [
@@ -1457,12 +1620,38 @@
       "Write a message"
     ],
     "submit_label": "Submit",
-    "thanks_text": "Thanks for submitting!"
+    "thanks_text": "Thanks for submitting!",
+    "description": "The grove survives because neighbors care for it. Here is how you can help, whether you have five minutes or want to make a gift.",
+    "ways": [
+      {
+        "id": "donate",
+        "title": "Make a donation",
+        "text": "Gifts go to a Town of Brookline trust fund for Longwood Mall. 100% of donations go to planting new trees and caring for the existing ones. Donor-advised funds are welcome.",
+        "href": "donations.html",
+        "link_label": "How to donate"
+      },
+      {
+        "id": "care",
+        "title": "Lend a hand in the park",
+        "text": "If you see litter, please pick it up. If you see anyone sitting on trunks or branches, even little kids, gently let them know it damages the trees.",
+        "href": "visit.html#rules",
+        "link_label": "Read the park rules"
+      },
+      {
+        "id": "connect",
+        "title": "Stay in touch",
+        "text": "Email the Friends of Longwood Mall to hear about the next fundraiser or event, or follow the park on Instagram.",
+        "href": "#contact",
+        "link_label": "Contact the Friends"
+      }
+    ],
+    "contact_text": "Questions, ideas, photos to share, or want to hear about the next fundraiser? Write to us and we'll reply by email.",
+    "contact_reply": "We're volunteers and usually reply within a few days."
   },
   "donations": {
     "meta_title": "Donations | Longwood Mall",
     "meta_description": "Donation instructions for Friends of Longwood Mall.",
-    "title": "Donations",
+    "title": "Donate to Longwood Mall",
     "paragraphs": [
       "Thank you for any donations you may have previously made to Longwood Mall. Since the mid-1980s, Longwood Mall has been preserved only through a private-public partnership between Brookline residents and Brookline's Parks department.",
       "We need to raise private funds to ensure that the trees of Longwood Mall are prioritized by the Town when it comes to tree cultivation, medical treatments, and new tree plantings.",
@@ -1488,6 +1677,79 @@
       "Write a message"
     ],
     "submit_label": "Submit",
-    "thanks_text": "Thanks for submitting!"
+    "thanks_text": "Thanks for submitting!",
+    "description": "Donations fund tree care, Beech Leaf Disease treatment, and new plantings. 100% of every gift goes to preserving the park."
+  },
+  "visit": {
+    "meta_title": "Visit | Longwood Mall",
+    "meta_description": "Where Longwood Mall is, when it is open, how to get there, and the park rules that protect its historic beech trees.",
+    "title": "Visit Longwood Mall",
+    "eyebrow": "Plan your visit",
+    "description": "A quiet, open lawn under some of the oldest European Beech trees in North America. Free and open to everyone, every day from dawn to dusk.",
+    "image": "./assets/visit-grove.jpg",
+    "address_lines": [
+      "Beech Road, between Kent Street and Hawes Street",
+      "Brookline, MA 02446"
+    ],
+    "facts": [
+      {
+        "label": "Hours",
+        "value": "Open daily, dawn to dusk"
+      },
+      {
+        "label": "Nearest T",
+        "value": "Hawes Street (Green Line C branch), one block away"
+      },
+      {
+        "label": "Parking",
+        "value": "No parking on Beech Road or Chatham Street on weekdays before 11 a.m."
+      },
+      {
+        "label": "Admission",
+        "value": "Free, public parkland"
+      },
+      {
+        "label": "Size",
+        "value": "About 2.5 acres of open lawn"
+      },
+      {
+        "label": "Managed by",
+        "value": "Town of Brookline Parks and Open Space"
+      }
+    ],
+    "getting_there": [
+      {
+        "title": "By public transit",
+        "text": "Longwood Mall is one block from the Hawes Street stop on the MBTA Green Line C branch, about a five-minute walk. From the stop, walk south on Hawes Street to Beech Road."
+      },
+      {
+        "title": "By car",
+        "text": "There is no parking lot. Parking is not allowed on Beech Road or Chatham Street on weekdays before 11 a.m. Street parking on the surrounding residential streets is limited and follows posted Brookline rules, including the town's overnight parking ban."
+      },
+      {
+        "title": "On foot or by bike",
+        "text": "The park sits in a residential neighborhood near the Longwood Medical Area and Coolidge Corner. Please walk bikes on the lawn."
+      }
+    ],
+    "map_embed": "https://maps.google.com/maps?saddr=Hawes%20Street%20Station%2C%20Brookline%2C%20MA&daddr=Longwood%20Mall%2C%20Brookline%2C%20MA&dirflg=w&output=embed",
+    "rules_intro": "Longwood Mall is reserved for quiet enjoyment. These posted rules exist to protect fragile, very old trees and their shallow roots.",
+    "rules": [
+      "No dogs, including on leash",
+      "No climbing or sitting on trunks and branches",
+      "No ball playing",
+      "No smoking",
+      "Please carry out any trash or recycling"
+    ],
+    "images": [
+      {
+        "src": "./assets/sign02_srgb.png",
+        "alt": "Park sign: Longwood Mall, open dawn to dusk, with the list of park rules"
+      },
+      {
+        "src": "./assets/sign01.png",
+        "alt": "Older green park sign: Please help us protect this magnificent stand of European beech trees. No dogs, no climbing on trees."
+      }
+    ],
+    "map_caption": "Walking route from the Hawes Street T stop (Green Line C), about five minutes."
   }
 }

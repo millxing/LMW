@@ -1,77 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Donations | Longwood Mall</title>
   <meta name="description" content="Donation instructions for Friends of Longwood Mall.">
+  <meta name="theme-color" content="#1f3a2b">
+  <meta property="og:title" content="Donations | Longwood Mall">
+  <meta property="og:description" content="Donation instructions for Friends of Longwood Mall.">
+  <meta property="og:image" content="./assets/hero-home-small.jpg">
+  <link rel="icon" href="./assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1781115330">
-  <script src="script.js?v=1777854410" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1793974538">
+  <script>document.documentElement.classList.add("js")</script>
+  <script src="script.js?v=1793973501" defer></script>
 </head>
-<body class="page-interior">
-  <div class="page-shell">
-<header class="site-header">
+<body class="page-interior page-donate">
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header" data-header>
   <div class="container header-inner">
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-name">Longwood Mall</span>
+        <span class="brand-sub"><span class="brand-sub-long">Historic public park · </span>Brookline, MA</span>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="nav-toggle-open"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></span><span class="nav-toggle-close"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg></span>
+      <span class="nav-toggle-label">Menu</span>
     </button>
-    <nav class="site-nav" aria-label="Main navigation" data-nav>
-      <p class="site-nav-mobile-brand">Longwood Mall</p>
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="latest-news.html" class="nav-link">Latest News</a>
-          <a href="photos.html" class="nav-link">Photos</a>
-          <a href="history.html" class="nav-link">History</a>
-          <a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a>
-          <a href="support.html" class="nav-link active">Support</a>
-          <a href="https://www.instagram.com/longwoodmall02446/" class="nav-link nav-icon-link" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="nav-icon-label">Instagram</span></a>
+    <div class="nav-scrim" data-nav-scrim hidden></div>
+    <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+      <ul class="nav-list">
+        <li><a href="latest-news.html" class="nav-link">News</a></li><li><a href="photos.html" class="nav-link">Photos</a></li><li><a href="history.html" class="nav-link">History</a></li><li><a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a></li><li><a href="visit.html" class="nav-link">Visit</a></li><li><a href="support.html" class="btn btn-primary nav-cta" aria-current="page">Support the park</a></li>
+      </ul>
     </nav>
   </div>
 </header>
-    <main>
-      <section class="support-page donations-page">
-        <div class="container support-page-shell">
-          <div class="page-title-band">
-            <h1>Donations</h1>
-          </div>
-          <div class="support-page-body">
-            <p class="support-page-copy">Thank you for any donations you may have previously made to Longwood Mall. Since the mid-1980s, Longwood Mall has been preserved only through a private-public partnership between Brookline residents and Brookline&#x27;s Parks department.</p>
-            <p class="support-page-copy">We need to raise private funds to ensure that the trees of Longwood Mall are prioritized by the Town when it comes to tree cultivation, medical treatments, and new tree plantings.</p>
-            <p class="support-page-copy">If you would like to make a donation to Friends of Longwood Mall (100% of donations go to preserving the park), please make a check out to:</p>
-            <p class="support-page-callout">Town of Brookline: Trust for Longwood Mall</p>
-            <p class="support-page-copy">and mail it to:</p>
-            <address class="support-mail-address">
-              <span>Milee Pradhan</span>
-              <span>Director of Parks and Open Space</span>
-              <span>Town Hall – 4th Floor</span>
-              <span>333 Washington Street</span>
-              <span>Brookline, MA 02445</span>
-            </address>
-            <p class="support-page-copy">If you do make a donation, <a href="mailto:longwoodmall02446@gmail.com?subject=Longwood%20Mall%20website%20contact">please email me</a>, so we can track donations made for Longwood Mall. Also, feel free to <a href="mailto:longwoodmall02446@gmail.com?subject=Longwood%20Mall%20website%20contact">contact me</a> if you would like to use Donor Advised Funds or have any other questions.</p>
-          </div>
-        </div>
-      </section>
-
-    </main>
+<main id="main" tabindex="-1">
+<header class="page-header">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li><a href="support.html">Support</a></li><li><span aria-current="page">Donate</span></li></ol></nav>
+    <p class="eyebrow">Give</p>
+    <h1 class="page-title">Donate to Longwood Mall</h1>
+    <p class="page-lede">Donations fund tree care, Beech Leaf Disease treatment, and new plantings. 100% of every gift goes to preserving the park.</p>
+    
+    
+  </div>
+</header>
+<section class="section section-tight">
+  <div class="container donate-grid">
+    <ol class="steps">
+      <li class="step"><h2 class="step-title">Write a check payable to</h2><p class="step-value">Town of Brookline: Trust for Longwood Mall</p></li>
+      <li class="step"><h2 class="step-title">Mail it to</h2><address class="step-value">Milee Pradhan<br>Director of Parks and Open Space<br>Town Hall – 4th Floor<br>333 Washington Street<br>Brookline, MA 02445</address>
+        <button class="btn btn-small btn-outline" type="button" data-copy="Milee Pradhan
+Director of Parks and Open Space
+Town Hall – 4th Floor
+333 Washington Street
+Brookline, MA 02445"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span data-copy-label>Copy address</span></button></li>
+      <li class="step"><h2 class="step-title">Let us know</h2><p>Email us after you give so we can track donations made for Longwood Mall. Ask us about donor-advised funds or any other questions.</p>
+        <a class="btn btn-primary" href="mailto:longwoodmall02446@gmail.com?subject=Longwood%20Mall%20donation"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Email the Friends</span></a></li>
+    </ol>
+    <div class="prose donate-why"><h2 class="section-subtitle">Why your gift matters</h2><p>Thank you for any donations you may have previously made to Longwood Mall. Since the mid-1980s, Longwood Mall has been preserved only through a private-public partnership between Brookline residents and Brookline&#x27;s Parks department.</p>
+<p>We need to raise private funds to ensure that the trees of Longwood Mall are prioritized by the Town when it comes to tree cultivation, medical treatments, and new tree plantings.</p></div>
+  </div>
+</section>
+</main>
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand"><span>Longwood Mall</span></div>
-    <div class="footer-links">
-          <a href="latest-news.html">Latest News</a>
-          <a href="photos.html">Photos</a>
-          <a href="history.html">History</a>
-          <a href="beech-leaf-disease.html">Beech Leaf Disease</a>
-          <a href="support.html">Support</a>
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand brand-footer" href="index.html">
+        <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+        <span class="brand-text"><span class="brand-name">Longwood Mall</span><span class="brand-sub">Historic public park · Brookline, MA</span></span>
+      </a>
+      <p>A historic public park in Brookline, Massachusetts, home to what is generally considered the oldest grove of European Beech trees in North America. Cared for by the Town of Brookline and the volunteers of Friends of Longwood Mall.</p>
     </div>
-    <div class="footer-utility-links">
-          <a href="https://maps.google.com/?q=Longwood+Mall+Brookline+MA" target="_blank" rel="noopener">Get Directions</a>
-          <a href="mailto:longwoodmall02446@gmail.com">Contact</a>
-          <a class="footer-icon-link" href="https://www.instagram.com/longwoodmall02446/" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="visually-hidden">Instagram</span></a>
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-heading">Explore</h2>
+      <ul class="footer-list"><li><a href="latest-news.html">Latest news</a></li><li><a href="photos.html">Photos</a></li><li><a href="history.html">History</a></li><li><a href="beech-leaf-disease.html">Beech Leaf Disease</a></li><li><a href="visit.html">Visit</a></li><li><a href="support.html">Support the park</a></li></ul>
+    </nav>
+    <div class="footer-col">
+      <h2 class="footer-heading">Visit</h2>
+      <ul class="footer-list footer-list-plain">
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Beech Road, between Kent Street and Hawes Street, Brookline, MA 02446</span></li>
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Open daily, dawn to dusk</span></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Longwood+Mall%2C+Beech+Road%2C+Brookline%2C+MA+02446" class="footer-action" target="_blank" rel="noopener">Get directions<svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
     </div>
+    <div class="footer-col">
+      <h2 class="footer-heading">Contact</h2>
+      <ul class="footer-list">
+        <li><a class="footer-action" href="support.html#contact"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Contact the Friends</span></a></li>
+        <li><a href="https://www.instagram.com/longwoodmall02446/" class="footer-action" target="_blank" rel="noopener"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg><span>Instagram</span><svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; 2026 Friends of Longwood Mall. Longwood Mall is a public park of the Town of Brookline.</p>
+    <a class="footer-top" href="#top"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg><span>Back to top</span></a>
   </div>
 </footer>
-  </div>
+
 </body>
 </html>

@@ -28,7 +28,9 @@ There is no frontend framework, no bundler, and no server-side runtime in the ac
 - `historical-photos.html`
 - `contemporary-photos.html`
 - `beech-leaf-disease.html`
+- `visit.html`
 - `support.html`
+- `donations.html`, `history.html`, history article pages, `aerial-photos.html`, `inventory-*.html`, `drone-video.html`
 
 Treat those root HTML files as generated output, not the primary editing surface.
 
