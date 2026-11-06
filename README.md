@@ -10,7 +10,9 @@ The site is generated from structured content in `src/site.json` and currently p
 - `historical-photos.html`
 - `contemporary-photos.html`
 - `beech-leaf-disease.html`
+- `visit.html`
 - `support.html`
+- `donations.html`, `history.html`, history article pages, `aerial-photos.html`, `inventory-*.html`, `drone-video.html`
 
 ## Editing workflow
 
@@ -54,6 +56,15 @@ Edit `site.navigation` and `site.footer` in `src/site.json`.
 ### Add a page or section
 
 Add the content to `src/site.json`, then extend the relevant render function in `build_site.py`.
+
+## Generated thumbnails
+
+`python3 build_site.py` creates 640px WebP thumbnails in `assets/thumbs/` for large gallery photos (requires Pillow). They are cached and only rebuilt when the source photo changes; commit them with the generated HTML. The lightbox still opens the original photo.
+
+## Galleries and motion
+
+- Photo collections open as a **photo pile**: sticky, tilted prints that land on top of each other as you scroll. A Pile / Grid toggle switches to a grid (the choice is remembered). Tilts are generated in `build_site.py` (`pile_offsets`), so the pile works without JavaScript.
+- Motion lives in the "Motion" section at the end of `style.css`: hero photo drift and drifting beech leaves, swaying tree signs, scroll-driven reveals, the pile landing animation, a drawn BLD timeline line, and fades between pages. All of it is switched off when the visitor's system asks for reduced motion, and none of it hides content if JavaScript or newer CSS isn't available.
 
 ## Local preview
 

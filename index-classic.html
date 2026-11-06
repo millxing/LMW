@@ -1,260 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Longwood Mall | Brookline</title>
+  <title>Longwood Mall | Historic beech grove park in Brookline, MA</title>
   <meta name="description" content="Explore Longwood Mall through current updates, photo collections, Beech Leaf Disease information, and ways to support the park.">
+  <meta name="theme-color" content="#1f3a2b">
+  <meta property="og:title" content="Longwood Mall | Historic beech grove park in Brookline, MA">
+  <meta property="og:description" content="Explore Longwood Mall through current updates, photo collections, Beech Leaf Disease information, and ways to support the park.">
+  <meta property="og:image" content="./assets/hero-home-small.jpg">
+  <link rel="icon" href="./assets/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=1781115330">
-  <script src="script.js?v=1777854410" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&amp;family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=1793974538">
+  <script>document.documentElement.classList.add("js")</script>
+  <script src="script.js?v=1793973501" defer></script>
 </head>
 <body class="page-home">
-  <div class="page-shell">
-<header class="site-header">
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header" data-header>
   <div class="container header-inner">
-    <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+    <a class="brand" href="index.html">
+      <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-name">Longwood Mall</span>
+        <span class="brand-sub"><span class="brand-sub-long">Historic public park · </span>Brookline, MA</span>
+      </span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <span class="nav-toggle-open"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></svg></span><span class="nav-toggle-close"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg></span>
+      <span class="nav-toggle-label">Menu</span>
     </button>
-    <nav class="site-nav" aria-label="Main navigation" data-nav>
-      <p class="site-nav-mobile-brand">Longwood Mall</p>
-          <a href="index.html" class="nav-link active">Home</a>
-          <a href="latest-news.html" class="nav-link">Latest News</a>
-          <a href="photos.html" class="nav-link">Photos</a>
-          <a href="history.html" class="nav-link">History</a>
-          <a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a>
-          <a href="support.html" class="nav-link">Support</a>
-          <a href="https://www.instagram.com/longwoodmall02446/" class="nav-link nav-icon-link" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="nav-icon-label">Instagram</span></a>
+    <div class="nav-scrim" data-nav-scrim hidden></div>
+    <nav class="site-nav" id="site-nav" aria-label="Main" data-nav>
+      <ul class="nav-list">
+        <li><a href="latest-news.html" class="nav-link">News</a></li><li><a href="photos.html" class="nav-link">Photos</a></li><li><a href="history.html" class="nav-link">History</a></li><li><a href="beech-leaf-disease.html" class="nav-link">Beech Leaf Disease</a></li><li><a href="visit.html" class="nav-link">Visit</a></li><li><a href="support.html" class="btn btn-primary nav-cta">Support the park</a></li>
+      </ul>
     </nav>
   </div>
 </header>
-    <main>
+<main id="main" tabindex="-1">
 
-      <section class="home-hero" style="--hero-image: url(&quot;./assets/hero.jpg&quot;);">
-        <div class="home-hero-overlay"></div>
-        <div class="container home-hero-grid home-hero-grid-single">
-          <div class="home-hero-copy">
-
-            <h1>Longwood Mall</h1>
-
-            <p class="hero-copy">Welcome to the Longwood Mall website. This site contains information about Longwood Mall, a historic linear park in Brookline, Massachusetts. The park is known for its European Beech trees, many of which were planted by David Sears in the late 1840s. It is generally considered to be the oldest grove of European Beech trees in North America.</p>
-
-          </div>
-        </div>
-      </section>
-
-      <section class="quote-band">
-        <div class="container quote-inner">
-          <p class="quote-mark">&ldquo;</p>
-          <blockquote>The finest exotic trees which have been planted in greater Boston and probably the finest grove of European Beech in the United States.</blockquote>
-          <p class="quote-author">Charles Sprague Sargent, Arnold Arboretum</p>
-        </div>
-      </section>
-
-<section class="section section-news">
-  <div class="container section-heading-block">
-    <p class="section-eyebrow">Latest News</p>
-    <h2 class="section-title">Latest News</h2>
-    <p class="section-copy">The homepage highlights the newest items. The full news page gathers additional detail from older posts without burying current developments.</p>
-  </div>
-  <div class="container news-preview-grid">
-    <div class="news-feature-grid">
-        <article class="news-card news-card-featured">
-          <p class="card-date">June 2026</p>
-          <h3>June 8 event celebrates Longwood Mall&#x27;s community and future</h3>
-          <p>More than 110 neighbors and friends gathered at Longwood Mall on June 8 for an evening of gratitude, community support, and encouraging news about the park&#x27;s European Beech trees.</p>
-          <a href="latest-news.html#bgsa-event-longwood-mall-2026" class="text-link">Read this update <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </article>        <article class="news-card news-card-featured">
-          <p class="card-date">June 2026</p>
-          <h3>Two new European Beeches planted along Chatham Street</h3>
-          <p>Two young Fagus sylvatica trees were planted along Chatham Street in the first week of June as part of Longwood Mall&#x27;s long-term diversification plan.</p>
-          <a href="latest-news.html#new-european-beeches-chatham-street-2026" class="text-link">Read this update <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </article>
-    </div>
-    <div class="news-list-panel">
-      <p class="mini-label">More updates</p>
-          <article class="news-list-item">
-            <p class="card-date">April 2026</p>
-            <h4>Beech Leaf Disease (BLD) update</h4>
-            <p>A conversation with UMass Amherst Beech Leaf Disease expert Nick Brazee helped clarify treatment options and new planting decisions for Longwood Mall.</p>
-            <a href="latest-news.html#bld-update-april-2026" class="text-link">Open update <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </article>          <article class="news-list-item">
-            <p class="card-date">December 2024</p>
-            <h4>Tree Warden Tom Brady Leaving Brookline</h4>
-            <p>Tom Brady, Brookline&#x27;s Conservation Administrator, Tree Warden, and Town Arborist, is leaving Brookline after 23 years of service.</p>
-            <a href="latest-news.html#tom-brady-leaving" class="text-link">Open update <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </article>          <article class="news-list-item">
-            <p class="card-date">November 2024</p>
-            <h4>Upcoming Community Meeting about the Longwood Mall: December 11</h4>
-            <p>We will hold an in-person community meeting concerning the future of Longwood Mall at 7 p.m. on December 11, 2024.</p>
-            <a href="latest-news.html#community-meeting-november-2024" class="text-link">Open update <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </article>
-      <a href="latest-news.html" class="btn btn-ghost">See All Updates <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-    </div>
+<section class="hero" aria-labelledby="hero-title">
+  <picture class="hero-media">
+    <source media="(max-width: 700px)" srcset="./assets/hero-home-small.jpg">
+    <img src="./assets/hero-home.jpg" alt="Old European Beech trees casting dappled shade across the lawn at Longwood Mall" width="2200" height="1238" fetchpriority="high">
+  </picture>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-leaves" aria-hidden="true"><span class="leaf" style="--x: 8%; --s: 0.9; --d: 19s; --delay: -2s; --drift: 6; --spin: 260; --leaf: #7d9a3c"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 22%; --s: 0.7; --d: 23s; --delay: -11s; --drift: -4; --spin: -220; --leaf: #5f7f2f"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 37%; --s: 1.1; --d: 21s; --delay: -6s; --drift: 8; --spin: 300; --leaf: #9bb552"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 55%; --s: 0.8; --d: 26s; --delay: -16s; --drift: -6; --spin: -280; --leaf: #4f6e2a"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 68%; --s: 1.0; --d: 20s; --delay: -9s; --drift: 5; --spin: 240; --leaf: #7d9a3c"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 81%; --s: 0.75; --d: 24s; --delay: -3s; --drift: -7; --spin: -300; --leaf: #87a447"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span><span class="leaf" style="--x: 93%; --s: 0.9; --d: 22s; --delay: -13s; --drift: 4; --spin: 200; --leaf: #a9c25e"><svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1C5 8 3 16 4.5 23 6 29 9.5 33 12 35c2.5-2 6-6 7.5-12C21 16 19 8 12 1Z" fill="currentColor"/><path d="M12 4v30M12 12l-4-3M12 12l4-3M12 18l-5-3.5M12 18l5-3.5M12 24l-5-3M12 24l5-3" stroke="rgba(25,45,15,.35)" stroke-width=".8" fill="none"/></svg></span></div>
+  <div class="container hero-content">
+    <p class="hero-eyebrow">Historic public park · Brookline, Massachusetts</p>
+    <h1 id="hero-title" class="hero-title">Longwood Mall</h1>
+    <p class="hero-lede">A public park and home to what is generally considered the oldest grove of European Beech trees in North America, many planted by David Sears in the late 1840s.</p>
+    <div class="button-row"><a href="visit.html" class="btn btn-primary"><span>Plan your visit</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a><a href="latest-news.html" class="btn btn-light"><span>Latest news</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>
   </div>
 </section>
-<section class="section section-dark">
-  <div class="container section-heading-block">
-    <p class="section-eyebrow">Photos</p>
-    <h2 class="section-title section-title-light">Two Collections,<br>One Landscape</h2>
-    <p class="section-copy section-copy-light">The site now separates historical views from contemporary images, with room for many more photos on each collection page.</p>
-  </div>
-  <div class="container collection-grid">
-      <article class="collection-card">
-        <img class="collection-hero-image" src="./assets/Photos/contemporary-srgb/IMG_3911.jpg" alt="Recent pictures of Longwood Mall" loading="lazy">
-        <div class="collection-card-body">
-          <p class="mini-label">Contemporary</p>
-          <h3>Contemporary<br>Photos</h3>
-          <p>The present-day park: canopy, trunks, seasonal light, and the lived texture of the mall now.</p>
-          <div class="collection-strip">
-            <img src="./assets/Photos/contemporary-srgb/7f4063_0d03a8ce220b4680ac60d62498c250b2~mv2.jpg" alt="Contemporary: 7 F 4063 0 D 03 A 8 Ce 220 B 4680 Ac 60 D 62498 C 250 B 2~Mv 2" loading="lazy">
-            <img src="./assets/Photos/contemporary-srgb/7f4063_0e8e9c4f3fcd41a3840580b17fd01818~mv2.jpg" alt="Contemporary: 7 F 4063 0 E 8 E 9 C 4 F 3 Fcd 41 A 3840580 B 17 Fd 01818~Mv 2" loading="lazy">
-            <img src="./assets/Photos/contemporary-srgb/7f4063_2f3652801bc44e00b3c15c82b26ebf2e~mv2.jpg" alt="Contemporary: 7 F 4063 2 F 3652801 Bc 44 E 00 B 3 C 15 C 82 B 26 Ebf 2 E~Mv 2" loading="lazy">
-          </div>
-          <a href="contemporary-photos.html" class="btn btn-outline">Open collection <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-      </article>      <article class="collection-card">
-        <img class="collection-hero-image" src="./assets/Photos/historical/PC360-Beech.jpg" alt="Older photographs of Longwood Mall." loading="lazy">
-        <div class="collection-card-body">
-          <p class="mini-label">Historical</p>
-          <h3>Historical<br>Photos</h3>
-          <p>Older photographs, map views, and source material that show how the grove has been seen over time.</p>
-          <div class="collection-strip">
-            <img src="./assets/Photos/historical/PC361-Beech.jpg" alt="Historical: Pc 361 Beech" loading="lazy">
-            <img src="./assets/Photos/historical/PC360-Beech.jpg" alt="Historical: Pc 360 Beech" loading="lazy">
-            <img src="./assets/Photos/historical/old-photo-8.jpg" alt="Historical: Old Photo 8" loading="lazy">
-          </div>
-          <a href="historical-photos.html" class="btn btn-outline">Open collection <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-      </article>      <article class="collection-card">
-        <img class="collection-hero-image" src="./assets/Photos/drone/drone_01.JPG" alt="Pictures of the park taken with a drone." loading="lazy">
-        <div class="collection-card-body">
-          <p class="mini-label">Aerial</p>
-          <h3>Aerial<br>Photos</h3>
-          <p>Bird&#x27;s-eye views that make the geometry of the grove and its surroundings legible at a glance.</p>
-          <div class="collection-strip">
-            <img src="./assets/Photos/drone/DJI_20250603115656_0798_D.JPG" alt="Aerial: DJI 20250603115656 0798 D" loading="lazy">
-            <img src="./assets/Photos/drone/DJI_20250603115701_0799_D.JPG" alt="Aerial: DJI 20250603115701 0799 D" loading="lazy">
-            <img src="./assets/Photos/drone/DJI_20250603115724_0800_D.JPG" alt="Aerial: DJI 20250603115724 0800 D" loading="lazy">
-          </div>
-          <a href="aerial-photos.html" class="btn btn-outline">Open collection <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-      </article>      <article class="collection-card">
-        <img class="collection-hero-image" src="./assets/Photos/inventory/2025-10Beech02/IMG_3834.jpeg" alt="These were taken by Emily Lyons in November 2025." loading="lazy">
-        <div class="collection-card-body">
-          <p class="mini-label">Inventory</p>
-          <h3>Tree<br>Inventory</h3>
-          <p>A working visual record organized by inventory group, useful when the broad landscape view is not enough.</p>
-          <div class="collection-strip">
-            <img src="./assets/Photos/inventory/2025-10Beech01/IMG_3819.jpeg" alt="Inventory: IMG 3819" loading="lazy">
-            <img src="./assets/Photos/inventory/2025-10Beech01/IMG_3820.jpeg" alt="Inventory: IMG 3820" loading="lazy">
-            <img src="./assets/Photos/inventory/2025-10Beech01/IMG_3822.jpeg" alt="Inventory: IMG 3822" loading="lazy">
-          </div>
-          <a href="inventory-photos.html" class="btn btn-outline">Open collection <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-      </article>
+
+<section class="facts-band" aria-label="Longwood Mall at a glance">
+  <ul class="container facts"><li class="fact"><span class="fact-value" data-count="1840" data-suffix="s">1840s</span><span class="fact-label">European Beeches planted by David Sears</span></li><li class="fact"><span class="fact-value" data-count="1902" data-suffix="">1902</span><span class="fact-label">Deeded to the Town of Brookline</span></li><li class="fact"><span class="fact-value" data-count="2.5" data-suffix=" acres">2.5 acres</span><span class="fact-label">Of open, shaded lawn</span></li><li class="fact"><span class="fact-value">Dawn to dusk</span><span class="fact-label">Open daily, free to all</span></li></ul>
+</section>
+
+<section class="section explore" aria-labelledby="explore-title">
+  <div class="container explore-grid">
+    <div class="explore-copy">
+      <p class="eyebrow">Explore</p>
+      <h2 id="explore-title" class="section-title">A small park with a long story</h2>
+      <p class="section-lede">Follow what is happening in the grove today, browse more than a century of photographs, and learn how neighbors are protecting the trees.</p>
+      <ul class="explore-list"><li><a class="explore-link" href="latest-news.html" data-explore="news"><span class="explore-text"><span class="explore-label">Latest news</span><span class="explore-desc">Events, new plantings, and stewardship updates from the park.</span></span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li><li><a class="explore-link" href="photos.html" data-explore="photos"><span class="explore-text"><span class="explore-label">Photos</span><span class="explore-desc">Contemporary, historical, aerial, and tree-by-tree inventory collections.</span></span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li><li><a class="explore-link" href="history.html" data-explore="history"><span class="explore-text"><span class="explore-label">History</span><span class="explore-desc">From David Sears&#x27;s 1840s plantings to the 1902 deed and the Friends of Longwood Mall.</span></span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li><li><a class="explore-link" href="beech-leaf-disease.html" data-explore="bld"><span class="explore-text"><span class="explore-label">Beech Leaf Disease</span><span class="explore-desc">What the disease is and how the grove is being treated.</span></span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li><li><a class="explore-link" href="support.html" data-explore="support"><span class="explore-text"><span class="explore-label">Support the park</span><span class="explore-desc">Donate, lend a hand, or get in touch with the Friends.</span></span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></li></ul>
+    </div>
+    <figure class="explore-tree">
+      <div class="tree-stage">
+        <img src="./assets/thumbs/bettereb-640.webp" alt="Illustration of a European Beech tree with wooden signs for each section of the site" width="640" height="640" loading="lazy" decoding="async" class="tree-image">
+        <div class="tree-links"><a href="latest-news.html" class="tree-link tree-link-news" tabindex="-1" aria-hidden="true"><img src="./assets/menu-sign-latest-news.png" alt="" width="268" height="93" loading="lazy" decoding="async"></a><a href="beech-leaf-disease.html" class="tree-link tree-link-bld" tabindex="-1" aria-hidden="true"><img src="./assets/thumbs/menu-sign-bld-clean-640.webp" alt="" width="640" height="175" loading="lazy" decoding="async"></a><a href="photos.html" class="tree-link tree-link-photos" tabindex="-1" aria-hidden="true"><img src="./assets/menu-sign-photos.png" alt="" width="223" height="90" loading="lazy" decoding="async"></a><a href="history.html" class="tree-link tree-link-history" tabindex="-1" aria-hidden="true"><img src="./assets/menu-sign-history.png" alt="" width="208" height="90" loading="lazy" decoding="async"></a><a href="support.html" class="tree-link tree-link-support" tabindex="-1" aria-hidden="true"><img src="./assets/menu-sign-support.png" alt="" width="217" height="90" loading="lazy" decoding="async"></a></div>
+      </div>
+      <figcaption class="tree-quote"><blockquote>&ldquo;The finest exotic trees which have been planted in greater Boston and probably the finest grove of European Beech in the United States.&rdquo;</blockquote><cite>Charles Sprague Sargent, Arnold Arboretum</cite></figcaption>
+    </figure>
   </div>
 </section>
-<section class="section">
-  <div class="container bld-overview-grid">
+
+<section class="section section-tint" aria-labelledby="news-title">
+  <div class="container">
+    <div class="section-head">
+      <div><p class="eyebrow">From the park</p><h2 id="news-title" class="section-title">Latest news</h2></div>
+      <a class="btn btn-outline" href="latest-news.html"><span>All news</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+    </div>
+    <div class="news-grid"><article class="news-card news-card-featured"><div class="news-card-media"><img src="./assets/thumbs/news-june-2026-event-img-0443-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async"></div><div class="news-card-body"><p class="card-date">June 2026</p><h3 class="news-card-title"><a class="stretched-link" href="news-bgsa-event-longwood-mall-2026.html">June 8 event celebrates Longwood Mall&#x27;s community and future</a></h3><p>More than 110 neighbors gathered on June 8 and heard Brookline&#x27;s Tree Warden report that the Beech Leaf Disease treatments appear to be working.</p><span class="text-link" aria-hidden="true">Read update <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div></article><article class="news-card"><div class="news-card-media"><img src="./assets/newtree01.png" alt="" width="593" height="944" loading="lazy" decoding="async"></div><div class="news-card-body"><p class="card-date">June 2026</p><h3 class="news-card-title"><a class="stretched-link" href="news-new-european-beeches-chatham-street-2026.html">Two new European Beeches planted along Chatham Street</a></h3><p>Two young <em>Fagus sylvatica</em> trees were planted along Chatham Street in the first week of June as part of Longwood Mall&#x27;s long-term diversification plan.</p><span class="text-link" aria-hidden="true">Read update <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div></article><article class="news-card"><div class="news-card-media"><img src="./assets/bldleaf.png" alt="" width="376" height="273" loading="lazy" decoding="async"></div><div class="news-card-body"><p class="card-date">April 2026</p><h3 class="news-card-title"><a class="stretched-link" href="news-bld-update-april-2026.html">Beech Leaf Disease (BLD) update</a></h3><p>A conversation with UMass Amherst Beech Leaf Disease expert Nick Brazee helped clarify treatment options and new planting decisions for Longwood Mall.</p><span class="text-link" aria-hidden="true">Read update <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></div></article></div>
+  </div>
+</section>
+
+<section class="band band-dark" aria-labelledby="bld-title">
+  <div class="container band-grid">
     <div>
-      <p class="section-eyebrow">Beech Leaf Disease</p>
-      <h2 class="section-title">Context For The<br>Biggest Current Threat</h2>
-      <p class="section-copy">This section explains what BLD is, links to reliable outside resources, and points visitors toward treatment notes and public discussions.</p>
-      <div class="info-card-grid">
-      <article class="info-card">
-        <h3>Cause</h3>
-        <p>BLD is associated with a foliar nematode, Litylenchus crenatae mccannii, that feeds within beech leaves and disrupts healthy growth.</p>
-      </article>      <article class="info-card">
-        <h3>Symptoms</h3>
-        <p>Typical symptoms include dark interveinal striping, thinning canopy, reduced new growth, and broader decline, especially in younger trees.</p>
-      </article>      <article class="info-card">
-        <h3>Range</h3>
-        <p>First identified in Ohio in 2012, BLD has spread widely across the Northeast, including Massachusetts.</p>
-      </article>
-      </div>
+      <p class="eyebrow eyebrow-light">Beech Leaf Disease</p>
+      <h2 id="bld-title" class="section-title">Treatment appears to be working</h2>
     </div>
-    <aside class="surface-panel surface-panel-dark">
-      <p class="mini-label mini-label-light">Important context</p>
-      <h3>This site&#x27;s treatment notes currently run through December 2024</h3>
-      <p>The legacy material we transferred includes treatment discussions from fall 2022 through late 2024, including the July 2024 webinar, the August-September 2024 treatment cycle, and the December 2024 community meeting about longer-term options.</p>
-      <div class="stack-list">
-          <article class="update-item compact">
-            <p class="card-date">December 2024</p>
-            <h4>Arbortect 20-S discussed as a promising next treatment step</h4>
-            <p>The December community meeting highlighted Arbortect 20-S, an injectable treatment newly approved for beech trees and seen as a potentially important long-term tool for suitable trees.</p>
-            <a href="latest-news.html#community-meeting-december-2024" class="text-link">Open related note <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </article>          <article class="update-item compact">
-            <p class="card-date">August-September 2024</p>
-            <h4>Four treatments administered in the 2024 season</h4>
-            <p>The transferred posts note that Bartlett Tree Experts administered four treatments between August 1 and September 30, 2024 as Brookline continued trying to control BLD.</p>
-            <a href="latest-news.html#bld-treatments-2024" class="text-link">Open related note <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </article>
-      </div>
-      <a href="latest-news.html" class="btn btn-outline btn-outline-light">Explore BLD updates <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-    </aside>
+    <div>
+      <p class="band-text">Beech Leaf Disease has killed beech trees across the Northeast. Since 2022 the grove has received regular treatment, and in June 2026 Brookline&#x27;s Tree Warden reported little visible evidence of the disease at Longwood Mall.</p>
+      <div class="button-row"><a href="beech-leaf-disease.html" class="btn btn-light"><span>About the disease</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a><a href="news-bgsa-event-longwood-mall-2026.html" class="btn btn-ghost-light"><span>Read the June 2026 update</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>
+    </div>
   </div>
 </section>
-<section class="section section-support">
-  <div class="container support-grid">
-    <div>
-      <p class="section-eyebrow">Support</p>
-      <h2 class="section-title">Support Can Mean<br>Money, Time, Or Care</h2>
-      <p class="section-copy">Not everyone helps in the same way. The support page makes room for donations, partnership, everyday stewardship, and contact points.</p>
-      <div class="support-card-grid">
-      <article class="support-card">
-        <p>Please email Friends of Longwood Mall if you would be interested in being contacted the next time we do fundraising. 100% of donations go to planting new trees and caring for the existing trees. Donor-advised funds can be used.</p>
-      </article>
-      <article class="support-card">
-        <p>People often leave trash on Longwood Mall. If you see garbage on the mall, please grab it and dispose of it.</p>
-      </article>
-      <article class="support-card">
-        <p>If you see anyone sitting on tree trunks or branches (even little kids), please gently tell them that this is very damaging to the trees.</p>
-      </article>
-      </div>
-    </div>
-    <aside class="surface-panel">
-      <h3>Ways to Support Longwood Mall</h3>
-      <p>Please consider making a Donation.</p>
+
+<section class="section" aria-label="Visit and support">
+  <div class="container duo">
+    <article class="panel panel-visit">
+      <p class="eyebrow">Plan your visit</p>
+      <h2 class="panel-title">Visit the park</h2>
+      <ul class="info-list">
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><strong>Where</strong>Beech Road, between Kent Street and Hawes Street, Brookline, MA 02446</span></li>
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>When</strong>Open daily, dawn to dusk. Free.</span></li>
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14"/><path d="M9 20l-2 2M15 20l2 2"/><circle cx="9" cy="13" r=".6"/><circle cx="15" cy="13" r=".6"/><path d="M8 16l-1 4h10l-1-4"/></svg><span><strong>By T</strong>One block from Hawes Street (Green Line C)</span></li>
+      </ul>
+      <p class="panel-note">Please help protect the trees: no dogs, and no climbing or sitting on trunks and branches.</p>
       <div class="button-row">
-        <a href="donations.html" class="btn btn-primary" target="_blank" rel="noopener">Donation <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <a class="btn btn-primary" href="visit.html"><span>Visitor information</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=Longwood+Mall%2C+Beech+Road%2C+Brookline%2C+MA+02446" class="btn btn-outline" target="_blank" rel="noopener"><span>Get directions</span><svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
       </div>
-    </aside>
+    </article>
+    <article class="panel panel-support">
+      <div class="panel-media"><img src="./assets/thumbs/news-june-2026-event-img-0443-640.webp" alt="More than 110 neighbors gathered under the beeches for the June 2026 Longwood Mall community event" width="640" height="360" loading="lazy" decoding="async"></div>
+      <p class="eyebrow">Get involved</p>
+      <h2 class="panel-title">Help care for the trees</h2>
+      <p>100% of donations go to planting new trees and caring for the existing ones. You can also help simply by picking up litter and keeping people off the trunks and branches.</p>
+      <div class="button-row"><a href="support.html" class="btn btn-primary"><span>Ways to support</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a><a href="donations.html" class="btn btn-outline"><span>How to donate</span><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>
+    </article>
   </div>
 </section>
 
-      <section class="cta-band" style="--cta-image: url(&quot;./assets/cta-grove.jpg&quot;);">
-        <div class="cta-overlay"></div>
-        <div class="container cta-inner">
-          <h2>Stay Close To The Park</h2>
-          <p>Follow the updates, explore the collections, and help protect Longwood Mall for the long term.</p>
-          <div class="button-row">
-        <a href="photos.html" class="btn btn-primary">Explore Photos <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        <a href="https://maps.google.com/?q=Longwood+Mall+Brookline+MA" class="btn btn-outline" target="_blank" rel="noopener">Get Directions <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-          </div>
-        </div>
-      </section>
-
-    </main>
+</main>
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand"><span>Longwood Mall</span></div>
-    <div class="footer-links">
-          <a href="latest-news.html">Latest News</a>
-          <a href="photos.html">Photos</a>
-          <a href="history.html">History</a>
-          <a href="beech-leaf-disease.html">Beech Leaf Disease</a>
-          <a href="support.html">Support</a>
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand brand-footer" href="index.html">
+        <img class="brand-mark" src="./assets/logo.png" alt="" width="44" height="44">
+        <span class="brand-text"><span class="brand-name">Longwood Mall</span><span class="brand-sub">Historic public park · Brookline, MA</span></span>
+      </a>
+      <p>A historic public park in Brookline, Massachusetts, home to what is generally considered the oldest grove of European Beech trees in North America. Cared for by the Town of Brookline and the volunteers of Friends of Longwood Mall.</p>
     </div>
-    <div class="footer-utility-links">
-          <a href="https://maps.google.com/?q=Longwood+Mall+Brookline+MA" target="_blank" rel="noopener">Get Directions</a>
-          <a href="mailto:longwoodmall02446@gmail.com">Contact</a>
-          <a class="footer-icon-link" href="https://www.instagram.com/longwoodmall02446/" aria-label="Instagram" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg><span class="visually-hidden">Instagram</span></a>
+    <nav class="footer-col" aria-label="Footer">
+      <h2 class="footer-heading">Explore</h2>
+      <ul class="footer-list"><li><a href="latest-news.html">Latest news</a></li><li><a href="photos.html">Photos</a></li><li><a href="history.html">History</a></li><li><a href="beech-leaf-disease.html">Beech Leaf Disease</a></li><li><a href="visit.html">Visit</a></li><li><a href="support.html">Support the park</a></li></ul>
+    </nav>
+    <div class="footer-col">
+      <h2 class="footer-heading">Visit</h2>
+      <ul class="footer-list footer-list-plain">
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Beech Road, between Kent Street and Hawes Street, Brookline, MA 02446</span></li>
+        <li><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Open daily, dawn to dusk</span></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Longwood+Mall%2C+Beech+Road%2C+Brookline%2C+MA+02446" class="footer-action" target="_blank" rel="noopener">Get directions<svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
     </div>
+    <div class="footer-col">
+      <h2 class="footer-heading">Contact</h2>
+      <ul class="footer-list">
+        <li><a class="footer-action" href="support.html#contact"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Contact the Friends</span></a></li>
+        <li><a href="https://www.instagram.com/longwoodmall02446/" class="footer-action" target="_blank" rel="noopener"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg><span>Instagram</span><svg class="icon icon-ext" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; 2026 Friends of Longwood Mall. Longwood Mall is a public park of the Town of Brookline.</p>
+    <a class="footer-top" href="#top"><svg class="icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg><span>Back to top</span></a>
   </div>
 </footer>
-  </div>
+
 </body>
 </html>
