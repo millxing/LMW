@@ -594,6 +594,54 @@ def fact_value(value: str) -> str:
     return f'<span class="fact-value" data-count="{number}" data-suffix="{escape(suffix)}">{escape(value)}</span>'
 
 
+def tree_plate(tree: dict) -> str:
+    """Engraved beech with a margin label and a leader line for each section of the site.
+
+    All coordinates in `tree_nav` are in `view_box` units. The labels repeat the explore list next to
+    the plate, so they are hidden from assistive technology and from the tab order.
+    """
+    view_w, view_h = tree["view_box"]
+    img_x, img_y, img_size = tree["image_box"]
+    line_height = 21
+    callouts = []
+    for item in tree["items"]:
+        lines, (x, y) = item["lines"], item["label_at"]
+        x1, y1, x2, y2 = item["leader"]
+        hit_w = max(len(line) for line in lines) * 9.5 + 16
+        hit_x = x - hit_w + 8 if item["anchor"] == "end" else x - 8
+        text = escape(lines[0]) + "".join(f'<tspan x="{x}" dy="{line_height}">{escape(line)}</tspan>' for line in lines[1:])
+        callouts.append(
+            f'<a class="tree-link tree-link-{escape(item["id"])}" href="{attr_url(item["href"])}" tabindex="-1">'
+            f'<rect class="tree-link-hit" x="{hit_x:g}" y="{y - 20}" width="{hit_w:g}" height="{line_height * len(lines) + 10}"/>'
+            f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/><circle cx="{x2}" cy="{y2}" r="4"/>'
+            f'<text x="{x}" y="{y}" text-anchor="{escape(item["anchor"])}">{text}</text></a>'
+        )
+    caption, mid, base = tree["caption"], img_x + img_size / 2, img_y + img_size
+    place = f' style="left:{img_x / view_w:.4%};top:{img_y / view_h:.4%};width:{img_size / view_w:.4%}"'
+    image = img_tag(tree["image"], tree["image_alt"], cls="tree-image", extra=place)
+    return (
+        f'<div class="tree-stage" style="aspect-ratio:{view_w} / {view_h}">'
+        f'{image}'
+        f'<svg class="tree-plate" viewBox="0 0 {view_w} {view_h}" aria-hidden="true" focusable="false">'
+        f'{"".join(callouts)}'
+        f'<line class="tree-plate-rule" x1="{mid - 30:g}" y1="{base + 12}" x2="{mid + 30:g}" y2="{base + 12}"/>'
+        f'<text class="tree-plate-name" x="{mid:g}" y="{base + 32}" text-anchor="middle">{escape(caption["name"])}</text>'
+        f'<text class="tree-plate-common" x="{mid:g}" y="{base + 49}" text-anchor="middle">{escape(caption["common"])}</text>'
+        f'</svg></div>'
+    )
+
+
+def photo_panel(tree: dict) -> str:
+    """Square photo panel. Hovering or focusing an explore row (see script.js) swaps the photo."""
+    shots = "".join(
+        f'<figure class="shot{" is-active" if n == 0 else ""}" data-shot="{escape(i["id"])}">'
+        f'{img_tag(i["image"], i["alt"], 900, loading="eager" if n == 0 else "lazy")}'
+        f'<figcaption><span class="shot-label">{escape(i["label"])}</span><span class="shot-title">{escape(i["title"])}</span></figcaption></figure>'
+        for n, i in enumerate(tree["photos"])
+    )
+    return f'<div class="photo-panel">{shots}</div>'
+
+
 def render_home(data: dict) -> str:
     site, home = data["site"], data["home"]
     hero = home["hero"]
@@ -603,11 +651,6 @@ def render_home(data: dict) -> str:
     )
     explore = home["explore"]
     tree = home["tree_nav"]
-    hotspots = "".join(
-        f'<a href="{attr_url(i["href"])}" class="tree-link {escape(i["class_name"])}" tabindex="-1" aria-hidden="true">'
-        f'{img_tag(i["image"], "", 640)}</a>'
-        for i in tree["items"]
-    )
     explore_items = "".join(
         f'<li><a class="explore-link" href="{attr_url(i["href"])}" data-explore="{escape(i["id"])}">'
         f'<span class="explore-text"><span class="explore-label">{escape(i["label"])}</span>'
@@ -648,10 +691,7 @@ def render_home(data: dict) -> str:
       <ul class="explore-list">{explore_items}</ul>
     </div>
     <figure class="explore-tree">
-      <div class="tree-stage">
-        {img_tag(tree["image"], "Illustration of a European Beech tree with wooden signs for each section of the site", 640, cls="tree-image")}
-        <div class="tree-links">{hotspots}</div>
-      </div>
+      {photo_panel(tree) if tree.get("mode") == "photos" else tree_plate(tree)}
       <figcaption class="tree-quote"><blockquote>&ldquo;{escape(quote["text"])}&rdquo;</blockquote><cite>{escape(quote["author"])}</cite></figcaption>
     </figure>
   </div>
