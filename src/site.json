@@ -165,42 +165,150 @@
       "description": "Not everyone helps in the same way. The support page makes room for donations, partnership, everyday stewardship, and contact points."
     },
     "tree_nav": {
-      "eyebrow": "",
-      "title_lines": [
-        "Choose A Branch"
+      "image": "./assets/beech-plate.webp",
+      "image_alt": "Engraving of a European Beech (Fagus sylvatica) with a label for each section of the site",
+      "view_box": [
+        560,
+        456
       ],
-      "description": "",
-      "image": "./assets/BetterEB.png",
+      "image_box": [
+        80,
+        0,
+        400
+      ],
+      "caption": {
+        "name": "Fagus sylvatica",
+        "common": "European Beech"
+      },
       "items": [
         {
-          "label": "Latest News",
+          "id": "news",
           "href": "latest-news.html",
-          "class_name": "tree-link-news",
-          "image": "./assets/menu-sign-latest-news.png"
+          "lines": [
+            "Latest news"
+          ],
+          "anchor": "end",
+          "label_at": [
+            160,
+            26
+          ],
+          "leader": [
+            166,
+            24,
+            200,
+            56
+          ]
         },
         {
-          "label": "Beech Leaf Disease",
-          "href": "beech-leaf-disease.html",
-          "class_name": "tree-link-bld",
-          "image": "./assets/menu-sign-bld-clean.png"
-        },
-        {
-          "label": "Photos",
+          "id": "photos",
           "href": "photos.html",
-          "class_name": "tree-link-photos",
-          "image": "./assets/menu-sign-photos.png"
+          "lines": [
+            "Photos"
+          ],
+          "anchor": "end",
+          "label_at": [
+            70,
+            190
+          ],
+          "leader": [
+            76,
+            184,
+            112,
+            184
+          ]
         },
         {
-          "label": "History",
+          "id": "history",
           "href": "history.html",
-          "class_name": "tree-link-history",
-          "image": "./assets/menu-sign-history.png"
+          "lines": [
+            "History"
+          ],
+          "anchor": "end",
+          "label_at": [
+            120,
+            354
+          ],
+          "leader": [
+            124,
+            338,
+            160,
+            304
+          ]
         },
         {
-          "label": "Support",
+          "id": "bld",
+          "href": "beech-leaf-disease.html",
+          "lines": [
+            "Beech Leaf Disease"
+          ],
+          "anchor": "start",
+          "label_at": [
+            400,
+            26
+          ],
+          "leader": [
+            394,
+            24,
+            356,
+            56
+          ]
+        },
+        {
+          "id": "support",
           "href": "support.html",
-          "class_name": "tree-link-support",
-          "image": "./assets/menu-sign-support.png"
+          "lines": [
+            "Support",
+            "the park"
+          ],
+          "anchor": "start",
+          "label_at": [
+            488,
+            238
+          ],
+          "leader": [
+            482,
+            232,
+            452,
+            232
+          ]
+        }
+      ],
+      "mode": "photos",
+      "photos": [
+        {
+          "id": "news",
+          "image": "./assets/news/june-2026-event/IMG_0443.jpeg",
+          "alt": "A large crowd gathered under the trees at the June 2026 Longwood Mall event",
+          "label": "Latest news",
+          "title": "June 2026 community event"
+        },
+        {
+          "id": "photos",
+          "image": "./assets/Photos/contemporary-srgb/IMG_3911.jpg",
+          "alt": "Beech branches and canopy seen from below",
+          "label": "Photos",
+          "title": "Under the canopy today"
+        },
+        {
+          "id": "history",
+          "image": "./assets/Photos/historical/PC360-Beech.jpg",
+          "alt": "Early photograph of the tree-lined road at Longwood Mall",
+          "label": "History",
+          "title": "The mall in an early photograph"
+        },
+        {
+          "id": "bld",
+          "image": "./assets/bldleaf.png",
+          "alt": "Beech leaf showing banding associated with Beech Leaf Disease",
+          "label": "Beech Leaf Disease",
+          "title": "Banding on a beech leaf"
+        },
+        {
+          "id": "support",
+          "image": "./assets/news/june-2026-event/IMG_0461.jpeg",
+          "alt": "Neighbors walking through the grove during the June 2026 tour",
+          "label": "Support the park",
+          "title": "Neighbors on the June 2026 tour"
         }
       ]
     },

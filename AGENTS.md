@@ -72,6 +72,7 @@ The largest editable sections in `src/site.json` are:
 ## Known gotchas
 
 - The generator is page-specific rather than fully abstract. Adding a brand-new page usually means touching both `src/site.json` and `build_site.py`.
+- The homepage explore panel has two modes, set by `home.tree_nav.mode` in `src/site.json`. `photos` (live) shows a photo that changes when you hover an explore row; the photos are listed in `home.tree_nav.photos`. `plate` shows an engraved beech (`assets/beech-plate.webp`, a one-colour filter of `assets/BetterEB.png`) with SVG labels whose coordinates are in `home.tree_nav` in `view_box` units.
 - The site now includes light JavaScript for the mobile nav and reveal/header motion. If something looks static or broken on mobile, check `script.js`.
 - Legacy material lives in `older stuff/`. It is reference material, not the active production source.
 - The active assets folder already includes selected images copied forward from legacy drafts. Prefer reusing those before adding duplicate files.

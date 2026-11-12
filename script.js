@@ -62,6 +62,16 @@
     sign.addEventListener("mouseleave", () => item.classList.remove("is-linked"));
   });
 
+  /* ---------- Home: explore rows swap the photo panel ---------- */
+  const shots = document.querySelectorAll("[data-shot]");
+  if (shots.length) {
+    const show = (id) => shots.forEach((shot) => shot.classList.toggle("is-active", shot.dataset.shot === id));
+    document.querySelectorAll("[data-explore]").forEach((item) => {
+      item.addEventListener("mouseenter", () => show(item.dataset.explore));
+      item.addEventListener("focus", () => show(item.dataset.explore));
+    });
+  }
+
   /* ---------- Lightbox ---------- */
   const lightbox = document.querySelector("[data-lightbox]");
   const triggers = Array.from(document.querySelectorAll("[data-lightbox-item]"));
